@@ -13,7 +13,9 @@ GO
 
 /* This example keeps the most recent value (by date) and removes any extra rows 
 
-To use this example on your own table, you could replace the A, B and #remove values with your own. */
+To use this example on your own table, you could replace the A, B and #remove values with your own. 
+
+At the end of this example is a live example of this in action related to grades and dates. */
 
 
 -- Creates a temp table 
@@ -51,6 +53,15 @@ DELETE CTE WHERE CTable > 1
 
 -- Clean up
 DROP TABLE #remove
+
+-- Live example keeping only the most recent grade by date
+
+WITH CTE AS (
+SELECT Grade
+, DateAdded
+, ROW_NUMBER() OVER (PARTITION BY Phone, DateAdded ORDER BY DateAdded DESC) AS Grades
+FROM dbo.Grades) 
+DELETE CTE WHERE Grades > 1
 
 
 /* Remove the leading 1 off a phone number formatted like 18005551212 so that you can return 10 digits (ie: 8005551212) */
