@@ -11,7 +11,9 @@ USE [DATABASE]
 GO
 
 
-/* Remove Duplicates By Most Recent Date Example */
+/* This example keeps the most recent value (by date) and removes any extra rows 
+
+To use this example on your own table, you could replace the A, B and #remove values with your own. */
 
 
 -- Creates a temp table 
@@ -51,7 +53,7 @@ DELETE CTE WHERE CTable > 1
 DROP TABLE #remove
 
 
-/* Remove the leading one off a phone number 18005551212 so that you can return one digit */
+/* Remove the leading 1 off a phone number formatted like 18005551212 so that you can return 10 digits (ie: 8005551212) */
 
 
 UPDATE [Table]
