@@ -2,12 +2,11 @@
 
 This is the most basic document in TSQL for preventing MAJOR mistakes. 
 
-Use this for any INSERTS, UPDATES or DELETES in production 
+We use this for any INSERTS, UPDATES or DELETES in production 
 
 */
 
 -- Before preforming a write operation (INSERT, UPDATE DELETE), we highlight and execute the below code
-
 BEGIN TRAN
 
 
@@ -24,7 +23,7 @@ DELETE
 
 */
 
--- Search the changes you made
+-- Search the changes we made
 SELECT *
 FROM [TableChanged]
 
@@ -32,7 +31,7 @@ FROM [TableChanged]
 -- By default will rollback the changes we made
 ROLLBACK TRAN
 
--- If you made no mistakes highlight the below code and execute it
+-- If we made no mistakes, we highlight the below code and execute it
 /*
 
 COMMIT TRAN
