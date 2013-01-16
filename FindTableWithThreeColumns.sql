@@ -110,7 +110,7 @@ SELECT ISC.TABLE_NAME AS "Table", COLUMN_NAME AS "Full Column Name"
 FROM information_schema.COLUMNS ISC
 WHERE ISC.column_name LIKE '%' + @column4 +'%'
 
-SELECT DISTINCT RTable, COUNT(RColumn) AS "Having 3 Columns"
+SELECT DISTINCT RTable, COUNT(RColumn) AS "Having 4 Columns"
 FROM @results
 GROUP BY RTable
 HAVING COUNT(RColumn) > 3
