@@ -1,6 +1,6 @@
 /* Two Columns */
 
-USE SES
+USE OurDatabaseName
 GO
 
 DECLARE @Results TABLE (
@@ -33,7 +33,7 @@ HAVING COUNT(RColumn) > 1
 
 /* Three Columns */
 
-USE SES
+USE OurDatabaseName
 GO
 
 DECLARE @Results TABLE (
@@ -45,9 +45,9 @@ DECLARE @column1 AS VARCHAR(50)
 DECLARE @column2 AS VARCHAR(50)
 DECLARE @column3 AS VARCHAR(50)
 /* ONLY MAKE CHANGES HERE: */
-SET @column1 = 'SALSTERR'
-SET @column2 = 'CNTCPRSN'
-SET @column3 = 'LOCNCODE'
+SET @column1 = 'Our Column Name'
+SET @column2 = 'Our Column Name'
+SET @column3 = 'Our Column Name'
 
 INSERT INTO @Results
 SELECT ISC.TABLE_NAME AS "Table", ISC.COLUMN_NAME AS "Full Column Name"
@@ -71,7 +71,7 @@ HAVING COUNT(RColumn) > 2
 
 /* Four Columns */
 
-USE SES
+USE OurDatabaseName
 GO
 
 DECLARE @Results TABLE (
@@ -84,10 +84,10 @@ DECLARE @column2 AS VARCHAR(50)
 DECLARE @column3 AS VARCHAR(50)
 DECLARE @column4 AS VARCHAR(50)
 /* ONLY MAKE CHANGES HERE: */
-SET @column1 = 'SALSTERR'
-SET @column2 = 'CNTCPRSN'
-SET @column3 = 'LOCNCODE'
-SET @column4 = 'TAXSCHID'
+SET @column1 = 'Our Column Name'
+SET @column2 = 'Our Column Name'
+SET @column3 = 'Our Column Name'
+SET @column4 = 'Our Column Name'
 
 INSERT INTO @Results
 SELECT ISC.TABLE_NAME AS "Table", ISC.COLUMN_NAME AS "Full Column Name"
