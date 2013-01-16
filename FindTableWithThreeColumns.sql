@@ -1,7 +1,8 @@
-/* Two Columns */
-
+/* SET Database Name */
 USE OurDatabaseName
 GO
+
+/* Two Columns */
 
 DECLARE @Results TABLE (
 	RTable VARCHAR(100),
@@ -28,7 +29,6 @@ SELECT DISTINCT RTable, COUNT(RColumn) AS "Having 2 Columns"
 FROM @results
 GROUP BY RTable
 HAVING COUNT(RColumn) > 1
-
 
 
 /* Three Columns */
@@ -68,6 +68,7 @@ SELECT DISTINCT RTable, COUNT(RColumn) AS "Having 3 Columns"
 FROM @results
 GROUP BY RTable
 HAVING COUNT(RColumn) > 2
+
 
 /* Four Columns */
 
