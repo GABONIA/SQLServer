@@ -3,7 +3,7 @@
 Back end design example for binary feedback, which allows tracking of feedback over time
 
 */
--- Build the experiment table
+-- Time tracking method: build the experiment table
 DECLARE @meas TABLE(
 	Positive INT,
 	Negative INT,
@@ -29,3 +29,16 @@ FROM @meas
 SELECT SUM(Positive) AS Positive, SUM(Negative) AS Negative
 FROM @meas
 WHERE Date > DATEADD(DD,-31,GETDATE())
+-- Using increment decrement
+DECLARE @measplus TABLE(
+	Positive INT
+)
+INSERT INTO @measplus VALUES (0)
+-- Positive feedback
+UPDATE @measplus
+SET Positive = Positive + 1
+SELECT * FROM @measplus
+-- Negative feedback
+UPDATE @measplus
+SET Positive = Positive - 1
+SELECT * FROM @measplus
