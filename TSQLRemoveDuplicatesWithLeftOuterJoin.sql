@@ -41,3 +41,9 @@ WHERE B.ColumnTwo IS NULL
 -- See the results
 SELECT *
 FROM @dup
+
+/*
+
+Note: numerous ways to remove duplicates exist (such as the CTE), but these methods, including the CTE, show fast and effective methods.
+
+*/
