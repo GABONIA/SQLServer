@@ -1,9 +1,14 @@
 /* 
 
-Data dirty reading and prevention
+Data dirty reading: consistency and locking
 
 */
 
-READ UNCOMMITTED
+-- Popular, but problems coming later:
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-READ COMMITTED
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+-- Better method
+SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+
