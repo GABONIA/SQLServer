@@ -6,7 +6,7 @@ Find the column types by name: Only change where the comment is below this
 
 -- STEP ONE: Change OurDatabaseName to the database name
 
-USE PECS
+USE OurDatabaseName
 GO
 
 SELECT 
@@ -17,5 +17,5 @@ FROM dbo.syscolumns sc
 	INNER JOIN dbo.systypes st1 ON st1.xusertype = sc.xusertype
 	INNER JOIN dbo.systypes st2 ON st2.xusertype = sc.xtype
 -- STEP TWO: Change OurTableName to the table name
-WHERE sc.id = OBJECT_ID('VerificationTBL')
+WHERE sc.id = OBJECT_ID('OurTableName')
 ORDER BY sc.colid
