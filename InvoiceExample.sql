@@ -1,3 +1,5 @@
+/* Simple Energy Invoice Example */
+
 /*
 
 -- Billing By Unit Table
@@ -26,6 +28,8 @@ SELECT 1 AS CustomerID
 , '55512' AS ZipCode
 INTO Customer
 
+INSERT INTO Customer VALUES (2,1,'Joe Moe','123 Right St','Right','WA','55512')
+
 SELECT *
 FROM Customer
 
@@ -33,10 +37,18 @@ FROM Customer
 SELECT 1 AS CustomerID, 1 AS Month, 3.5 AS UsedUnits
 INTO Usage
 
-INSERT INTO Usage VALUES(1,2,3.2),(1,3,4)
+INSERT INTO Usage VALUES(1,2,3.2),(1,3,4),(2,1,4),(2,2,6.7),(2,3,5.2)
 
 SELECT *
 FROM Usage
+
+DROP TABLE UnitCost
+DROP TABLE MonthID
+DROP TABLE Customer
+DROP TABLE Usage
+
+
+*/
 
 DECLARE @PastMonth VARCHAR(9)
 DECLARE @CurrentMonth VARCHAR(9)
@@ -54,14 +66,3 @@ SELECT @PastMonth + ' 15 - ' + @CurrentMonth + ' 15, ' + CAST(YEAR(getdate()) AS
 FROM Customer C
 	INNER JOIN UnitCost UC ON C.UnitID = UC.UnitID
 	INNER JOIN Usage U ON C.CustomerID = U.CustomerID AND MONTH(DATEADD(MM,-1,getdate())) = U.Month
-
-
-DROP TABLE UnitCost
-DROP TABLE MonthID
-DROP TABLE Customer
-DROP TABLE Usage
-
-
-
-
-*/
