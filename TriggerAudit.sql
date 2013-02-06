@@ -4,7 +4,7 @@ Auditing a database for deletes and changes to tables, stored procedures, views 
 
 */
 
--- Build the table
+-- Build the audit table
    
 CREATE TABLE Event
 (
@@ -16,7 +16,7 @@ CREATE TABLE Event
 GO
 
 
--- Build the trigger
+-- Build the trigger only for drops and alters
 
 CREATE TRIGGER DropAlterAudit 
 ON DATABASE
