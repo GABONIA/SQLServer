@@ -18,7 +18,7 @@ GO
 
 -- Build the trigger
 
-CREATE TRIGGER trPreventTblChange 
+CREATE TRIGGER DeleteAuditTrigger 
 ON DATABASE
 FOR DROP_TABLE, ALTER_TABLE, 
     DROP_PROCEDURE, ALTER_PROCEDURE,
