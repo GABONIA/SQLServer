@@ -1,0 +1,45 @@
+/* 
+
+INNER JOIN, LEFT JOIN, OUTER JOIN
+
+*/
+
+CREATE TABLE #zt1 (
+	ID INT,
+	FirstName VARCHAR(50)
+)
+
+CREATE TABLE #zt2 (
+	ID INT,
+	LastName VARCHAR(50)
+)
+
+INSERT INTO #zt1 VALUES (1,'John')
+INSERT INTO #zt2 VALUES (1,'Doe')
+INSERT INTO #zt1 VALUES (2,'Jane')
+INSERT INTO #zt2 VALUES (2,'Smith')
+INSERT INTO #zt2 VALUES (3,'Johnson')
+
+SELECT *
+FROM #zt1
+
+SELECT *
+FROM #zt2
+
+-- INNER JOIN
+SELECT *
+FROM #zt1 t
+	INNER JOIN #zt2 tt ON t.ID = tt.ID
+	
+-- LEFT JOIN
+SELECT *
+FROM #zt1 t
+	LEFT JOIN #zt2 tt ON t.ID = tt.ID
+	
+SELECT *
+FROM #zt2 tt
+	LEFT JOIN #zt1 t ON t.ID = tt.ID
+
+
+DROP TABLE #zt1
+DROP TABLE #zt2
