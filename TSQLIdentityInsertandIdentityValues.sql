@@ -1,4 +1,4 @@
-USE SSIS
+USE OurDatabaseName
 GO
 
 -- Build experiment table
