@@ -29,6 +29,7 @@ SELECT 1 AS CustomerID
 INTO Customer
 
 INSERT INTO Customer VALUES (2,1,'Joe Moe','123 Right St','Right','WA','55512')
+INSERT INTO Customer VALUES (3,4,'Sarah Smith','114 Two St',Left','NY','55147')
 
 SELECT *
 FROM Customer
