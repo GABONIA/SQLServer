@@ -1,0 +1,1 @@
+{"ts":1361060516087,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"CREATE TABLE TestChromeGitHub(\n    TestField INT\n)\n\nINSERT INTO TestChromeGitHub VALUES (1)\n\nSELECT *\nFROM TestChromeGitHub"]],"start1":0,"start2":0,"length1":0,"length2":123}]],"length":123}
