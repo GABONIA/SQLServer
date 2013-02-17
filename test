@@ -1,0 +1,8 @@
+CREATE TABLE TestChromeGitHub(
+    TestField INT
+)
+
+INSERT INTO TestChromeGitHub VALUES (1)
+
+SELECT *
+FROM TestChromeGitHub
