@@ -1,3 +1,17 @@
+-- Table for the bulk insert
+CREATE TABLE savingsrate (
+	SavDate VARCHAR(50),
+	SavRate VARCHAR(50)
+)
+
+-- Bulk insert the data
+BULK INSERT savingsrate
+FROM 'C:\Users\Timothy Smith\Documents\GitHub\SQLServer\Savings Info\savingsrate.txt'
+WITH (
+	FIELDTERMINATOR = ','
+	,ROWTERMINATOR = '0x0a')
+GO
+
 -- Insert the data into a clean table
 DECLARE @save TABLE(
 	Date DATETIME,
@@ -5,8 +19,9 @@ DECLARE @save TABLE(
 )
 
 INSERT INTO @save
-SELECT LTRIM(RTRIM(Date)), LTRIM(RTRIM(Rate))
+SELECT LTRIM(RTRIM(SavDate)), LTRIM(RTRIM(SavRate))
 FROM savingsrate
+WHERE SavDate <> 'DATE'
 
 -- Shows savings' rate by year
 SELECT YEAR(Date) "Year", AVG(Rate) "Savings Rate"
