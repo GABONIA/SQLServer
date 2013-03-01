@@ -6,7 +6,7 @@ CREATE TABLE savingsrate (
 
 -- Bulk insert the data
 BULK INSERT savingsrate
-FROM 'C:\Users\Timothy Smith\Documents\GitHub\SQLServer\Savings Info\savingsrate.txt'
+FROM 'C:\savingsrate.txt'
 WITH (
 	FIELDTERMINATOR = ','
 	,ROWTERMINATOR = '0x0a')
