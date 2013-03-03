@@ -5,4 +5,4 @@ These are various SQL Server files that have useful code to solve various proble
 
 In many cases, these tools can be expanded or tailored for individual or business need.
 
-NOTE: Eventually, this should have different folders as SQLServer has tools for developers, administrators, analysts and front end programmers.
+UPDATE NOTES: Currently I haven't found a friendly app that allows me to change or add SQL files (email me if you know of any).  Many of the apps I've tried, don't allow me to add files (even using the command lines).  I'll continue testing apps, but if I don't find any, I'll use remote login.
