@@ -1,3 +1,11 @@
+/* 
+
+SQL Server Inflation Example: Imports, Manipulates and Reports On Inflation Data
+
+(This also shows the value of indexing on larger tables)
+
+*/
+
 CREATE TABLE StageInflation (
 	SeriesID VARCHAR(20),
 	Year VARCHAR(10),
