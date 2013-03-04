@@ -1,3 +1,12 @@
+/* 
+
+SQL Server Example of Importing, Manipulating, and Reporting Data Using the United States Personal Savings' Rate
+
+GitHub directory has the text file to import.  This is the code that can be run to create the initial table, import the data,
+report the data to a variable table, create a new table to report the year over year savings' rate change and report on that data.
+
+*/
+
 -- Table for the bulk insert
 CREATE TABLE savingsrate (
 	SavDate VARCHAR(50),
