@@ -27,3 +27,25 @@ WHERE SavDate <> 'DATE'
 SELECT YEAR(Date) "Year", AVG(Rate) "Savings Rate"
 FROM @save
 GROUP BY YEAR(Date)
+
+/* This calculates the year over year savings.
+
+Example: from 1959 to 1960, the savings' rate decreased 3.35%
+
+*/
+
+CREATE TABLE savepercent (
+	SaveID INT IDENTITY(1,1),
+	Date SMALLDATETIME,
+	Rate DECIMAL(5,2)
+)
+
+INSERT INTO savepercent
+-- Shows savings' rate by year
+SELECT MIN(Date) "Year", AVG(Rate) "Savings Rate"
+FROM @save
+GROUP BY YEAR(Date)
+
+SELECT YEAR(t2.Date) "Year", (((t2.Rate - t1.Rate)/t1.Rate)*100) "Savings Rate Increase/Decrease Year Over Year"
+FROM savepercent t1, savepercent t2
+WHERE t1.SaveID = t2.SaveID - 1
