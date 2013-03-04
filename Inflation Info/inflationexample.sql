@@ -13,28 +13,42 @@ GO
 SELECT *
 FROM StageInflation
 
-CREATE TABLE CleanInflation(
-	InflationID INT IDENTITY(1,1),
+DECLARE @CleanInflation TABLE(
 	SeriesID VARCHAR(20),
-	InflationDate SMALLDATETIME,
+	IMonth VARCHAR(2),
+	IDay VARCHAR(2),
+	IYear VARCHAR(4),
 	Value DECIMAL(9,4)
 )
 
-INSERT INTO CleanInflation (SeriesID, InflationDate, Value)
-SELECT SeriesID
+INSERT INTO @CleanInflation (SeriesID, IMonth, IDay, IYear, Value)
+SELECT s.SeriesID
 	, CASE 
-	WHEN Period LIKE '%M01%' THEN 01-01 + Year
-	WHEN Period LIKE '%M02%' THEN 02-01 + Year
-	WHEN Period LIKE '%M03%' THEN 03-01 + Year
-	WHEN Period LIKE '%M04%' THEN 04-01 + Year
-	WHEN Period LIKE '%M05%' THEN 05-01 + Year
-	WHEN Period LIKE '%M06%' THEN 06-01 + Year
-	WHEN Period LIKE '%M07%' THEN 07-01 + Year
-	WHEN Period LIKE '%M08%' THEN 08-01 + Year
-	WHEN Period LIKE '%M09%' THEN 09-01 + Year
-	WHEN Period LIKE '%M10%' THEN 10-01 + Year
-	WHEN Period LIKE '%M11%' THEN 11-01 + Year
-	WHEN Period LIKE '%M12%' THEN 12-01 + Year
+	WHEN Period LIKE '%M01%' THEN 01
+	WHEN Period LIKE '%M02%' THEN 02
+	WHEN Period LIKE '%M03%' THEN 03
+	WHEN Period LIKE '%M04%' THEN 04
+	WHEN Period LIKE '%M05%' THEN 05
+	WHEN Period LIKE '%M06%' THEN 06
+	WHEN Period LIKE '%M07%' THEN 07
+	WHEN Period LIKE '%M08%' THEN 08
+	WHEN Period LIKE '%M09%' THEN 09
+	WHEN Period LIKE '%M10%' THEN 10
+	WHEN Period LIKE '%M11%' THEN 11
+	WHEN Period LIKE '%M12%' THEN 12
 	ELSE 99 END AS InflationDate
-	, Value
-FROM StageInflation
+	, 01
+	, s.Year
+	, s.Value
+FROM StageInflation s
+
+--CREATE TABLE Inflation(
+--	InflationID INT IDENTITY(1,1),
+--	SeriesID VARCHAR(20),
+--	InflationDate VARCHAR(20),
+--	Value DECIMAL(9,4)
+--)
+
+--INSERT INTO Inflation (SeriesID, InflationDate, Value)
+SELECT si.SeriesID, si.IMonth + '-' + si.IDay + '-' + si.IYear, si.Value
+FROM @CleanInflation si
