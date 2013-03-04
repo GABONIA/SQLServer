@@ -81,3 +81,19 @@ WITH (STATISTICS_NORECOMPUTE  = OFF
 SELECT DISTINCT SeriesID, COUNT(InflationDate)
 FROM Inflation
 GROUP BY SeriesID
+
+DECLARE @percent TABLE (
+	InflationID INT,
+	SeriesID VARCHAR(20),
+	InflationDate SMALLDATETIME,
+	Value DECIMAL(9,4)
+)
+
+INSERT INTO @percent
+SELECT *
+FROM Inflation
+WHERE SeriesID = 'APU0000701111'
+
+SELECT i2.InflationDate, (((i2.Value - i1.Value)/i1.Value)*100)
+FROM @percent i1, @percent i2
+WHERE i1.InflationID = i2.InflationID - 1
