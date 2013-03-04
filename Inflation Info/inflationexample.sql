@@ -42,13 +42,33 @@ SELECT s.SeriesID
 	, s.Value
 FROM StageInflation s
 
---CREATE TABLE Inflation(
---	InflationID INT IDENTITY(1,1),
---	SeriesID VARCHAR(20),
---	InflationDate VARCHAR(20),
---	Value DECIMAL(9,4)
---)
+CREATE TABLE Inflation(
+	InflationID INT IDENTITY(1,1),
+	SeriesID VARCHAR(20),
+	InflationDate SMALLDATETIME,
+	Value DECIMAL(9,4)
+)
 
---INSERT INTO Inflation (SeriesID, InflationDate, Value)
+INSERT INTO Inflation (SeriesID, InflationDate, Value)
 SELECT si.SeriesID, si.IMonth + '-' + si.IDay + '-' + si.IYear, si.Value
 FROM @CleanInflation si
+
+SELECT *
+FROM Inflation
+ORDER BY InflationID ASC
+
+CREATE CLUSTERED INDEX [IX_IDandDate] ON [dbo].[Inflation] (
+	[InflationID] ASC,
+	[InflationDate] ASC
+)
+WITH (STATISTICS_NORECOMPUTE  = OFF
+	, SORT_IN_TEMPDB = OFF
+	, IGNORE_DUP_KEY = OFF
+	, DROP_EXISTING = OFF
+	, ONLINE = OFF
+	, ALLOW_ROW_LOCKS  = ON
+	, ALLOW_PAGE_LOCKS  = ON
+) ON [PRIMARY]
+
+
+--DROP TABLE Inflation
