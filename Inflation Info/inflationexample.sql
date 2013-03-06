@@ -14,7 +14,7 @@ CREATE TABLE StageInflation (
 )
 
 BULK INSERT StageInflation
-FROM 'C:\Inflation Info\testinflationdata.csv'
+FROM 'C:\Users\Timothy Smith\Documents\GitHub\SQLServer\Inflation Info\testinflationdata.csv'
 WITH (FIELDTERMINATOR = ',',ROWTERMINATOR = '\n')
 GO
 
@@ -101,22 +101,8 @@ WHERE i1.InflationID = i2.InflationID - 1
 SELECT *
 FROM Inflation
 WHERE SeriesID = 'APU0100703411'
--- Looks like duplicate data
 
-SELECT DISTINCT InflationDate, SeriesID, COUNT(InflationDate)
+-- Originally, imported the data twice.  Dropped the tables and re-ran the queries, and found no duplicate data
+SELECT DISTINCT SeriesID, InflationDate, COUNT(InflationDate)
 FROM Inflation
-GROUP BY InflationDate, SeriesID
-
-;WITH DuplicateFinder (InflationDate, SeriesID, DupCounter)
-AS
-(SELECT InflationID
-, InflationDate
-, SeriesID
-, Value
-,ROW_NUMBER() OVER(PARTITION BY InflationDate, SeriesID ORDER BY InflationDate) AS DupCounter
-FROM Inflation)
-SELECT * INTO #investigate FROM DuplicateFinder
-WHERE DupCounter > 1
-
-SELECT *
-FROM #investigate
+GROUP BY SeriesID, InflationDate
