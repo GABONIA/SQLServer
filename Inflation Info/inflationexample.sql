@@ -97,3 +97,26 @@ WHERE SeriesID = 'APU0000701111'
 SELECT i2.InflationDate, (((i2.Value - i1.Value)/i1.Value)*100)
 FROM @percent i1, @percent i2
 WHERE i1.InflationID = i2.InflationID - 1
+
+SELECT *
+FROM Inflation
+WHERE SeriesID = 'APU0100703411'
+-- Looks like duplicate data
+
+SELECT DISTINCT InflationDate, SeriesID, COUNT(InflationDate)
+FROM Inflation
+GROUP BY InflationDate, SeriesID
+
+;WITH DuplicateFinder (InflationDate, SeriesID, DupCounter)
+AS
+(SELECT InflationID
+, InflationDate
+, SeriesID
+, Value
+,ROW_NUMBER() OVER(PARTITION BY InflationDate, SeriesID ORDER BY InflationDate) AS DupCounter
+FROM Inflation)
+SELECT * INTO #investigate FROM DuplicateFinder
+WHERE DupCounter > 1
+
+SELECT *
+FROM #investigate
