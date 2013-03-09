@@ -11,10 +11,22 @@ CREATE TABLE StatisticsHistory(
 	[Description] VARCHAR(250)
 )
 
-INSERT INTO StatisticsHistory ([Population],[Sample],[Description]) VALUES (80000000,2000000,'Social Media Studies')
 
-UPDATE StatisticsHistory
-SET Portion = [Sample]/[Population]
+CREATE PROCEDURE stp_InsertHistory
+	@Population DECIMAL(20,2),
+	@Sample DECIMAL(20,2),
+	@Description VARCHAR(250)
+AS
+BEGIN
+	INSERT INTO StatisticsHistory ([Population],[Sample],[Description]) VALUES (@Population, @Sample, @Description)
+	
+	UPDATE StatisticsHistory
+	SET Portion = [Sample]/[Population]
+END
+
+
+EXEC stp_InsertHistory 80000000,2000000,'Social Media Studies'
+
 
 SELECT *
 FROM StatisticsHistory
