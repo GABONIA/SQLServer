@@ -68,3 +68,34 @@ WHERE t1.SaveID = t2.SaveID - 1
 SELECT *
 FROM @top
 ORDER BY [Savings Rate Percent Year Over Year] DESC
+
+SELECT *
+FROM savingsrate
+
+DECLARE @savingsdetails NVARCHAR(4000)
+SET @savingsdetails = '
+CREATE TABLE #info(
+	SavingsDate SMALLDATETIME,
+	SavingsRate DECIMAL(5,2),
+	SavingsInfo VARCHAR(25)
+)
+
+INSERT INTO #info
+SELECT *
+FROM savingsrate
+WHERE SavDate <> ''DATE''
+
+UPDATE #info
+SET SavingsInfo = ''High''
+WHERE SavingsRate > 10
+
+UPDATE #info
+SET SavingsInfo = ''Low''
+WHERE SavingsRate < 10
+
+UPDATE #info
+SET SavingsInfo = ''Medium''
+WHERE SavingsRate = 10
+
+SELECT *
+FROM #info'

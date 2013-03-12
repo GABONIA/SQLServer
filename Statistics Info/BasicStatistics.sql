@@ -24,7 +24,7 @@ BEGIN
 	SET Portion = [Sample]/[Population]
 END
 
-
+-- C# application will call this stored procedure; below is an example
 EXEC stp_InsertHistory 80000000,2000000,'Social Media Studies'
 
 
