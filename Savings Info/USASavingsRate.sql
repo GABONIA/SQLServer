@@ -69,8 +69,10 @@ SELECT *
 FROM @top
 ORDER BY [Savings Rate Percent Year Over Year] DESC
 
-SELECT *
+
+SELECT COUNT(*)
 FROM savingsrate
+
 
 DECLARE @savingsdetails NVARCHAR(4000)
 SET @savingsdetails = '
@@ -80,7 +82,7 @@ CREATE TABLE #info(
 	SavingsInfo VARCHAR(25)
 )
 
-INSERT INTO #info
+INSERT INTO #info (SavingsDate,SavingsRate)
 SELECT *
 FROM savingsrate
 WHERE SavDate <> ''DATE''
@@ -98,4 +100,8 @@ SET SavingsInfo = ''Medium''
 WHERE SavingsRate = 10
 
 SELECT *
-FROM #info'
+FROM #info
+
+DROP TABLE #info'
+
+EXECUTE(@savingsdetails)
