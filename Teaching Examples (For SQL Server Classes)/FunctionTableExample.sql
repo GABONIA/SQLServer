@@ -30,7 +30,7 @@ BEGIN
 	
 	-- We update the lbtokg table to calculate the kilogram weight based on the pound weight
 	UPDATE @lbtokg
-	SET Kilograms = Pounds/2.204
+	SET Kilograms = Pounds/2.2046226218
 	
 	-- We return the table with the values for when we select from it
 	RETURN
