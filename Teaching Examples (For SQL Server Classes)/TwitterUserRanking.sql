@@ -19,3 +19,14 @@ CREATE TABLE TwitterRanking(
 	Following INT,
 	Rating DECIMAL(5,2)
 )
+
+INSERT INTO TwitterRanking (TwitterUser,Tweets,Hashtags,Link,Followers,Following)
+VALUES('UserXYZSpam',300,5000,800,32,1001)
+
+SELECT *
+FROM TwitterRanking
+
+-- Logic of the FUNCTION
+UPDATE TwitterRanking
+SET Rating = (Followers/Following) + (Followers/Tweets) + (-.1*Hashtags) + (-.25*Link)
+-- Can you see the problem with this ranking system?  How can we use a function to correct this problem?
