@@ -27,7 +27,11 @@ BEGIN
 	SET @Phone = REPLACE(@Phone,'-','')
 	SET @Phone = REPLACE(@Phone,' ','')
 	SET @Phone = REPLACE(@Phone,'.','')
-	SET @Phone = REPLACE(@Phone,',','')
+	SET @Phone = REPLACE(@Phone,'/','')
+	SET @Phone = REPLACE(@Phone,'\','')
+	SET @Phone = REPLACE(@Phone,'|','')
+	SET @Phone = REPLACE(@Phone,'*','')
+	SET @Phone = REPLACE(@Phone,'&','')
 	SET @Phone = RTRIM(LTRIM(@Phone))
 RETURN @Phone
 END
@@ -45,7 +49,7 @@ DECLARE @PhoneTest TABLE(
 INSERT INTO @PhoneTest VALUES ('John Doe','(800) 555-1212')
 	,('Jane Doe','800.555.2121')
 	,('John Smith','800,555,1122')
-	,('Jane Smith','800 555 2211')
+	,('Jane Smith','800 555/2211')
 	,('John Johnson','800-555,1221')
 	
 SELECT Name
