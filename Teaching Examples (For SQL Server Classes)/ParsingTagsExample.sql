@@ -1,6 +1,6 @@
 /* 
 
-Basic Example of Parsing Tags: Mini-Google Keyword Ranking
+Basic Example of Parsing Tags: Similar To A Mini-Google Keyword Ranking
 
 */
 
