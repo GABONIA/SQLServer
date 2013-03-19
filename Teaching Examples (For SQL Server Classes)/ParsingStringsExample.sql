@@ -11,6 +11,7 @@ DECLARE @count INT = 0
 
 WHILE @count < 12
 BEGIN
+	-- USE SUBSTRING
 	SELECT CHARINDEX(',',@comma,@begin+1)
 	SET @begin = CHARINDEX(',',@comma,@begin+1)
 	
