@@ -25,3 +25,26 @@ INSERT INTO BasicVerification (FirstName) VALUES ('John Smith'),('Jane Smith'),(
 
 SELECT *
 FROM BasicVerification
+
+-- Creating the "Entry" stored procedure
+CREATE PROCEDURE InsertBasicVerification
+	@FirstName VARCHAR(50),
+	@MiddleInitial VARCHAR(1),
+	@LastName VARCHAR(50),
+	@PhoneNumber VARCHAR(20),
+	@StreetAddress VARCHAR(150),
+	@City VARCHAR(50),
+	@State VARCHAR(2),
+	@ZipCode VARCHAR(10),
+	@SSN VARCHAR(11),
+	@BusinessName VARCHAR(100),
+	@EmployerName VARCHAR(100),
+	@MonthlyGrossIncome DECIMAL(20,2)
+AS
+BEGIN
+	INSERT INTO BasicVerification (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
+	SELECT @FirstName, @MiddleInitial, @LastName, @PhoneNumber, @StreetAddress, @City, @State, @ZipCode, @SSN, @BusinessName, @EmployerName, @MonthlyGrossIncome
+END
+
+SELECT *
+FROM BasicVerification
