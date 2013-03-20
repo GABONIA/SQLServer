@@ -1,0 +1,9 @@
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\bin\Debug\WindowsFormsApplication16.exe
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\bin\Debug\WindowsFormsApplication16.pdb
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\WindowsFormsApplication16.Form1.resources
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\WindowsFormsApplication16.Properties.Resources.resources
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\WindowsFormsApplication16.exe
+C:\Users\Timothy Smith\Documents\GitHub\SQLServer\C# Example\Application\Application\obj\x86\Debug\WindowsFormsApplication16.pdb
