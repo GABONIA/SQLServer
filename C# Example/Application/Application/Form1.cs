@@ -27,15 +27,15 @@ namespace WindowsFormsApplication16
             myCom.Parameters.Add(new SqlParameter("@1", Convert.ToString(txt1.Text)));
             myCom.Parameters.Add(new SqlParameter("@2", Convert.ToString(txt2.Text)));
             myCom.Parameters.Add(new SqlParameter("@3", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@4", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@5", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@6", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@7", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@8", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@9", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@10", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@11", Convert.ToString(txt3.Text)));
-            myCom.Parameters.Add(new SqlParameter("@12", Convert.ToString(txt3.Text)));
+            myCom.Parameters.Add(new SqlParameter("@4", Convert.ToString(txt4.Text)));
+            myCom.Parameters.Add(new SqlParameter("@5", Convert.ToString(txt5.Text)));
+            myCom.Parameters.Add(new SqlParameter("@6", Convert.ToString(txt6.Text)));
+            myCom.Parameters.Add(new SqlParameter("@7", Convert.ToString(txt7.Text)));
+            myCom.Parameters.Add(new SqlParameter("@8", Convert.ToString(txt8.Text)));
+            myCom.Parameters.Add(new SqlParameter("@9", Convert.ToString(txt9.Text)));
+            myCom.Parameters.Add(new SqlParameter("@10", Convert.ToString(txt10.Text)));
+            myCom.Parameters.Add(new SqlParameter("@11", Convert.ToString(txt11.Text)));
+            myCom.Parameters.Add(new SqlParameter("@12", Convert.ToString(txt12.Text)));
             myCom.ExecuteNonQuery();
             con.Close();
 
