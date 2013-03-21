@@ -19,7 +19,8 @@ BEGIN
 	INSERT INTO BasicVerificationStage (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
 	SELECT @FirstName, @MiddleInitial, @LastName, @PhoneNumber, @StreetAddress, @City, @State, @ZipCode, @SSN, @BusinessName, @EmployerName, @MonthlyGrossIncome
 	
-	-- One method of performing data validation: we insert only valid data
+	/*
+	-- Method One of performing data validation: we insert only valid data
 	INSERT INTO BasicVerification (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
 	SELECT FirstName
 		,SUBSTRING(MiddleInitial,0,1) AS MiddleInitial
@@ -41,5 +42,56 @@ BEGIN
 		AND LEN(ZipCode) = 5
 		AND ISNUMERIC(SSN) = 1
 		AND LEN(SSN) = 9
-		AND ISNUMERIC(MonthlyGrossIncome) = 1
+		AND ISNUMERIC(MonthlyGrossIncome) = 1 
+	*/
+	
+	-- Method Two: We update "Valid" status to one if it's valid, if not, we state why
+	
+	-- Updating the staging table to invalidate the bad data
+	UPDATE BasicVerificationStage
+	SET Valid = 0, InvalidReason = 'Incorrect phone format'
+	WHERE ISNUMERIC(PhoneNumber) = 0 OR LEN(PhoneNumber) <> 10
+	
+	UPDATE BasicVerificationStage
+	SET Valid = 0, InvalidReason = 'Invalid State format'
+	WHERE LEN(State) <> 2
+	
+	UPDATE BasicVerificationStage
+	SET Valid = 0, InvalidReason = 'Incorrect Zip Code format'
+	WHERE ISNUMERIC(ZipCode) = 0 OR LEN(ZipCode) <> 5
+	
+	UPDATE BasicVerificationStage
+	SET Valid = 0, InvalidReason = 'Incorrect SSN format'
+	WHERE ISNUMERIC(SSN) = 0 OR LEN(SSN) <> 9
+	
+	UPDATE BasicVerificationStage
+	SET Valid = 0, InvalidReason = 'Invalid gross income amount'
+	WHERE ISNUMERIC(MonthlyGrossIncome) = 0
+	
+	-- Insert the good data from the stage table
+	INSERT INTO BasicVerification (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
+	SELECT FirstName
+		,SUBSTRING(MiddleInitial,0,1) AS MiddleInitial
+		,LastName
+		,PhoneNumber
+		,StreetAddress
+		,City
+		,State
+		,ZipCode
+		,SSN
+		,BusinessName
+		,EmployerName
+		,MonthlyGrossIncome
+	FROM BasicVerificationStage
+	WHERE Valid = 1
+	
+	-- Remove the valid data from the stage table (it will be in the main table now)
+	DELETE FROM BasicVerificationStage
+	WHERE Valid = 1
+	
+	/*
+	
+	Now only invalid data exist in the stage table, so that we can solve the mystery as to why we're receiving bad data
+	
+	*/
 END
