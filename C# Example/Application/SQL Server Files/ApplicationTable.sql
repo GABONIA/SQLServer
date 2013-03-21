@@ -29,5 +29,7 @@ CREATE TABLE BasicVerificationStage(
 	SSN VARCHAR(100) NULL,
 	BusinessName VARCHAR(100) NULL,
 	EmployerName VARCHAR(100) NULL,
-	MonthlyGrossIncome VARCHAR(100) NULL
+	MonthlyGrossIncome VARCHAR(100) NULL,
+	Valid BIT DEFAULT 0,
+	InvalidReason VARCHAR(500) NULL
 )

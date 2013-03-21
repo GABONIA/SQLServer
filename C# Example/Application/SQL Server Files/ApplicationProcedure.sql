@@ -18,4 +18,28 @@ AS
 BEGIN
 	INSERT INTO BasicVerificationStage (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
 	SELECT @FirstName, @MiddleInitial, @LastName, @PhoneNumber, @StreetAddress, @City, @State, @ZipCode, @SSN, @BusinessName, @EmployerName, @MonthlyGrossIncome
+	
+	-- One method of performing data validation: we insert only valid data
+	INSERT INTO BasicVerification (FirstName,MiddleInitial,LastName,PhoneNumber,StreetAddress,City,State,ZipCode,SSN,BusinessName,EmployerName,MonthlyGrossIncome)
+	SELECT FirstName
+		,SUBSTRING(MiddleInitial,0,1) AS MiddleInitial
+		,LastName
+		,PhoneNumber
+		,StreetAddress
+		,City
+		,State
+		,ZipCode
+		,SSN
+		,BusinessName
+		,EmployerName
+		,MonthlyGrossIncome
+	FROM BasicVerificationStage
+	WHERE ISNUMERIC(PhoneNumber) = 1
+		AND LEN(PhoneNumber) = 10
+		AND LEN(State) = 2
+		AND ISNUMERIC(ZipCode) = 1
+		AND LEN(ZipCode) = 5
+		AND ISNUMERIC(SSN) = 1
+		AND LEN(SSN) = 9
+		AND ISNUMERIC(MonthlyGrossIncome) = 1
 END
