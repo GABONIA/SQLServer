@@ -103,5 +103,5 @@ SELECT *
 FROM #info
 
 DROP TABLE #info'
-
+-- Note that for SELECT queries, a drop can end the query
 EXECUTE(@savingsdetails)
