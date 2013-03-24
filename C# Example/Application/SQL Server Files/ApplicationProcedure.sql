@@ -47,7 +47,7 @@ BEGIN
 	
 	-- Method Two: We update "Valid" status to one if it's valid, if not, we state why
 	
-	-- Updating the staging table to invalidate the bad data
+	-- Updating the staging table to invalidate the bad data, we note why it's invalid for tracking purposes
 	UPDATE BasicVerificationStage
 	SET Valid = 0, InvalidReason = 'Incorrect phone format'
 	WHERE ISNUMERIC(PhoneNumber) = 0 OR LEN(PhoneNumber) <> 10
