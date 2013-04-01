@@ -39,6 +39,29 @@ END
 -- Result:
 SELECT dbo.ufn_Phone('(800) 555-1212')
 
+-- OR we can simplify our function to produce the same results
+
+CREATE FUNCTION ufn_Phone(@Phone VARCHAR(25))
+RETURNS VARCHAR(10)
+AS
+BEGIN
+-- Looks for any non-numbers
+DECLARE @Loc INT = PATINDEX('%[^0-9]%',@phone)
+
+	-- As long as non-numbers exist, it continues looping
+	WHILE @Loc > 0
+	BEGIN
+		SET @Phone = STUFF(@Phone,@loc,1,'')
+		SET @Loc = PATINDEX('%[^0-9]%',@Phone)
+	END
+
+	SET @Phone = LTRIM(RTRIM(@Phone))
+	RETURN @phone
+END
+
+-- Same result?
+SELECT dbo.ufn_Phone('(800) 555-1212')
+
 -- View our function on a table
 
 DECLARE @PhoneTest TABLE(
