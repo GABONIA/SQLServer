@@ -4,6 +4,8 @@ Get the day number, day name and day id (meaning 1 - 7) of each day for the week
 
 */
 
+-- First and long method
+
 DECLARE @day TABLE(
 	DayID TINYINT,
 	DayName VARCHAR(10)
@@ -109,3 +111,36 @@ SELECT *
 FROM ##year
 WHERE WeekDayID <> 6
 	AND WeekDayID <> 7
+
+-- Second and quick method
+
+DECLARE @year TABLE(
+	WeekDayID TINYINT,
+	DayNumber SMALLINT IDENTITY(1,1),
+	MonthID TINYINT,
+	MonthName VARCHAR(10),
+	DayName VARCHAR(10),
+	ActualDate DATE
+)
+	
+DECLARE @start DATE = '2013-01-01'
+DECLARE @begin SMALLINT = 1
+
+WHILE @begin <= 365
+BEGIN
+
+	INSERT INTO @year (ActualDate)
+	SELECT @start
+	
+	SET @start = DATEADD(DD,1,@start)
+	SET @begin = @begin + 1
+END
+
+UPDATE @year
+SET MonthID = MONTH(ActualDate),
+	WeekDayID = DATEPART(DW,ActualDate),
+	MonthName = DATENAME(MONTH, ActualDate),
+	DayName = DATENAME(DW,ActualDate)
+
+SELECT *
+FROM @year
