@@ -67,4 +67,36 @@ SELECT *
 FROM ##year
 
 
+/*
+
+-- Playing with trade dates (on business days only): returns the last four trade dates of the month
+
+DECLARE @store TABLE(
+	MonthID TINYINT,
+	MonthBusinessDay TINYINT
+)
+
+DECLARE @month TINYINT = 1
+
+WHILE @month <= 12
+BEGIN
+
+	INSERT INTO @store
+	SELECT @month
+		, MAX(MonthBusinessDay)
+	FROM ##year
+	WHERE MonthID = @month
+		AND MonthBusinessDay IS NOT NULL
+
+	SET @month = @month + 1
+END
+
+SELECT DATEADD(DD,-3,y.ActualDate) AS ThirdBeforeFinal
+	, DATEADD(DD,-2,y.ActualDate) AS SecondBeforeFinal
+	, DATEADD(DD,-1,y.ActualDate) AS FirstBeforeFinal
+	, y.ActualDate AS FinalTradeDate
+FROM ##year y
+	INNER JOIN @store s ON y.MonthID = s.MonthID AND y.MonthBusinessDay = s.MonthBusinessDay
+
+*/
 
