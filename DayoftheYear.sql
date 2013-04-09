@@ -98,5 +98,12 @@ SELECT DATEADD(DD,-3,y.ActualDate) AS ThirdBeforeFinal
 FROM ##year y
 	INNER JOIN @store s ON y.MonthID = s.MonthID AND y.MonthBusinessDay = s.MonthBusinessDay
 
+
+SELECT MIN(ActualDate) AS "FirstTradeDay"
+	, DATEADD(DD,1,(MIN(ActualDate))) AS "SecondTradeDay"
+FROM ##year
+WHERE ActualDate IN (SELECT ActualDate FROM ##year WHERE MonthBusinessDay IN (1,2))
+GROUP BY MONTH(ActualDate)
+
 */
 
