@@ -105,5 +105,40 @@ FROM ##year
 WHERE ActualDate IN (SELECT ActualDate FROM ##year WHERE MonthBusinessDay IN (1,2))
 GROUP BY MONTH(ActualDate)
 
+-- S
+
+-- WeekDayID C
+-- ActualDate NC
+
+
+SELECT ActualDate
+FROM TTCYear
+WHERE ActualDate BETWEEN '2013-03-01' AND '2013-04-30'
+
+
+
+SELECT ActualDate
+FROM TTCYear
+WHERE MONTH(ActualDate) = '03'
+	OR MONTH(ActualDate) = '04'
+
+
+
+SELECT *
+FROM TTCYear
+WHERE WeekDayID <> 1
+	AND WeekDayID <> 7
+
+
+SELECT *
+FROM TTCYear
+WHERE WeekDayID NOT IN (1,7)
+
+
+SELECT *
+FROM TTCYear
+WHERE WeekDayID BETWEEN 2 AND 6
+
+
 */
 
