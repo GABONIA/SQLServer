@@ -1,31 +1,50 @@
-SELECT SchemaName=s.name, TableName=o.name
-FROM TableCheckTool.sys.objects o 
-  INNER JOIN TableCheckTool.sys.schemas s ON s.schema_id=o.schema_id
-    INNER JOIN TableCheckTool.sys.indexes i ON i.OBJECT_ID=o.OBJECT_ID
-WHERE (o.type='U' 
-	AND o.OBJECT_ID NOT IN (SELECT OBJECT_ID FROM TableCheckTool.sys.indexes WHERE index_id >0))
-	
+/*
+
+Step 1: Counts total number of tables in a database on a server
+
+*/
+
+CREATE TABLE #DBCount(
+	TableCount SMALLINT
+)
 
 
-DECLARE @TableCount TABLE(
+DECLARE @DatabaseTable TABLE(
 	DatabaseID SMALLINT IDENTITY(1,1),
 	DatabaseName VARCHAR(200)
 )
 
-INSERT INTO @TableCount (DatabaseName)
+
+INSERT INTO @DatabaseTable (DatabaseName)
 SELECT DB_NAME(database_id)
 FROM sys.master_files
 WHERE DB_NAME(database_id) NOT IN ('master','tempdb','model','msdb')
+	AND data_space_id = 1
 
-DECLARE @begin SMALLINT = 1
-DECLARE @max SMALLINT
-SELECT @max = MAX(DatabaseID) FROM @TableCount
 
-WHILE @begin <= @max
+DECLARE @conn VARCHAR(200)
+DECLARE @start TINYINT = 1
+DECLARE @total TINYINT
+SELECT @total = MAX(DatabaseID) FROM @DatabaseTable
+
+
+
+WHILE @start <= @total
 BEGIN
-	
-	
-	
-	SET @begin = @begin + 1
-	
+
+	SELECT @conn = DatabaseName FROM @DatabaseTable WHERE DatabaseID = @start
+
+	DECLARE @sql NVARCHAR(MAX)
+	SET @sql = 'INSERT INTO #DBCount (TableCount)
+	SELECT COUNT(Name)
+	FROM ' + @conn + '.sys.tables
+	WHERE Name NOT LIKE ''%sys'''
+
+	EXECUTE(@sql)
+
+	SET @start = @start + 1
+
 END
+
+SELECT SUM(TableCount)
+FROM #DBCount
