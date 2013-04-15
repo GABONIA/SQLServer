@@ -1,11 +1,15 @@
 /*
 
-Step 1: Counts total number of tables in a database on a server
+Step 1: Counts total number of tables and heaps in a database on a server
 
 */
 
-CREATE TABLE #DBCount(
+CREATE TABLE #TTables(
 	TableCount SMALLINT
+)
+
+CREATE TABLE #THeaps(
+	HeapCount SMALLINT
 )
 
 
@@ -28,23 +32,26 @@ DECLARE @total TINYINT
 SELECT @total = MAX(DatabaseID) FROM @DatabaseTable
 
 
-
 WHILE @start <= @total
 BEGIN
 
 	SELECT @conn = DatabaseName FROM @DatabaseTable WHERE DatabaseID = @start
 
-	DECLARE @sql NVARCHAR(MAX)
-	SET @sql = 'INSERT INTO #DBCount (TableCount)
+	DECLARE @sqlone NVARCHAR(MAX)
+	SET @sqlone = 'INSERT INTO #TTables (TableCount)
 	SELECT COUNT(Name)
 	FROM ' + @conn + '.sys.tables
-	WHERE Name NOT LIKE ''%sys'''
+	WHERE Name NOT LIKE ''%sys''
+	
+	INSERT INTO #THeaps (HeapCount)
+	SELECT COUNT(t.name) Heap
+	FROM ' + @conn + '.sys.tables t
+		INNER JOIN ' + @conn + '.sys.indexes i ON t.object_id = i.object_id
+	WHERE t.name NOT LIKE ''sys%''
+		AND i.type_desc = ''HEAP'''
 
-	EXECUTE(@sql)
+	EXECUTE(@sqlone)
 
 	SET @start = @start + 1
 
 END
-
-SELECT SUM(TableCount)
-FROM #DBCount
