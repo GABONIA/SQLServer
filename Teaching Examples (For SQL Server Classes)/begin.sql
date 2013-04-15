@@ -41,7 +41,7 @@ BEGIN
 	SET @sqlone = 'INSERT INTO #TTables (TableCount)
 	SELECT COUNT(Name)
 	FROM ' + @conn + '.sys.tables
-	WHERE Name NOT LIKE ''%sys''
+	WHERE Name NOT LIKE ''sys%''
 	
 	INSERT INTO #THeaps (HeapCount)
 	SELECT COUNT(t.name) Heap
