@@ -4,16 +4,15 @@ Obtain connection strings for a server
 
 */
 
-/* 
 
 CREATE TABLE ConnectionStrings(
-  ServerName VARCHAR(200),
+	ServerName VARCHAR(200),
 	DatabaseName VARCHAR(200),
 	SchemaName VARCHAR(50),
-	TableName VARCHAR(200)
+	TableName VARCHAR(200),
+	ConnectionString VARCHAR(650)
 )
 
-*/
 
 DECLARE @DatabaseTable TABLE(
 	DatabaseID SMALLINT IDENTITY(1,1),
@@ -43,7 +42,7 @@ BEGIN
 	SET @sqlone = 'DECLARE @DB VARCHAR(200)
 	SET @DB = ''' + @conn + '''
 	
-	INSERT INTO ConnectionStrings
+	INSERT INTO ConnectionStrings (ServerName,DatabaseName,SchemaName,TableName)
 	SELECT @@SERVERNAME, @DB, SCHEMA_NAME(t.schema_id), t.name
 	FROM ' + @conn + '.sys.tables t'
 
@@ -53,9 +52,18 @@ BEGIN
 
 END
 
+
+UPDATE ConnectionStrings
+SET ConnectionString = '[' + ServerName + '].[' + DatabaseName + '].[' + SchemaName + '].[' + TableName + ']'
+WHERE SchemaName IS NOT NULL
+
+UPDATE ConnectionStrings
+SET ConnectionString = '[' + ServerName + '].[' + DatabaseName + '].[' + TableName + ']'
+WHERE SchemaName IS NULL
+
+
 SELECT *
 FROM ConnectionStrings
-
 
 /*
 
