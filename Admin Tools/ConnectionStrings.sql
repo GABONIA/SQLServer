@@ -1,0 +1,66 @@
+/*
+
+Obtain connection strings for a server
+
+*/
+
+/* 
+
+CREATE TABLE ConnectionStrings(
+  ServerName VARCHAR(200),
+	DatabaseName VARCHAR(200),
+	SchemaName VARCHAR(50),
+	TableName VARCHAR(200)
+)
+
+*/
+
+DECLARE @DatabaseTable TABLE(
+	DatabaseID SMALLINT IDENTITY(1,1),
+	DatabaseName VARCHAR(200)
+)
+
+
+INSERT INTO @DatabaseTable (DatabaseName)
+SELECT DB_NAME(database_id)
+FROM sys.master_files
+WHERE DB_NAME(database_id) NOT IN ('master','tempdb','model','msdb')
+	AND data_space_id = 1
+
+
+DECLARE @conn VARCHAR(200)
+DECLARE @start TINYINT = 1
+DECLARE @total TINYINT
+SELECT @total = MAX(DatabaseID) FROM @DatabaseTable
+
+
+WHILE @start <= @total
+BEGIN
+
+	SELECT @conn = DatabaseName FROM @DatabaseTable WHERE DatabaseID = @start
+
+	DECLARE @sqlone NVARCHAR(MAX)
+	SET @sqlone = 'DECLARE @DB VARCHAR(200)
+	SET @DB = ''' + @conn + '''
+	
+	INSERT INTO ConnectionStrings
+	SELECT @@SERVERNAME, @DB, SCHEMA_NAME(t.schema_id), t.name
+	FROM ' + @conn + '.sys.tables t'
+
+	EXECUTE(@sqlone)
+
+	SET @start = @start + 1
+
+END
+
+SELECT *
+FROM ConnectionStrings
+
+
+/*
+
+
+DROP TABLE ConnectionStrings
+
+
+*/
