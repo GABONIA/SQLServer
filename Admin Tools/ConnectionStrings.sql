@@ -1,6 +1,6 @@
 /*
 
-Obtain connection strings for a server
+Obtain connection strings for a server, including database, schema and table name
 
 */
 
