@@ -6,10 +6,10 @@ Useful script for table backups to make sure the backup table is indexed the exa
 
 DECLARE @Indexing TABLE(
   IndexingID INT IDENTITY(1,1),
-	IndexType VARCHAR(50),
-	IndexName VARCHAR(250),
-	TableName VARCHAR(250),
-	ColumnName VARCHAR(200)
+  IndexType VARCHAR(50),
+  IndexName VARCHAR(250),
+  TableName VARCHAR(250),
+  ColumnName VARCHAR(200)
 )
 
 INSERT INTO @Indexing
