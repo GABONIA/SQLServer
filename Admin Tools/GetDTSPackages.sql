@@ -11,7 +11,7 @@ Credit: some of the code was created by Bill Fellows
 
 */
 
-SELECT 'mkdir DTSPackages'
+SELECT 'mkdir ' + @@SERVERNAME + '_DTSPackages_'
 
 ;
 WITH FOLDERS AS
