@@ -1,0 +1,7 @@
+/*
+
+Get security groups for a user (assuming the user is executing this script).
+
+*/
+
+gpresult /R > secgroups.txt
