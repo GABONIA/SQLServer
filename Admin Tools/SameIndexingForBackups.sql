@@ -19,10 +19,10 @@ SELECT i.type_desc AS IndexType
 	, sc.name ColumnName
 FROM sys.indexes i
 	INNER JOIN sys.objects o ON i.object_id = o.object_id
-	INNER JOIN sys.index_columns c ON c.object_id = o.object_id
+	INNER JOIN sys.index_columns c ON c.object_id = o.object_id AND i.index_id = c.index_id
 	INNER JOIN sys.columns sc ON sc.object_id = o.object_id AND sc.column_id = c.column_id
-WHERE SCHEMA_NAME(SCHEMA_ID) = 'dbo'  -- Edit this schema name if different
-	AND o.name = 'Reference'  -- Edit this original table name
+WHERE SCHEMA_NAME(SCHEMA_ID) = 'Schema'  -- Edit this schema name if different
+	AND o.name = 'Table'  -- Edit this original table name
 	
 DECLARE @begin INT = 1
 DECLARE @max INT
