@@ -9,19 +9,11 @@ Script for creating indexes of a certain type when multiple tables are involved 
 
 SELECT 'IX_' + COLUMN_NAME AS [IndexName]
   , TABLE_SCHEMA AS [SchemaName]
-	, TABLE_NAME AS [TableName]
-	, COLUMN_NAME AS [ColumnName]
+  , TABLE_NAME AS [TableName]
+  , COLUMN_NAME AS [ColumnName]
 FROM   
   INFORMATION_SCHEMA.COLUMNS
 WHERE DATA_TYPE LIKE 'date%'  -- Use this for the SELECT statement in the INSERT below this
-
-SELECT *
-FROM INFORMATION_SCHEMA.COLUMNS
-
-SELECT i.*
-FROM sys.indexes s
-	INNER JOIN INFORMATION_SCHEMA.COLUMNS i ON i.TABLE_NAME = s.OBJECT_NAME(object_id)
-
 
 */
 
