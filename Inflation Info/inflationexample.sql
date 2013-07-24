@@ -18,6 +18,16 @@ FROM 'C:\Users\Timothy Smith\Documents\GitHub\SQLServer\Inflation Info\testinfla
 WITH (FIELDTERMINATOR = ',',ROWTERMINATOR = '\n')
 GO
 
+/* In some cases, GitHub will change the format of this file, so the below code will only work:
+
+
+BULK INSERT StageInflation
+FROM 'C:\inflation\testinflationdata.csv'
+WITH (FIELDTERMINATOR = ',',ROWTERMINATOR = '0x0a')
+GO
+
+*/
+
 SELECT *
 FROM StageInflation
 
