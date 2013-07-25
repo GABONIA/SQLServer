@@ -2,18 +2,23 @@
 
 Very messy way to find unused stored procedures in the database, based on data from a trace file
 
+Quick Clean (in case of breaks):
+DROP TABLE #New
+DROP TABLE #Final
+DROP TABLE #UnusedProcedures
+
 */
 
 -- This assumes a trace file's data are stored on the database
 
 DECLARE @Proc TABLE(
-  PText VARCHAR(4000)
+  PText VARCHAR(8000)
 )
 
 INSERT INTO @Proc
 SELECT TextData
--- This is where the trace file's data should be
-FROM TraceFileData
+-- This is where the trace file's data should be:
+FROM StoredTraceData
 
 SELECT DISTINCT PText
 INTO #New
@@ -27,39 +32,32 @@ FROM #New
 
 DROP TABLE #New
 
-DECLARE @ProcTable TABLE (
-  ProcID INT IDENTITY(1,1),
-	ProcName VARCHAR(200)
+CREATE TABLE #UnusedProcedures (
+	ProcID INT IDENTITY(1,1),
+	ProcedureName VARCHAR(200),
+	InUse BIT DEFAULT 0
 )
-
-INSERT INTO @ProcTable (ProcName)
-SELECT name
-FROM OurDatabase.sys.procedures
-WHERE is_ms_shipped = 0
 
 INSERT INTO #UnusedProcedures (ProcedureName)
 SELECT name
-FROM OurDatabase.sys.procedures
+FROM OurDB.sys.procedures
 WHERE is_ms_shipped = 0
 
 DECLARE @begin INT = 1
 DECLARE @max INT
-SELECT @max = MAX(ProcID) FROM @ProcTable
+SELECT @max = MAX(ProcID) FROM #UnusedProcedures
 DECLARE @procy VARCHAR(100)
 
 WHILE @begin <= @max
 BEGIN
 
-  SELECT @procy = ProcName FROM @ProcTable WHERE ProcID = @begin
+  SELECT @procy = ProcedureName FROM #UnusedProcedures WHERE ProcID = @begin
 
 	DECLARE @sql VARCHAR(MAX)
-	SET @sql = 'SELECT TOP 1 *
-	FROM #Final
-	WHERE ParsedProcs LIKE ''' + '%' + @procy + '%' + '''
-	IF @@ROWCOUNT = 0
+	SET @sql = 'IF EXISTS(SELECT TOP 1 * FROM #Final WHERE ParsedProcs LIKE ''' + '%' + @procy + '%' + ''')
 	BEGIN
 		UPDATE #UnusedProcedures
-		SET Used = 0
+		SET InUse = 1
 		WHERE ProcedureName = ''' + @procy + '''
 	END'
 
@@ -75,3 +73,4 @@ SELECT *
 FROM #UnusedProcedures
 
 DROP TABLE #UnusedProcedures
+
