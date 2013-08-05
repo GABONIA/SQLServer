@@ -64,3 +64,53 @@ END
 
 SELECT *
 FROM MovingDayAverageExample
+
+
+/*
+
+Three business days post a five day simple moving average value greater than the current price, does a stock generally rise or fall?
+
+*/
+
+SELECT m1.FiveDaySMA
+	, m1.Price
+	, m2.Price
+	, m3.Price
+	, m4.Price
+	, (m4.Price - m1.FiveDaySMA) [Post Three Day Difference From SMA]
+	, CASE 
+		WHEN (m4.Price - m1.FiveDaySMA) > 0 THEN 'Increase'
+		ELSE 'Decrease or No Difference' END AS [Assessment]
+	, ROUND((((m4.Price - m1.FiveDaySMA)/m1.Price)*100),4) [Percent Gained/Lost]
+FROM MovingDayAverageExample m1
+	INNER JOIN MovingDayAverageExample m2 ON m1.DateID = (m2.DateID - 1)
+	INNER JOIN MovingDayAverageExample m3 ON m1.DateID = (m3.DateID - 2)
+	INNER JOIN MovingDayAverageExample m4 ON m1.DateID = (m4.DateID - 3)
+WHERE m1.FiveDaySMA > m1.Price
+
+
+DECLARE @RiskAssessment TABLE(
+	Assessment VARCHAR(10),
+	GainLoss DECIMAL(5,2)
+)
+
+INSERT INTO @RiskAssessment
+SELECT CASE 
+		WHEN (m4.Price - m1.FiveDaySMA) > 0 THEN 'Increase'
+		ELSE 'Decrease' END AS [Assessment]
+	, ROUND((((m4.Price - m1.FiveDaySMA)/m1.Price)*100),4) [Percent Gained/Lost]
+FROM MovingDayAverageExample m1
+	INNER JOIN MovingDayAverageExample m2 ON m1.DateID = (m2.DateID - 1)
+	INNER JOIN MovingDayAverageExample m3 ON m1.DateID = (m3.DateID - 2)
+	INNER JOIN MovingDayAverageExample m4 ON m1.DateID = (m4.DateID - 3)
+WHERE m1.FiveDaySMA > m1.Price
+
+SELECT COUNT(Assessment) [GainDays]
+	, AVG(GainLoss) [GainAverage]
+FROM @RiskAssessment
+WHERE Assessment = 'Increase'
+
+SELECT COUNT(Assessment) [LossDays]
+	, AVG(GainLoss) [LossAverage]
+FROM @RiskAssessment
+WHERE Assessment = 'Decrease'
