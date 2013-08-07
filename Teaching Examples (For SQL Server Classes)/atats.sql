@@ -1,7 +1,7 @@
 /*
 
 The "AT-ATs"
-  Quick guide to the @@
+       Quick reference guide to the @@s
 
 */
 
@@ -9,21 +9,41 @@ The "AT-ATs"
 SELECT @@CONNECTIONS "Total Connections Since Last Start"
 
 
+/* Displays how long SQL Server has been working since last start in ticks and is the aggregate for every CPU.*/
 SELECT @@CPU_BUSY
+
+
+/* Displays the total qualifying rows opened in the connection's last cursor */
 SELECT @@CURSOR_ROWS
+
+
+/*  Displays the value of SET DATEFIRST*/
 SELECT @@DATEFIRST
+
+
+/* Displays the databases' timestamp data type */
 SELECT @@DBTS
+
+
+/* Displays the default collation */
 SELECT @@DEF_SORTORDER_ID
+
+
+/* Displays the default language ID */
 SELECT @@DEFAULT_LANGID
+
+
+/* Displays the status of the last FETCH statement from a cursor during any opened cursor in a connection */
 SELECT @@FETCH_STATUS
+
 
 /* Displays the last inserted identity row (see example) */
 SELECT @@IDENTITY
 
 -- Example
 DECLARE @i TABLE(
-	ID TINYINT IDENTITY(1,1),
-	I TINYINT
+       ID TINYINT IDENTITY(1,1),
+       I TINYINT
 )
 
 INSERT INTO @i (I)
@@ -39,28 +59,110 @@ SELECT @@IDENTITY "Last Identity of Second INSERT"
 SELECT *
 FROM @i
 
+
+/* Displays the time that SQL Server has remained idle since the last start in ticks. */
 SELECT @@IDLE
+
+
+/* Displays the total time SQL Server has performed input and output tasks since SQL Server's last start */
 SELECT @@IO_BUSY
+
+
+/* Displays the language ID in use */
 SELECT @@LANGID
+
+
+/* Displays the language in use (not the language ID) */
 SELECT @@LANGUAGE
+
+
+/* Displays the current session's lock out setting (shown in milliseconds) */
 SELECT @@LOCK_TIMEOUT
+
+
+/* Displays the total amount of concurrent user connections allowed  */
 SELECT @@MAX_CONNECTIONS
+
+
+/* Displays how precise a decimal or numeric type is set to be */
 SELECT @@MAX_PRECISION
+
+
+/* Displays the numeric version of SQL Server */
 SELECT @@MICROSOFTVERSION
+
+
+/* Displasy the nest level of a exeuction of a stored procedure (ie: if a procedure calls another procedure - see example) */
 SELECT @@NESTLEVEL
+
+-- Example:
+CREATE PROCEDURE stp_LevelThree AS
+BEGIN
+	SELECT @@NESTLEVEL
+END
+
+CREATE PROCEDURE stp_LevelTwo AS
+BEGIN
+	SELECT @@NESTLEVEL
+	EXECUTE stp_LevelTwo
+END
+
+CREATE PROCEDURE stp_LevelOne AS
+BEGIN
+	SELECT @@NESTLEVEL
+	EXECUTE stp_LevelOne
+END
+
+EXECUTE stp_LevelZero
+
+DROP PROCEDURE stp_LevelThree
+DROP PROCEDURE stp_LevelTwo
+DROP PROCEDURE stp_LevelOne
+
+
+/*  */
 SELECT @@OPTIONS
 SELECT @@PACK_RECEIVED
 SELECT @@PACK_SENT
 SELECT @@PACKET_ERRORS
+
+
+/* Displays the ID of the current stored procedure (see example) */
 SELECT @@PROCID
+
+-- Example:
+CREATE PROCEDURE stp_ProcIDAt
+AS
+BEGIN
+       SELECT @@PROCID
+END
+
+EXECUTE stp_ProcIDAt
+
+DROP PROCEDURE stp_ProcIDAt
+
+
+/* Displays the remote SQL Server database server name shown in the login record (see example) */
 SELECT @@REMSERVER
+
+-- Example:
+CREATE PROCEDURE stp_RemServerAt
+AS
+BEGIN
+       SELECT @@REMSERVER
+END
+
+EXECUTE stp_RemServerAt
+
+DROP PROCEDURE stp_RemServerAt
+
 
 /* Displays the rowcount of previous query (see example) */
 SELECT @@ROWCOUNT
 
 -- Example:
 DECLARE @r TABLE(
-	R TINYINT
+       R TINYINT
 )
 
 INSERT INTO @r
@@ -94,7 +196,7 @@ EXECUTE sp_who2 -- we can find the SPID in the first column
 SELECT @@TEXTSIZE
 
 DECLARE @t TABLE(
-	T TEXT
+       T TEXT
 )
 
 INSERT INTO @t
@@ -134,18 +236,19 @@ SELECT @@TRANCOUNT
 
 -- Example
 BEGIN TRAN
-	SELECT '1' "BEGIN TRAN 1"
-	SELECT @@TRANCOUNT "BEGIN TRAN Count"
-	BEGIN TRAN
-		SELECT '2' "BEGIN TRAN 2"
-		SELECT @@TRANCOUNT "BEGIN TRAN Count"
-		BEGIN TRAN
-			SELECT '3'
-			SELECT @@TRANCOUNT "BEGIN TRAN Count"
-		COMMIT TRAN
-	COMMIT TRAN
+       SELECT '1' "BEGIN TRAN 1"
+       SELECT @@TRANCOUNT "BEGIN TRAN Count"
+       BEGIN TRAN
+              SELECT '2' "BEGIN TRAN 2"
+              SELECT @@TRANCOUNT "BEGIN TRAN Count"
+              BEGIN TRAN
+                     SELECT '3'
+                     SELECT @@TRANCOUNT "BEGIN TRAN Count"
+              COMMIT TRAN
+       COMMIT TRAN
 COMMIT TRAN
 
 
 /* Displays the version of SQL Server, for instance whether it's 2012, or 2008R2 and whether it's developer or enterprise */
 SELECT @@VERSION "Version"
+
