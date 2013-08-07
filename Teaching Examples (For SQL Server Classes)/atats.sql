@@ -120,10 +120,19 @@ DROP PROCEDURE stp_LevelTwo
 DROP PROCEDURE stp_LevelOne
 
 
-/*  */
+/* Displays information about SET options */
 SELECT @@OPTIONS
+
+
+/* Displays total input packs read by SQL Server from the network since last start */
 SELECT @@PACK_RECEIVED
+
+
+/* Displays total output packs written by SQL Server from the network since last start */
 SELECT @@PACK_SENT
+
+
+/* Displays total network pack errors hat happened on the SQL Server connection since last start */
 SELECT @@PACKET_ERRORS
 
 
@@ -251,4 +260,3 @@ COMMIT TRAN
 
 /* Displays the version of SQL Server, for instance whether it's 2012, or 2008R2 and whether it's developer or enterprise */
 SELECT @@VERSION "Version"
-
