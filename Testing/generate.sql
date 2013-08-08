@@ -22,14 +22,20 @@ BEGIN
 
 	-- Randomly parse a password
 	DECLARE @r INT
-	SELECT @r = CAST((RAND()*25) AS INT)
-	IF @r < 7
+	SELECT @r = CAST((RAND()*13) AS INT)
+	IF @r < 8
 	BEGIN
-		SET @r = 10
+		SET @r = 9
 	END
 
+	DECLARE @a VARCHAR(26) = 'abcdefghijklmnopqrstuvwxyzj'
+	DECLARE @o SMALLINT
+	DECLARE @s VARCHAR(1)
+	SELECT @o =  CAST((RAND()*27) AS INT)
+	SELECT @s = SUBSTRING(@a,@o,1)
+
 	UPDATE @p
-	SET P = SUBSTRING(REPLACE(CAST(R AS VARCHAR(50)),'-',''),1,@r)
+	SET P = @s + SUBSTRING(REPLACE(CAST(R AS VARCHAR(50)),'-',''),1,@r)
 	WHERE E = @e2
 		AND U = @u
 
