@@ -20,7 +20,7 @@ BEGIN
 	INSERT INTO @p (E, U)
 	SELECT @e2, @u2
 
-	-- Randomly parse a username
+	-- Randomly parse a password
 	DECLARE @r INT
 	SELECT @r = CAST((RAND()*25) AS INT)
 	IF @r < 7
