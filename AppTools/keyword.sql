@@ -1,5 +1,4 @@
 
-
 /* 
 
 Keyword replace tool
@@ -13,12 +12,9 @@ DECLARE @string TABLE(
 INSERT INTO @string
 VALUES ('The quick brown fox jumped over the lazy dogs.  The dogs heard this often written idiom and contacted Ruff, their attorney.  They filed a lawsuit against all the writers and developers using this often quoted idiom.')
 
-SELECT *
-FROM @string
-
 DECLARE @keyword TABLE(
 	ID SMALLINT IDENTITY(1,1),
-	Keyword VARCHAR(100),
+	Keyword VARCHAR(250),
 	Link VARCHAR(250)
 )
 
@@ -29,8 +25,8 @@ VALUES ('idiom','<a href="http://www.idiom.com/">idiom</a>')
 DECLARE @begin SMALLINT = 1
 DECLARE @max SMALLINT
 SELECT @max = MAX(ID) FROM @keyword
-DECLARE @key VARCHAR(100)
-DECLARE @link VARCHAR(100)
+DECLARE @key VARCHAR(250)
+DECLARE @link VARCHAR(250)
 
 WHILE @begin <= @max
 BEGIN
