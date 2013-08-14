@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[stp_BackUpScript]
 AS
 BEGIN
 	
-	IF OBJECT_ID('##DatabaseConsistency') IS NOT NULL
+	IF OBJECT_ID('tempdb..##DatabaseConsistency') IS NOT NULL
 	BEGIN
 		DROP TABLE ##DatabaseConsistency
 	END
