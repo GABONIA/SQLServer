@@ -1,4 +1,4 @@
-USE OurDatabaseName
+/* Most effective method */
 
-SELECT *
-FROM INFORMATION_SCHEMA.TABLES
+exec sp_MSforeachtable  'SET QUOTED_IDENTIFIER ON; ALTER INDEX ALL ON ? REBUILD'
+
