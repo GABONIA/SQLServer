@@ -5,7 +5,7 @@ CREATE PROCEDURE AS stp_AdministrativeJobs
 AS
 BEGIN
 
-/* Rebuild All Non-System Indexes */
+/* Rebuild All Non-System Indexes - fails on multiple column tables, see below script */
 
 DECLARE @RebuildIndex TABLE(
   IndexingID INT IDENTITY(1,1),
