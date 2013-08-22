@@ -108,3 +108,53 @@ FROM CTE s1
 	INNER JOIN SoHistoricalData s150 ON s2.SOID = (s150.SOID - 150)
 WHERE s1.[PercentAbove] < -7
 ORDER BY s1.[PercentAbove] DESC
+
+/* Twenty Year */
+
+CREATE TABLE SoStageTwo(
+	[Date] VARCHAR(100),
+	[Open] VARCHAR(100),
+	[High] VARCHAR(100),
+	[Low] VARCHAR(100),
+	[Close] VARCHAR(100),
+	[Volume] VARCHAR(100)
+)
+
+BULK INSERT SoStageTwo
+FROM 'E:\so.csv'
+WITH (
+	FIELDTERMINATOR = ','
+	,ROWTERMINATOR = '0x0a')
+GO
+
+CREATE TABLE SoTableTwo(
+	SOID INT IDENTITY(1,1),
+	[Date] DATE,
+	Price DECIMAL(9,4),
+	TwoHundredDaySMA DECIMAL(12,4)
+)
+
+INSERT INTO SoTableTwo ([Date],Price)
+SELECT CONVERT(DATE,[Date],112)
+	, [Close]
+FROM SoStageTwo
+WHERE Date <> 'n++Date'
+
+DECLARE @first INT = 1, @second INT = 200
+DECLARE @avg DECIMAL(10,4)
+DECLARE @max INT
+SELECT @max = MAX(SOID) FROM SoTableTwo
+
+WHILE @second <= @max
+BEGIN
+
+	SELECT @avg = AVG(Price) FROM SoTableTwo WHERE SOID BETWEEN @first AND @second
+
+	UPDATE SoTableTwo
+	SET TwoHundredDaySMA = @avg
+	WHERE SOID = @second
+
+	SET @first = @first + 1
+	SET @second = @second + 1
+
+END
