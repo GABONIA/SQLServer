@@ -1,6 +1,3 @@
-USE [StockAnalysis]
-GO
-
 /****** Object:  StoredProcedure [admin].[stp_StockAnalysis_Admin]    Script Date: 8/23/2013 8:20:32 AM ******/
 SET ANSI_NULLS ON
 GO
