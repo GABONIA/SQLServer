@@ -1,0 +1,8 @@
+/*  Fascinating feature  */
+
+CREATE SEQUENCE dbo.IByO
+	START WITH 1
+	INCREMENT BY 1;
+GO
+
+SELECT NEXT VALUE FOR dbo.IByO
