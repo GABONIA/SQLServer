@@ -8,7 +8,7 @@ BULK INSERT Examples
 */
 
 BULK INSERT TableName
-FROM 'File.txt'
+FROM 'C:\File.txt'
 WITH (
 	-- note, if only one column exists in file, this can be removed
 	FIELDTERMINATOR = ','
