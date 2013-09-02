@@ -25,6 +25,8 @@ CREATE TABLE FoodIssues(
 	HealthIssueID INT
 )
 
+
+
 CREATE PROCEDURE stp_IssueCheckDiet
 @issue VARCHAR(500)
 AS
@@ -59,5 +61,30 @@ BEGIN
 		AND c.NumberOfTimesEaten < 5
 		OR d.IssueFlag = 1
 
+
+END
+
+
+
+CREATE PROCEDURE stp_AddFoodEaten
+@food VARCHAR(500)
+AS
+BEGIN
+
+	DECLARE @count INT
+	SELECT @count = FoodID FROM FoodList WHERE Food = @food
+	IF @count = 0
+	BEGIN
+
+		INSERT INTO FoodList (Food)
+		SELECT @food
+
+	END
+
+	DECLARE @f INT
+	SELECT @f = FoodID FROM FoodList WHERE Food = @food
+
+	INSERT INTO DailyEating (FoodID)
+	SELECT @f
 
 END
