@@ -56,3 +56,30 @@ BEGIN
 
 	EXECUTE sp_executesql @sql
 END
+
+
+-- Ranking for each business day
+CREATE PROCEDURE stp_BusinessDay
+@sym VARCHAR(10)
+AS
+BEGIN
+
+	DECLARE @sql NVARCHAR(MAX)
+
+	SET @sql = 'WITH MonthCTE AS(
+		SELECT ' + @sym + 'ID 
+			, Price
+			, Date
+			, ROW_NUMBER() OVER(PARTITION BY MONTH(Date), YEAR(Date) ORDER BY MONTH(Date) DESC) AS BusinessDaysEachMonth
+		FROM ' + @sym + 'HistoricalData
+	)
+	SELECT DISTINCT c.BusinessDaysEachMonth 
+		, SUM((((s.Price - c.Price)/c.Price)*100)) AS PercentChange
+	FROM MonthCTE c
+		INNER JOIN ' + @sym + 'HistoricalData s ON c.' + @sym + 'ID = (s.' + @sym + 'ID - 1)
+	GROUP BY c.BusinessDaysEachMonth
+	ORDER BY PercentChange DESC'
+
+	EXECUTE sp_executesql @sql
+
+END
