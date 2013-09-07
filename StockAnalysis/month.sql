@@ -64,6 +64,8 @@ CREATE PROCEDURE stp_BusinessDay
 AS
 BEGIN
 
+	SET @sym = UPPER(@sym)
+	
 	DECLARE @sql NVARCHAR(MAX)
 
 	SET @sql = 'WITH MonthCTE AS(
