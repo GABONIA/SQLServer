@@ -1,0 +1,28 @@
+DECLARE @i INT
+
+WITH Median AS(
+	SELECT Date
+	, Price
+	, ROW_NUMBER() OVER (ORDER BY Price DESC) PD
+	FROM HistoricalData
+)
+SELECT Price
+	, PD
+	, ROW_NUMBER() OVER (ORDER BY PD DESC) PA
+INTO ##Median
+FROM Median
+
+IF @i = 1
+BEGIN
+	SELECT *
+	FROM ##Median
+	WHERE PD = PA
+END
+ELSE
+BEGIN
+	SELECT *
+	FROM ##Median
+	WHERE PD BETWEEN (PA - 1) AND (PA + 1)
+END
+
+DROP TABLE ##Median
