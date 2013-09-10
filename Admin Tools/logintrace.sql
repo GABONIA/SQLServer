@@ -8,6 +8,7 @@ Edit where appropriate
 USE master
 GO
 
+/* Initial to avoid duplicate names */
 DECLARE @num INT
 SELECT @num = COUNT(*)
 	FROM msdb..sysjobhistory h
@@ -17,7 +18,7 @@ SELECT @num = COUNT(*)
 		AND h.step_name = '(Job outcome)'
 SELECT @num
 
--- Create a Queue
+
 DECLARE @rc INT
 DECLARE @TraceID INT
 DECLARE @maxfilesize BIGINT
@@ -26,10 +27,11 @@ DECLARE @string NVARCHAR(250)
 -- EDIT: Change the filepath
 SET @string =  N'\\OURLOCATION' + CONVERT(VARCHAR,GETDATE(),112) + CAST(@num AS VARCHAR(2))+ '_trace'
 
-set @maxfilesize = 200
-set @end = NULL
+-- EDIT: Change, depending on what you want your file size to be
+SET @maxfilesize = 100
+SET @end = NULL
 
--- User options
+-- From what you set above this:
 EXEC @rc = sp_trace_create 
 	@TraceID OUTPUT
 	, 0
@@ -58,16 +60,15 @@ EXEC sp_trace_setevent @TraceID, 17, 10, @on
 EXEC sp_trace_setevent @TraceID, 17, 12, @on
 
 
--- Set the Filters
+-- Filter
 DECLARE @intfilter INT
 DECLARE @bigintfilter BIGINT
 
 EXEC sp_trace_setfilter @TraceID, 10, 0, 7, N'SQL Server Profiler - 9cab2330-a33d-40d4-be59-cf5def384983'
 -- Set the trace status to start
 EXEC sp_trace_setstatus @TraceID, 1
---sp_trace_setstatus  @traceid =  2,  @status =  0    -- Trace stop
 
--- display trace id for future references
+
 SELECT TraceID = @TraceID
 GOTO finish
 
