@@ -77,3 +77,17 @@ SELECT ErrorCode=@rc
 
 FINISH: 
 GO
+
+/*
+
+/* Find all active traces */
+SELECT * 
+FROM :: fn_trace_getinfo(default)
+
+-- STOP
+sp_trace_setstatus OURTRACE, 0
+
+-- DELETE
+sp_trace_setstatus OURTRACE, 2
+
+*/
