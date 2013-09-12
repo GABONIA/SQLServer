@@ -91,3 +91,15 @@ sp_trace_setstatus OURTRACE, 0
 sp_trace_setstatus OURTRACE, 2
 
 */
+
+/*
+
+-- Load trace data
+SELECT *
+INTO TraceTable
+FROM ::fn_trace_gettable('\\OURLOCATION', default)
+
+
+
+
+*/
