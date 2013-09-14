@@ -170,7 +170,7 @@ FROM ##emptytwo
 
 
 WITH CTE AS(
-	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4)) AS ID
+	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4), SUBSTRING(e.SavQuarter,1,2)) AS ID
 		, *
 	FROM ##empty e
 		INNER JOIN ##emptytwo t ON e.SavQuarter = t.PriceQuarter
@@ -186,7 +186,7 @@ ORDER BY e.QuarterPriceGrowth
 
 
 WITH CTE AS(
-	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4)) AS ID
+	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4), SUBSTRING(e.SavQuarter,1,2)) AS ID
 		, *
 	FROM ##empty e
 		INNER JOIN ##emptytwo t ON e.SavQuarter = t.PriceQuarter
