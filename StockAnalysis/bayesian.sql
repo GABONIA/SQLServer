@@ -144,3 +144,61 @@ SELECT MonthlyDate
 	, QuarterAvg
 FROM @monthly
 WHERE QuarterAvg IS NOT NULL
+
+/*
+-- EXAMPLE:
+
+INSERT INTO ##empty
+SELECT 'Q' + CAST(DATENAME(Quarter, MonthlyDate) AS VARCHAR) + ' ' + CAST(YEAR(MonthlyDate) AS VARCHAR) AS [Quarter]
+	, QuarterAvg
+FROM @monthly
+WHERE QuarterAvg IS NOT NULL
+
+SELECT *
+FROM ##empty
+
+CREATE TABLE ##emptytwo(
+	PriceQuarter VARCHAR(8),
+	QuarterPriceGrowth DECIMAL(11,4)
+)
+
+INSERT INTO ##emptytwo
+EXECUTE stp_QuarterGrowth 'wfc'
+
+SELECT *
+FROM ##emptytwo
+
+
+WITH CTE AS(
+	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4)) AS ID
+		, *
+	FROM ##empty e
+		INNER JOIN ##emptytwo t ON e.SavQuarter = t.PriceQuarter
+)
+SELECT c.SavQuarter
+	, c.QuarterAvg
+	, e.PriceQuarter
+	, e.QuarterPriceGrowth
+FROM CTE c
+	INNER JOIN CTE e ON c.ID = (e.ID - 1)
+WHERE c.QuarterAvg > 5
+ORDER BY e.QuarterPriceGrowth
+
+
+WITH CTE AS(
+	SELECT ROW_NUMBER() OVER(ORDER BY SUBSTRING(e.SavQuarter,4,4)) AS ID
+		, *
+	FROM ##empty e
+		INNER JOIN ##emptytwo t ON e.SavQuarter = t.PriceQuarter
+)
+SELECT c.SavQuarter
+	, c.QuarterAvg
+	, e.PriceQuarter
+	, e.QuarterPriceGrowth
+FROM CTE c
+	INNER JOIN CTE e ON c.ID = (e.ID - 1)
+WHERE c.QuarterAvg < 5
+ORDER BY e.QuarterPriceGrowth
+
+
+*/
