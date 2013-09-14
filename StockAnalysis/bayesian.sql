@@ -145,6 +145,55 @@ SELECT MonthlyDate
 FROM @monthly
 WHERE QuarterAvg IS NOT NULL
 
+-- Proc approach
+
+CREATE PROCEDURE stp_GetOtherQuarterlyData
+@data VARCHAR(250), @date DATE
+AS
+BEGIN
+	
+	DECLARE @sql NVARCHAR(MAX)
+
+	SET @sql = 'DECLARE @monthly TABLE(
+		ID INT,
+		MonthlyDate DATE,
+		MonthlyRate DECIMAL(9,4),
+		QuarterAvg DECIMAL(11,6)
+	)
+
+	INSERT INTO @monthly (ID,MonthlyDate,MonthlyRate)
+	SELECT ROW_NUMBER() OVER (ORDER BY MonthlyDate) AS ID
+		, MonthlyDate
+		, MonthlyRate
+	-- This table is what we change
+	FROM ' + @data + '
+	WHERE MonthlyDate > ''' + CAST(@date AS VARCHAR) + '''
+
+	DECLARE @begin INT = 1, @max INT, @avg DECIMAL(11,6)
+	SELECT @max = MAX(ID) FROM @monthly
+
+	WHILE @begin <= @max
+	BEGIN
+	
+		SELECT @avg = AVG(MonthlyRate) FROM @monthly WHERE ID BETWEEN @begin AND (@begin + 2)
+
+		UPDATE @monthly
+		SET QuarterAvg = @avg
+		WHERE ID = (@begin + 2)
+
+		SET @begin = @begin + 3
+
+	END
+
+	SELECT ''Q'' + CAST(DATENAME(Quarter, MonthlyDate) AS VARCHAR) + '' '' + CAST(YEAR(MonthlyDate) AS VARCHAR) AS [Quarter]
+		, QuarterAvg
+	FROM @monthly
+	WHERE QuarterAvg IS NOT NULL'
+
+	EXECUTE(@sql)
+
+END
+
 /*
 -- EXAMPLE:
 
