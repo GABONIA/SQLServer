@@ -106,3 +106,41 @@ BEGIN
 	EXECUTE(@sql)
 
 END
+
+-- Monthly data reported by quarter
+
+DECLARE @monthly TABLE(
+	ID INT,
+	MonthlyDate DATE,
+	MonthlyRate DECIMAL(9,4),
+	QuarterAvg DECIMAL(11,6)
+)
+
+INSERT INTO @monthly (ID,MonthlyDate,MonthlyRate)
+SELECT ROW_NUMBER() OVER (ORDER BY MonthlyDate) AS ID
+	, MonthlyDate
+	, MonthlyRate
+FROM OurMonthlyData
+WHERE MonthlyDate > '1998-12-01'
+
+DECLARE @begin INT = 1, @max INT, @avg DECIMAL(11,6)
+SELECT @max = MAX(ID) FROM @monthly
+
+WHILE @begin <= @max
+BEGIN
+	
+	SELECT @avg = AVG(MonthlyRate) FROM @monthly WHERE ID BETWEEN @begin AND (@begin + 2)
+
+	UPDATE @monthly
+	SET QuarterAvg = @avg
+	WHERE ID = (@begin + 2)
+
+	SET @begin = @begin + 3
+
+END
+
+SELECT MonthlyDate
+	, 'Q' + CAST(DATENAME(Quarter, MonthlyDate) AS VARCHAR) + ' ' + CAST(YEAR(MonthlyDate) AS VARCHAR) AS [Quarter]
+	, QuarterAvg
+FROM @monthly
+WHERE QuarterAvg IS NOT NULL
