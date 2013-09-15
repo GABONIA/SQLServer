@@ -251,3 +251,14 @@ ORDER BY e.QuarterPriceGrowth
 
 
 */
+
+
+/*
+-- Useful for sectors
+
+SELECT DISTINCT Q -- Quarter
+	, AVG(Growth) -- Average of sector per quarter
+FROM ##empty
+GROUP BY Q
+
+*/
