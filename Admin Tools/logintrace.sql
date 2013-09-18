@@ -100,6 +100,13 @@ INTO TraceTable
 FROM ::fn_trace_gettable('\\OURLOCATION', default)
 
 
+-- Dependong on how the final data are saved, the below PIVOT will count the total of each (PIVOT):
+
+SELECT [NTUserName], [LoginName], [ApplicationName]
+FROM (SELECT InformationType, InformationDetails FROM P2SavedTraces) s1
+PIVOT
+(COUNT(InformationDetails)
+FOR InformationType IN ([NTUserName], [LoginName], [ApplicationName])) AS s2
 
 
 */
