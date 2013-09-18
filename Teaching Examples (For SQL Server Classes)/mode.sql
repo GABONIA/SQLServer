@@ -1,0 +1,28 @@
+/* DENSE_RANK to grab Mode example */
+
+DECLARE @kk TABLE(
+	ID INT IDENTITY(1,1),
+	SA DECIMAL(9,0)
+)
+
+INSERT INTO @kk (SA)
+VALUES (50000)
+	, (23000)
+	, (42000)
+	, (80000)
+	, (120000)
+	, (120000)
+	, (23000)
+	, (300000)
+	, (23000)
+	, (24000)
+	, (23000)
+
+;WITH CTE AS(
+	SELECT *
+		, DENSE_RANK() OVER (ORDER BY SA DESC) Frequency
+	FROM @kk
+)
+SELECT TOP 1 SA AS [Mode]
+FROM CTE
+ORDER BY Frequency DESC
