@@ -262,3 +262,23 @@ FROM ##empty
 GROUP BY Q
 
 */
+
+/*
+
+-- Standard deviation (useful in a few cases) example:
+
+
+DECLARE @avg DECIMAL(11,4)
+SELECT @avg = AVG(Price) FROM HistoricalData WHERE Date BETWEEN '2012-01-01' AND '2012-01-17'
+
+;WITH StandDev AS(
+	SELECT [Date]
+		, (Price - @avg) AS StepOne
+		, SQUARE((Price - @avg)) AS StepTwo
+	FROM HistoricalData
+	WHERE Date BETWEEN '2012-01-01' AND '2012-01-17'
+)
+SELECT AVG(StepTwo) StepThree
+	, SQRT(AVG(StepTwo)) FinalStep -- f
+FROM StandDev
+*/
