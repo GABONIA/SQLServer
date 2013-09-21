@@ -1,4 +1,3 @@
-
 CREATE PROCEDURE stp_BusinessDayRankings
 AS
 BEGIN
@@ -31,7 +30,16 @@ BEGIN
 	FROM ##UpperRating
 	WHERE PercentChange > 50
 	ORDER BY PercentChange DESC
+	
+	IF SCHEMA_ID('temp') IS NULL
+	BEGIN
+		EXECUTE('CREATE SCHEMA temp')
+	END
 
+	SELECT *
+	INTO temp.BizMinion
+	FROM ##UpperRating
+	
 	DROP TABLE ##UpperRating
 
 END
