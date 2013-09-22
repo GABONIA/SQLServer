@@ -44,3 +44,10 @@ Second test done
 
 
 SET STATISTICS TIME OFF
+
+
+/*
+
+M-Red is 8 times faster; test with more symbols
+
+*/
