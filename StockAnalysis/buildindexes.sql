@@ -15,22 +15,22 @@ BEGIN
 	DECLARE @begin INT = 1
 	DECLARE @max INT
 	DECLARE @symbol VARCHAR(10)
-	SELECT @max = MAX(ID) FROM AddedStockTable
+	SELECT @max = MAX(ID) FROM indexing.NewIndex
 
 	WHILE @begin <= @max
 	BEGIN
 		
-		SELECT @symbol = StockSymbol FROM AddedStockTable WHERE ID = @begin
+		SELECT @symbol = StockSymbol FROM indexing.NewIndex WHERE ID = @begin
 
 		DECLARE @sql NVARCHAR(MAX)
-		SET @sql = 'CREATE CLUSTERED INDEX [Date] ON [dbo].[' + @symbol + 'HistoricalData]
+		SET @sql = 'CREATE CLUSTERED INDEX [Date] ON [stock].[' + @symbol + 'HistoricalData]
 		(
 			[Date] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 
 		PRINT ''Clustered index created''
 
-		CREATE NONCLUSTERED INDEX [' + @symbol + 'ID] ON [dbo].[' + @symbol + 'HistoricalData]
+		CREATE NONCLUSTERED INDEX [' + @symbol + 'ID] ON [stock].[' + @symbol + 'HistoricalData]
 		(
 			[' + @symbol + 'ID] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
@@ -43,6 +43,8 @@ BEGIN
 		SET @sql = ''
 
 	END
+
+	TRUNCATE TABLE indexing.NewIndex
 
 END
 GO
