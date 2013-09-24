@@ -15,7 +15,7 @@ BEGIN
 	SET @sql = 'SELECT ''{"' + @sym + 'ID": "'' + CAST(' + @sym + 'ID AS VARCHAR) + ''",
 		"Date": "'' + CAST([Date] AS VARCHAR) + ''"
 		"Price": "'' + CAST(Price AS VARCHAR) + ''" 
-		"TwoHundredDaySMA": "'' + CAST(TwoHundredDaySMA AS VARCHAR) + ''"''
+		"TwoHundredDaySMA": "'' + CAST(TwoHundredDaySMA AS VARCHAR) + ''"}''
 	FROM stock.' + @sym + 'HistoricalData'
 
 	EXECUTE(@sql)
