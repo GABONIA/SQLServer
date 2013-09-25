@@ -42,19 +42,22 @@ BEGIN
 	IF @begin = @max
 	BEGIN
 	
-		SELECT @string = @string + @temp + '] }'
+		SELECT @string = @string + @temp + ' ] }'
 		
-	END
-	IF @begin = 1
-	BEGIN
-
-		SELECT @string = '{StockID": "BAC", "StockValues": [' + @temp
-
 	END
 	ELSE
 	BEGIN
+		IF @begin = 1
+		BEGIN
 
-		SELECT @string = @string + @temp + ', '
+			SELECT @string = '{StockID": "BAC", "StockValues": [ ' + @temp + ', '
+
+		END
+		ELSE
+		BEGIN
+
+			SELECT @string = @string + @temp + ', '
+		END
 
 	END
 
@@ -64,6 +67,8 @@ BEGIN
 END
 
 SELECT @string
+
+DROP TABLE ##JSONTemp
 
 */
 
