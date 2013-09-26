@@ -4,7 +4,7 @@ Stock schema tables only
 
 */
 
-CREATE PROCEDURE stp_StockDataJSONOuput
+CREATE PROCEDURE stp_StockDataJSONOutput
 @sym VARCHAR(250)
 AS
 BEGIN
@@ -69,6 +69,9 @@ END
 SELECT @string
 
 DROP TABLE ##JSONTemp
+
+-- Export procedure data (note location may need to be by SQL Server or separate drive)
+BCP "EXECUTE StockAnalysis.dbo.stp_StockDataJSONOutput 'BAC'" queryout "LOCATION" -SSERVER\INSTANCE -T -c
 
 */
 
