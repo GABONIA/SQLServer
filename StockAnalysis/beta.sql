@@ -20,8 +20,8 @@ DECLARE @CoVariance TABLE(
 	WHERE o.Date > '2012-12-31'
 )
 INSERT INTO @CoVariance
-SELECT (((c.pOne - c1.pOne)/(c1.pOne))*100) AS pOne
-	, (((c.pTwo - c1.pTwo)/(c1.pTwo))*100) AS pTwo
+SELECT (c.pOne - (c1.pOne - 1)) AS pOne
+	, (c.pTwo - (c1.pTwo - 1)) AS pTwo
 FROM CoVCTE c
 	INNER JOIN CoVCTE c1 ON c.ID = (c1.ID + 1)
 
