@@ -1,11 +1,13 @@
 SET STATISTICS TIME ON
 SET STATISTICS IO ON
 
-DECLARE @sym VARCHAR(250) = 'GS', @begin DATE = '2011-01-01', @end DATE = '2011-04-01'
+DECLARE @sym VARCHAR(250) = 'SO', @begin DATE = '2011-01-01', @end DATE = '2011-04-01'
 
 
 PRINT '
+
 Performing test one ...
+
 '
 
 
@@ -17,16 +19,16 @@ WHERE t2.StockSymbol = @sym
 
 
 PRINT '
+
 Test one complete
+
 '
 
 
-SET STATISTICS TIME OFF
-SET STATISTICS IO OFF
-
-
 PRINT '
-Statistics turned off post test one complete
+
+Line break between tests
+
 '
 
 
@@ -37,24 +39,22 @@ SET @sql = 'SELECT Price
 			'
 
 
-SET STATISTICS TIME ON
-SET STATISTICS IO ON
-
-
 PRINT '
+
 Performing test two ...
+
 '
+
 
 EXECUTE(@sql)
 
 
 PRINT '
-Test two complete
-'
 
+Test two complete
+
+'
 
 SET STATISTICS TIME OFF
 SET STATISTICS IO OFF
 
-SELECT *
-FROM stock.GSHistoricalData
