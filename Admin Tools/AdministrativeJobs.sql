@@ -1,4 +1,4 @@
-ALTER PROCEDURE [admin].[stp_StockAnalysis_Admin]
+ALTER PROCEDURE [admin].[stp_DatabaseName_Admin]
 AS
 BEGIN
 
