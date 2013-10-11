@@ -1,3 +1,9 @@
+/*
+
+This shows how to perform a loop without a temp table, but the cost is much higher in terms of reads and query time.
+
+*/
+
 DECLARE @begin INT = 1, @max INT= 50, @sql NVARCHAR(MAX)
 
 WHILE @begin <= @max
