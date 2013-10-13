@@ -32,7 +32,7 @@ BEGIN
 	SET @sql = 'DECLARE @checkone DECIMAL(22,4), @checktwo DECIMAL(22,4)
 
 	SET @checkone = ((' + CAST(@a AS VARCHAR(30)) + '*(SQUARE(' + CAST(@xplus AS VARCHAR(30)) + '))) ' + @vone + ' (' + CAST(@b AS VARCHAR(30)) + '*(' + CAST(@xplus AS VARCHAR(30)) + ')) '  + @vtwo + ' ' + CAST(@c AS VARCHAR(30)) + ')
-	SET @checkone = ((' + CAST(@a AS VARCHAR(30)) + '*(SQUARE(' + CAST(@xminus AS VARCHAR(30)) + '))) ' + @vone + ' (' + CAST(@b AS VARCHAR(30))+ '*(' + CAST(@xminus AS VARCHAR(30)) + ')) '  + @vtwo + ' ' + CAST(@c AS VARCHAR(30)) + ')
+	SET @checktwo = ((' + CAST(@a AS VARCHAR(30)) + '*(SQUARE(' + CAST(@xminus AS VARCHAR(30)) + '))) ' + @vone + ' (' + CAST(@b AS VARCHAR(30))+ '*(' + CAST(@xminus AS VARCHAR(30)) + ')) '  + @vtwo + ' ' + CAST(@c AS VARCHAR(30)) + ')
 	
 	SELECT @checkone CheckXPlus, @checktwo CheckXMinus
 
