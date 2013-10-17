@@ -1,0 +1,10 @@
+CREATE FUNCTION fct_ReturnASCII (@v VARCHAR(1))
+RETURNS INT
+AS
+BEGIN
+
+	DECLARE @ascii INT
+	SET @ascii = ASCII(@v)
+	RETURN @ascii
+
+END
