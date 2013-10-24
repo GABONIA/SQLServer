@@ -1,0 +1,53 @@
+/*
+
+Dev Testing Only - DO NOT USE
+
+*/
+
+CREATE TABLE ##SPIDZZ(
+    SPID INT,
+    Status VARCHAR(MAX),
+    LOGIN VARCHAR(MAX),
+    HostName VARCHAR(MAX),
+    BlkBy VARCHAR(MAX),
+    DBName VARCHAR(MAX),
+    Command VARCHAR(MAX),
+    CPUTime INT,
+    DiskIO INT,
+    LastBatch VARCHAR(MAX),
+    ProgramName VARCHAR(MAX),
+    SPID_1 INT,
+    REQUESTID INT
+)
+
+
+INSERT INTO ##SPIDZZ 
+EXECUTE sp_who2
+
+
+UPDATE ##SPIDZZ
+SET BlkBy = REPLACE(RTRIM(LTRIM(BlkBy)),'.',NULL)
+WHERE BlkBy = '  .'
+
+
+SELECT *
+FROM ##SPIDZZ
+WHERE BlkBy IS NOT NULL
+IF @@ROWCOUNT = 1
+BEGIN
+
+	DECLARE @killme INT, @sql NVARCHAR(MAX)
+	SELECT @killme = BlkBy FROM ##SPIDZZ WHERE BlkBy IS NOT NULL
+	SELECT @killme
+
+	SET @sql = 'kill ' + CAST(@killme AS VARCHAR(5))
+
+	EXECUTE(@sql)
+
+END
+
+
+DROP TABLE ##SPIDZZ
+
+
+
