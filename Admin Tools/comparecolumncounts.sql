@@ -28,3 +28,12 @@ WHERE GG.TN = TableName
 
 SELECT *
 FROM @CompCounts
+
+/*
+
+-- For finding tables that don't match:
+SELECT *
+FROM @CompCounts
+WHERE TableOneColumnCount <> TableTwoColumnCount
+
+*/
