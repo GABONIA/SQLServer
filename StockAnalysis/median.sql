@@ -12,6 +12,9 @@ SELECT Price
 INTO ##Median
 FROM Median
 
+SELECT @i = COUNT(*) FROM ##Median
+SELECT @i = @i%2
+
 IF @i = 1
 BEGIN
 	SELECT *
