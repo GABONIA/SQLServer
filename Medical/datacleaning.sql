@@ -8,6 +8,13 @@ Data cleaning for genetic, disease and nutrition data.
 UPDATE Value
 SET Value = LTRIM(RTRIM(Value))
 
+
+UPDATE Column
+SET Column = 'ND'
+WHERE Column IS NULL
+	OR Column = '~'
+
+
 -- Culprits
 ('Middle Atlantic'
 , 'East North Central'
