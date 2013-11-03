@@ -5,14 +5,48 @@ Data cleaning for genetic, disease and nutrition data.
 */
 
 
-UPDATE Value
-SET Value = LTRIM(RTRIM(Value))
+
+--  Automatically cleans tables (we can add to this update)
+DECLARE @table VARCHAR(250)
+-- Change value to what table you want cleaned
+SET @table = ''
+
+DECLARE @clean TABLE(
+	CleanID SMALLINT IDENTITY(1,1),
+	CleanName VARCHAR(250)
+)
+
+INSERT INTO @clean (CleanName)
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE DATA_TYPE = 'nvarchar'
+	AND TABLE_NAME = @table
+
+DECLARE @begin INT = 1, @max INT, @column VARCHAR(250), @sql NVARCHAR(MAX)
+SELECT @max = MAX(CleanID) FROM @clean
+
+WHILE @begin <= @max
+BEGIN
+
+	SELECT @column = CleanName FROM @clean WHERE CleanID = @begin
+
+	SET @sql = 'UPDATE ' + @table + '
+	SET ' + @column + ' = ''ND''
+	WHERE ' + @column + ' IS NULL
+		OR ' + @column + ' = ''~''
+		
+	UPDATE ' + @table + '
+	SET ' + @column + ' = RTRIM(LTRIM(' + @column + '))
+	'
+
+	EXECUTE(@sql)
+
+	SET @sql = ''
+	SET @begin = @begin + 1
+
+END
 
 
-UPDATE Column
-SET Column = 'ND'
-WHERE Column IS NULL
-	OR Column = '~'
 
 
 -- Culprits
