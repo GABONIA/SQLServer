@@ -1,4 +1,3 @@
-
 /*
 
 CREATE TABLE ##testprocs (
@@ -16,21 +15,15 @@ TRUNCATE TABLE ##procname
 */
 
 
-;WITH CTE AS(
-	SELECT ROW_NUMBER() OVER (PARTITION BY id ORDER BY id) ID
-		, OBJECT_NAME(id) ProcName
-	FROM sys.syscomments
-)
-INSERT INTO ##testprocs
-SELECT c.ProcName
-FROM CTE c
-	INNER JOIN sys.objects o ON c.ProcName = o.name
-WHERE c.ID = 1
-	AND o.type_desc = 'SQL_STORED_PROCEDURE'
+
+INSERT INTO ##testprocs (ProcName)
+SELECT name ProcName
+FROM sys.objects
+WHERE type_desc = 'SQL_STORED_PROCEDURE'
 
 
 DECLARE @begin INT = 1, @max INT, @name VARCHAR(250), @sql NVARCHAR(MAX)
-SELECT @max = MAX(ProcID) FROM ##testprocs
+SELECT @max = COUNT(ProcID) FROM ##testprocs
 
 WHILE @begin <= @max
 BEGIN
