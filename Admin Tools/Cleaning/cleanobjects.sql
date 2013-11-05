@@ -49,4 +49,16 @@ SELECT *
 FROM ##CodeTest
 WHERE Test = 2
 
+
+;WITH Gimmie AS(
+	SELECT RTRIM(LTRIM(REPLACE(REPLACE(NameProcess,'sys.sp_refreshsqlmodule',''),'''',''))) [ObjectName]
+	FROM ##CodeTest
+	WHERE Test = 2
+)
+SELECT o.name
+	, SCHEMA_NAME(schema_id)
+	, o.type_desc
+FROM sys.objects o
+	INNER JOIN Gimmie g ON o.name = g.ObjectName
+
 */
