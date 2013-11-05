@@ -1,7 +1,3 @@
-USE SETRANS
-GO
-
-
 /*
 
 CREATE TABLE ##procname(
