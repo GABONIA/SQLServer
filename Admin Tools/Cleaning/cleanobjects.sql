@@ -42,7 +42,7 @@ END
 
 UPDATE ##CodeTest
 SET Test = 2
-WHERE NameProcess = 'sys.sp_refreshsqlmodule ''updateopenpositions'''
+WHERE NameProcess = 'sys.sp_refreshsqlmodule ''objectname'''
 
 
 SELECT *
