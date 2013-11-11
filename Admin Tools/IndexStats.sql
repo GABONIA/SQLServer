@@ -1,0 +1,1 @@
+DBCC SHOW_STATISTICS(TableName,IndexName)
