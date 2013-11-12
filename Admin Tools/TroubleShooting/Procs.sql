@@ -3,7 +3,7 @@
 DECLARE @inside VARCHAR(25)
 SET @inside = @outside
 
--- USE @outside
+-- USE @inside
 
 
 /* (2) */
