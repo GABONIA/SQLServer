@@ -1,3 +1,6 @@
+/* (0) */
+-- Is the query SARGable?  WHERE?  JOINS?
+
 /* (1) */
 
 DECLARE @inside VARCHAR(25)
@@ -32,6 +35,7 @@ SELECT SUSER_NAME(), USER_NAME()
 EXECUTE stp_OurProcedure 'Parameter'
 
 REVERT
+
 
 /* (6) */
 EXEC sp_configure 'remote login timeout'
