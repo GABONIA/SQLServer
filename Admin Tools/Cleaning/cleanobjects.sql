@@ -28,10 +28,15 @@ BEGIN
 	SELECT @sql = NameProcess FROM ##CodeTest WHERE CodeID = @begin AND Test = 0
 	PRINT 'Testing ' + @sql
 	EXECUTE(@sql)
-
+	
+	-- IF @@ERROR <> 0
+	-- BEGIN
+	
 	UPDATE ##CodeTest
 	SET Test = 1
 	WHERE NameProcess = @sql
+	
+	-- END
 	
 	SET @begin = @begin + 1
 
