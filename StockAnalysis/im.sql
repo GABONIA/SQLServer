@@ -1,0 +1,36 @@
+-- 2 CIR
+CREATE TABLE Gen(
+	[Date] VARCHAR(100),
+	[Open] VARCHAR(100),
+	[High] VARCHAR(100),
+	[Low] VARCHAR(100),
+	[Close] VARCHAR(100),
+	[Volume] VARCHAR(100),
+	[Adj Close] VARCHAR(100)
+)
+
+
+BULK INSERT Gen
+FROM 'C:\file.csv'
+WITH (
+	FIELDTERMINATOR = ','
+	,ROWTERMINATOR = '0x0a'
+	,FIRSTROW=2)
+
+
+CREATE TABLE TG(
+	MFID INT IDENTITY(1,1),
+	[Date] DATE,
+	Price DECIMAL(9,4),
+	TwoHundredDaySMA DECIMAL(12,4)
+)
+
+
+INSERT INTO TG ([Date],Price)
+SELECT CAST([Date] AS DATE)
+	, [Adj Close]
+FROM Gen
+ORDER BY CAST([Date] AS DATE) ASC
+
+
+DROP TABLE Gen
