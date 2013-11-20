@@ -33,4 +33,19 @@ FROM Gen
 ORDER BY CAST([Date] AS DATE) ASC
 
 
+;WITH CTE AS(
+	SELECT MIN(Date) Mi
+		, MAX(Date) Ma
+	FROM Gen
+	GROUP BY YEAR(Date)
+)
+SELECT c.Mi
+	, m.Price
+	, c.Ma
+	, f.Price
+	, (((f.Price - m.Price)/m.Price)*100) AS G
+FROM CTE c
+	INNER JOIN Gen m ON c.Mi = m.Date
+	INNER JOIN Gen f ON c.Ma = f.Date
+
 DROP TABLE Gen
