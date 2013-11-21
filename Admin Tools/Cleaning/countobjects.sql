@@ -1,7 +1,4 @@
-USE Maintenance
-GO
-
-ALTER PROCEDURE stp_CompareObjects
+CREATE PROCEDURE stp_CompareObjects
 AS
 BEGIN
 
