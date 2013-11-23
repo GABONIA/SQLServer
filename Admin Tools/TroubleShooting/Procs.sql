@@ -1,6 +1,8 @@
 /* (0) */
 -- Is the query SARGable?  WHERE?  JOINS?
 
+SET STATISTICS XML ON  -- Review XML
+
 /* (1) */
 
 DECLARE @inside VARCHAR(25)
