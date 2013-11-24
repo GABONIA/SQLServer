@@ -6,6 +6,7 @@ CREATE TABLE ##JobMessage(
   SELECT h.message JobMessage
     , CONVERT(DATE,CONVERT(VARCHAR(10),h.run_date)) JobDate
   FROM msdb.dbo.sysjobhistory h
+    	INNER JOIN msdb.dbo.sysjobs j ON j.job_id = h.job_id
   -- Edit the value below this
   WHERE j.name = 'JOBNAME'
     AND h.step_name <> '(Job outcome)'
