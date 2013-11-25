@@ -1,3 +1,5 @@
+DECLARE @cnt TINYINT
+
 CREATE TABLE ##JobMessage(
   JobMessage VARCHAR(MAX)
 )
@@ -18,3 +20,12 @@ FROM JobEm
 WHERE JobMessage LIKE '%%'
   AND JobDate BETWEEN DATEADD(DD,-1,GETDATE()) AND GETDATE()
 ORDER BY JobDate
+
+SELECT @cnt = COUNT(JobMessage) FROM ##JobMessage
+
+IF @cnt > 0
+BEGIN
+
+  -- Auto Em
+
+END
