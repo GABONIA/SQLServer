@@ -41,3 +41,8 @@ REVERT
 
 /* (6) */
 EXEC sp_configure 'remote login timeout'
+
+
+/* (7) DOT.NET Application */
+
+SET ARITHABORT OFF
