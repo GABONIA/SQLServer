@@ -1,5 +1,7 @@
 /*
 
+-- Manual notation
+
 CREATE TABLE ##CodeTest (
 	CodeID INT IDENTITY(1,1),
 	NameProcess VARCHAR(250),
