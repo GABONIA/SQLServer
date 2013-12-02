@@ -4,12 +4,16 @@ AS
 BEGIN
 
 	/* 
-	-- Note: this procedure will find a procedure in any database on a server (outside of master, msdb, model, tempdb)
+	
+	-- Note: this procedure will find a procedure in any database (except master, msdb, model, tempdb) by text
 	-- Returns the Database and ObjectID
+	
 	-- For Testing Purposes:
 	DECLARE @find VARCHAR(100)
-	SET @find = 'xp_cmdshell'
+	SET @find = ''
+	
 	*/
+
 
 	DECLARE @loop TABLE(
 		DatabaseID INT IDENTITY(1,1),
@@ -19,7 +23,8 @@ BEGIN
 
 	CREATE TABLE ##Saved(
 		DatabaseName VARCHAR(250),
-		ObjectID BIGINT
+		ObjectID BIGINT,
+		ObjectName VARCHAR(250)
 	)
 
 
@@ -32,6 +37,7 @@ BEGIN
 	DECLARE @begin INT = 1, @max INT, @d VARCHAR(250), @sql NVARCHAR(MAX)
 	SELECT @max = MAX(DatabaseID) FROM @loop
 
+
 	WHILE @begin <= @max
 	BEGIN
 
@@ -39,12 +45,15 @@ BEGIN
 
 		SET @sql = ';WITH CheckAll AS(
 			SELECT id ObjectID
+				, o.name ObjectName
 				, text ObjectText
-			FROM ' + @d + '.sys.syscomments
+			FROM ' + @d + '.sys.syscomments c
+				INNER JOIN ' + @d + '.sys.objects o ON c.id = o.object_id 
 			WHERE text LIKE ''%' + @find + '%''
 		)
-		INSERT INTO ##Saved (ObjectID,DatabaseName)
+		INSERT INTO ##Saved (ObjectID,ObjectName,DatabaseName)
 		SELECT DISTINCT ObjectID
+			, ObjectName
 			, ''' + @d + '''
 		FROM CheckAll'
 
