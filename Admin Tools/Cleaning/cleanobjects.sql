@@ -1,71 +1,52 @@
 /*
 
--- Manual notation
-
-CREATE TABLE ##CodeTest (
-	CodeID INT IDENTITY(1,1),
-	NameProcess VARCHAR(250),
-	Test TINYINT DEFAULT 0
-)
-
-INSERT INTO ##CodeTest (NameProcess)
-SELECT 'sys.sp_refreshsqlmodule ''' + name + ''''
-FROM sys.objects
-WHERE type_desc = 'SQL_STORED_PROCEDURE'
-	OR type_desc = 'VIEW'
-	OR type_desc = 'SQL_SCALAR_FUNCTION'
-
-DROP TABLE ##CodeTest
+-- Manual notation: we will evaluate these manually
 
 */
 
+DECLARE @loop TABLE(
+	ID INT IDENTITY(1,1),
+	ExecuteIt NVARCHAR(MAX)
+)
 
-DECLARE @begin INT, @max INT, @name VARCHAR(250), @sql NVARCHAR(MAX)
-SELECT @begin = MIN(CodeID) FROM ##CodeTest WHERE Test = 0
-SELECT @max = MAX(CodeID) FROM ##CodeTest WHERE Test = 0
+INSERT INTO @loop
+-- Procedures
+SELECT 'sys.sp_refreshsqlmodule ''' + name + ''' -- Procedure'
+FROM sys.objects
+WHERE is_ms_shipped = 0
+	AND type_desc = 'SQL_STORED_PROCEDURE'
+	-- Filer out issues (one-by-one):
+	-- AND name <> ''
+
+INSERT INTO @loop
+-- Views
+SELECT 'sys.sp_refreshsqlmodule ''' + name + ''' -- View'
+FROM sys.objects
+WHERE is_ms_shipped = 0
+	AND type_desc = 'VIEW'
+	-- Filer out issues (one-by-one):
+	-- AND name <> ''
+
+INSERT INTO @loop
+-- Functions
+SELECT 'sys.sp_refreshsqlmodule ''' + name + ''' -- Function'
+FROM sys.objects
+WHERE is_ms_shipped = 0
+	AND type_desc = 'SQL_SCALAR_FUNCTION'
+	-- Filer out issues (one-by-one):
+	-- AND name <> ''
+
+DECLARE @begin INT = 1, @max INT, @sql NVARCHAR(MAX)
+SELECT @max = MAX(ID) FROM @loop
 
 WHILE @begin <= @max
 BEGIN
+
+	SELECT @sql = ExecuteIt FROM @loop WHERE ID = @begin
 	
-	SELECT @sql = NameProcess FROM ##CodeTest WHERE CodeID = @begin AND Test = 0
 	PRINT 'Testing ' + @sql
-	EXECUTE(@sql)
-	
-	-- IF @@ERROR <> 0
-	-- BEGIN
-	
-	UPDATE ##CodeTest
-	SET Test = 1
-	WHERE NameProcess = @sql
-	
-	-- END
-	
+	EXECUTE sp_executesql @sql
+
 	SET @begin = @begin + 1
 
 END
-
-
-/*
-
-UPDATE ##CodeTest
-SET Test = 2
-WHERE NameProcess = 'sys.sp_refreshsqlmodule ''objectname'''
-
-
-SELECT *
-FROM ##CodeTest
-WHERE Test = 2
-
-
-;WITH Gimmie AS(
-	SELECT RTRIM(LTRIM(REPLACE(REPLACE(NameProcess,'sys.sp_refreshsqlmodule',''),'''',''))) [ObjectName]
-	FROM ##CodeTest
-	WHERE Test = 2
-)
-SELECT o.name
-	, SCHEMA_NAME(schema_id)
-	, o.type_desc
-FROM sys.objects o
-	INNER JOIN Gimmie g ON o.name = g.ObjectName
-
-*/
