@@ -49,7 +49,7 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 		PRINT '
-			' + REPLACE(REPLACE(REPLACE(SUBSTRING(@sql,(CHARINDEX('[',@sql,3)+1),LEN(@sql)),'''',''),']',''),'[','') + ' failed.
+			' + REPLACE(REPLACE(REPLACE(SUBSTRING(@sql,(CHARINDEX('[',@sql,3)+1),LEN(@sql)),'''',''),']',''),'[','') + ' failed because ' + ERROR_MESSAGE() + '
 			'
 	END CATCH
 
