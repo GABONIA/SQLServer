@@ -54,6 +54,14 @@ BEGIN
 				SET LastCallDate = U.LastDate
 				FROM U
 				WHERE U.Name = adm.mainProcedureLog.ProcedureName
+				
+				
+				;WITH D AS(
+				SELECT name ProcName
+				FROM sys.procedures
+				)
+				DELETE FROM adm.mainProcedureLog
+				WHERE ProcedureName NOT IN (SELECT ProcName FROM D)
 
 			END'')
 		END'
