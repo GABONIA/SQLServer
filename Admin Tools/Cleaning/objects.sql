@@ -1,3 +1,9 @@
+/*
+
+sys.sp_refreshsqlmodule ''
+
+*/
+
 CREATE PROCEDURE [dbo].[stp_ModuleCodeTesting]
 AS
 BEGIN
