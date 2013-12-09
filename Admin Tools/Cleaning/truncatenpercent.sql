@@ -26,6 +26,8 @@ BEGIN
 			INNER JOIN sys.objects o ON i.id = o.object_id
 			INNER JOIN sys.tables t ON t.name = o.name
 		WHERE t.is_ms_shipped = 0
+			AND o.name NOT IN (SELECT DISTINCT o.name FROM sys.sysconstraints c INNER JOIN sys.sysobjects o ON o.id = c.id)
+			AND o.name NOT IN (SELECT DISTINCT o.name FROM sys.identity_columns i INNER JOIN sys.objects o ON o.object_id = i.object_id WHERE o.is_ms_shipped = 0)
 		GROUP BY o.name
 	)
 	INSERT INTO @loop (TableName, LeftOverRows)
