@@ -17,7 +17,7 @@ WHERE o.name NOT IN (SELECT Name FROM CTE)
 	AND t.is_ms_shipped = 0
 
 
--- FK constraints
+-- FK constraints, order by dependency
 INSERT INTO @loop (TableName)
 SELECT o.name
 	, OBJECT_NAME(k.referenced_object_id) Referenced
