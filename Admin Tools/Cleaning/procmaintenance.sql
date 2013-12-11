@@ -1,6 +1,8 @@
 /*
 
   For cleaning unused procedures
+  
+	-- Note that you can also store the object id of the procedure instead of the name
 
 */
 
@@ -22,7 +24,6 @@ BEGIN
 		IF @cntt = 0
 		BEGIN
 			CREATE TABLE adm.mainProcedureLog(
-			DatabaseName VARCHAR(250),
 			ProcedureName VARCHAR(500),
 			LastCallDate DATE
 			)
@@ -36,11 +37,10 @@ BEGIN
 			BEGIN
 
 				INSERT INTO adm.mainProcedureLog
-				SELECT DB_NAME()
-					, SO.name
+				SELECT SO.name
 					, SD.last_execution_time
 				FROM sys.dm_exec_procedure_stats SD
-					INNER JOIN sys.objects SO ON SO.object_id = SD.object_id
+					INNER JOIN sys.procedures SO ON SO.object_id = SD.object_id
 				WHERE SO.name NOT IN (SELECT ProcedureName FROM adm.mainProcedureLog)
 
 
@@ -57,8 +57,8 @@ BEGIN
 				
 				
 				;WITH D AS(
-				SELECT name ProcName
-				FROM sys.procedures
+					SELECT name ProcName
+					FROM sys.procedures
 				)
 				DELETE FROM adm.mainProcedureLog
 				WHERE ProcedureName NOT IN (SELECT ProcName FROM D)
@@ -91,7 +91,8 @@ EXEC  msdb.dbo.sp_add_job @job_name=N'mainLogProcedures',
 		@owner_login_name=N'LOGIN', @job_id = @jobId OUTPUT
 select @jobId
 GO
-EXEC msdb.dbo.sp_add_jobserver @job_name=N'mainLogProcedures', @server_name = N'INSTANCE\SERVER'
+-- CHANGE SERVER\INSTANCE below this
+EXEC msdb.dbo.sp_add_jobserver @job_name=N'mainLogProcedures', @server_name = N'SERVER\INSTANCE'
 GO
 USE [msdb]
 GO
