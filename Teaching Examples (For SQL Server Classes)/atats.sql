@@ -17,7 +17,7 @@ SELECT @@CPU_BUSY
 SELECT @@CURSOR_ROWS
 
 
-/*  Displays the value of SET DATEFIRST*/
+/*  Displays the value of SET DATEFIRST */
 SELECT @@DATEFIRST
 
 
@@ -120,7 +120,7 @@ DROP PROCEDURE stp_LevelTwo
 DROP PROCEDURE stp_LevelOne
 
 
-/* Displays information about SET options */
+/* Displays information about SET options - G */
 SELECT @@OPTIONS
 
 
