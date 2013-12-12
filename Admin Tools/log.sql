@@ -1,0 +1,18 @@
+-- @disk should be the location
+BACKUP LOG Bitcoin
+TO DISK = @disk
+
+ALTER DATABASE Bitcoin
+SET RECOVERY SIMPLE;
+
+DBCC SHRINKFILE(Bitcoin_log, TRUNCATEONLY)
+
+ALTER DATABASE Bitcoin
+MODIFY FILE
+(
+	NAME = Bitcoin_log
+	, SIZE = 500MB
+)
+
+ALTER DATABASE Bitcoin
+SET RECOVERY FULL;
