@@ -41,7 +41,7 @@ SET @sql = 'CREATE TABLE Stage(
 )
 
 BULK INSERT Stage
-FROM ''E:\Stocks\Import\table.csv'
+FROM ''E:\Stocks\Import\table.csv''
 WITH (
 	FIELDTERMINATOR = '',''
 	,ROWTERMINATOR = ''0x0a''
