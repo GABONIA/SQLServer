@@ -1,4 +1,4 @@
-ALTER PROCEDURE [admin].[stp_DatabaseName_Admin]
+CREATE PROCEDURE [admin].[stp_DatabaseName_Admin]
 AS
 BEGIN
 
@@ -13,10 +13,6 @@ EXEC sp_msforeachtable 'ALTER INDEX ALL ON ? REBUILD PARTITION = ALL WITH ( FILL
 
 -- Mid data inserts - fill factor can be 70 or 80 depending on how many mid-data inserts there are
 -- EXEC sp_msforeachtable 'ALTER INDEX ALL ON ? REBUILD PARTITION = ALL WITH ( FILLFACTOR  = 80, PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON, ONLINE = OFF, SORT_IN_TEMPDB = OFF )'
-
--- Check off item
-INSERT INTO admin.AdministrativeTasks
-SELECT 'Indexing Complete', GETDATE()
 
 /*
 
@@ -58,14 +54,6 @@ CREATE TABLE ##DatabaseConsistency(
 INSERT INTO ##DatabaseConsistency
 EXEC('DBCC CHECKDB(StockAnalysis) WITH TABLERESULTS')
 
-INSERT INTO admin.IntegrityCheck (Error,Level,State,MessageText,RepairLevel,Status)
-SELECT Error, Level ,State, MessageText, RepairLevel, Status
-FROM ##DatabaseConsistency
-
--- Check off item
-INSERT INTO admin.AdministrativeTasks
-SELECT 'Database Integrity Checked', GETDATE()
-
 /* Backup the database if integrity exists */
 
 DECLARE @count TINYINT
@@ -97,34 +85,16 @@ BEGIN
 
 	IF @@ERROR = 0
 	BEGIN
-		
-		-- Database backed up twice and both backups were verified
-		INSERT INTO admin.AdministrativeTasks
-		SELECT 'Backup File Created and Verified', GETDATE()
-	
-		PRINT 'Database backed up and verified ' + CAST(@count AS VARCHAR(1))
-
+		PRINT 'Database backed up and verified.'
 	END
 	ELSE
 	BEGIN
-		
-		-- Either the backups failed, or the backups weren't verified
-		INSERT INTO admin.AdministrativeTasks
-		SELECT 'Either Database Not Backed Up Or Verified', GETDATE()
-
-		PRINT 'Either Database Not Backed Up Or Verified'
-	
+		PRINT 'Either Database Not Backed Up Or File Not Verified.'
 	END
-	
 END
 ELSE
 BEGIN
-
-	-- Database integrity compromised
 	PRINT 'Database integrity compromised'
-	INSERT INTO admin.AdministrativeTasks
-	SELECT 'ERROR! Database Integrity Compromised.', GETDATE()
-	
 END
 
 DROP TABLE ##DatabaseConsistency
