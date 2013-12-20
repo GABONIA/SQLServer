@@ -29,7 +29,7 @@ CREATE NONCLUSTERED INDEX IX_MatchTheQuery ON OurTable(OurColumn)
 /* (5) */
 -- 2005, 2008R2
 
-EXECUTE AS USER = 'User\User';
+EXECUTE AS USER = 'Domain\User';
 EXECUTE AS LOGIN = 'User';
 
 SELECT SUSER_NAME(), USER_NAME()
@@ -41,6 +41,7 @@ REVERT
 
 /* (6) */
 EXEC sp_configure 'remote login timeout'
+-- Check application too
 
 
 /* (7) DOT.NET Application */
