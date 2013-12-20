@@ -45,10 +45,11 @@ BEGIN
 
 
 				;WITH U AS(
-					SELECT SO.name Name
-						, SD.last_execution_time LastDate
-					FROM sys.dm_exec_procedure_stats SD
-						INNER JOIN sys.objects SO ON SO.object_id = SD.object_id
+					SELECT DISTINCT p.name Name
+						, MAX(s.last_execution_time) LastDate
+					FROM sys.dm_exec_procedure_stats s 
+						INNER JOIN sys.procedures p ON s.object_id = p.object_id
+					GROUP BY p.name
 				)
 				UPDATE adm.mainProcedureLog
 				SET LastCallDate = U.LastDate
