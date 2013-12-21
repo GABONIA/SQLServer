@@ -39,3 +39,11 @@ BEGIN
 	PRINT 'All stored procedures logging have been removed for each database.'
 
 END
+
+/*
+-- Testing
+
+EXECUTE stp_BuildProcedureMaintenanceObjects
+EXECUTE stp_RemoveProcMaintenance
+
+*/
