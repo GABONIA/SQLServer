@@ -14,7 +14,7 @@ CREATE TABLE StageInflation (
 )
 
 BULK INSERT StageInflation
-FROM 'C:\Users\Timothy Smith\Documents\GitHub\SQLServer\Inflation Info\testinflationdata.csv'
+FROM 'C:\Users\Usr\Documents\GitHub\SQLServer\Inflation Info\testinflationdata.csv'
 WITH (FIELDTERMINATOR = ',',ROWTERMINATOR = '\n')
 GO
 
@@ -23,42 +23,13 @@ GO
 
 BULK INSERT StageInflation
 FROM 'C:\inflation\testinflationdata.csv'
-WITH (FIELDTERMINATOR = ',',ROWTERMINATOR = '0x0a')
+WITH (	
+	FIELDTERMINATOR = ','
+	,ROWTERMINATOR = '0x0a'
+)
 GO
 
 */
-
-SELECT *
-FROM StageInflation
-
-DECLARE @CleanInflation TABLE(
-	SeriesID VARCHAR(20),
-	IMonth VARCHAR(2),
-	IDay VARCHAR(2),
-	IYear VARCHAR(4),
-	Value DECIMAL(9,4)
-)
-
-INSERT INTO @CleanInflation (SeriesID, IMonth, IDay, IYear, Value)
-SELECT s.SeriesID
-	, CASE 
-	WHEN Period LIKE '%M01%' THEN 01
-	WHEN Period LIKE '%M02%' THEN 02
-	WHEN Period LIKE '%M03%' THEN 03
-	WHEN Period LIKE '%M04%' THEN 04
-	WHEN Period LIKE '%M05%' THEN 05
-	WHEN Period LIKE '%M06%' THEN 06
-	WHEN Period LIKE '%M07%' THEN 07
-	WHEN Period LIKE '%M08%' THEN 08
-	WHEN Period LIKE '%M09%' THEN 09
-	WHEN Period LIKE '%M10%' THEN 10
-	WHEN Period LIKE '%M11%' THEN 11
-	WHEN Period LIKE '%M12%' THEN 12
-	ELSE 99 END AS InflationDate
-	, 01
-	, s.Year
-	, s.Value
-FROM StageInflation s
 
 CREATE TABLE Inflation(
 	InflationID INT IDENTITY(1,1),
@@ -67,13 +38,30 @@ CREATE TABLE Inflation(
 	Value DECIMAL(9,4)
 )
 
+;WITH ShInf AS(
+	SELECT s.SeriesID
+		, CASE 
+			WHEN Period LIKE '%M01%' THEN 01
+			WHEN Period LIKE '%M02%' THEN 02
+			WHEN Period LIKE '%M03%' THEN 03
+			WHEN Period LIKE '%M04%' THEN 04
+			WHEN Period LIKE '%M05%' THEN 05
+			WHEN Period LIKE '%M06%' THEN 06
+			WHEN Period LIKE '%M07%' THEN 07
+			WHEN Period LIKE '%M08%' THEN 08
+			WHEN Period LIKE '%M09%' THEN 09
+			WHEN Period LIKE '%M10%' THEN 10
+			WHEN Period LIKE '%M11%' THEN 11
+			WHEN Period LIKE '%M12%' THEN 12
+			ELSE 99 END AS InflationDate
+		, 01
+		, s.Year
+		, s.Value
+	FROM StageInflation s
+)
 INSERT INTO Inflation (SeriesID, InflationDate, Value)
 SELECT si.SeriesID, si.IMonth + '-' + si.IDay + '-' + si.IYear, si.Value
-FROM @CleanInflation si
-
-SELECT *
-FROM Inflation
-ORDER BY InflationID ASC
+FROM ShInf si
 
 CREATE CLUSTERED INDEX [IX_IDandDate] ON [dbo].[Inflation] (
 	[InflationID] ASC,
@@ -88,7 +76,8 @@ WITH (STATISTICS_NORECOMPUTE  = OFF
 	, ALLOW_PAGE_LOCKS  = ON
 ) ON [PRIMARY]
 
-SELECT DISTINCT SeriesID, COUNT(InflationDate)
+SELECT DISTINCT SeriesID
+	, COUNT(InflationDate)
 FROM Inflation
 GROUP BY SeriesID
 
@@ -113,6 +102,8 @@ FROM Inflation
 WHERE SeriesID = 'APU0100703411'
 
 -- Originally, imported the data twice.  Dropped the tables and re-ran the queries, and found no duplicate data
-SELECT DISTINCT SeriesID, InflationDate, COUNT(InflationDate)
+SELECT DISTINCT SeriesID
+	, InflationDate
+	, COUNT(InflationDate)
 FROM Inflation
 GROUP BY SeriesID, InflationDate
