@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8">
-  <connectionStrings>
-		<add name="sqlconnection" providerName="System.Data.SqlClient" connectionString="Data Source=SERVERNAME;InitialCatalog=DATABASENAME;Integrated Security=True" />
-	</connectionStrings>
+<connectionStrings>
+	<add name="sqlconnection" providerName="System.Data.SqlClient" connectionString="Data Source=SERVERNAME;InitialCatalog=DATABASENAME;Integrated Security=True" />
+</connectionStrings>
