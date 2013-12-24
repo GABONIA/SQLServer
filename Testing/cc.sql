@@ -56,7 +56,7 @@ WHERE ReferenceNumber IS NOT NULL
 
 
 
-ALTER PROCEDURE stp_FindMerchantHistory
+CREATE PROCEDURE stp_FindMerchantHistory
 @merchant VARCHAR(100)
 AS
 BEGIN
