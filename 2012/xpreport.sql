@@ -1,3 +1,5 @@
+/*  Finds procs/jobs with xp_cmdshell  */
+
 DECLARE @XP_Report TABLE(
        DatabaseID SMALLINT IDENTITY(1,1),
        DatabaseName VARCHAR(500)
@@ -35,12 +37,14 @@ BEGIN
 			SELECT @DB, p.name
 			FROM ' + @name + '.sys.syscomments c
 				INNER JOIN  ' + @name + '.sys.procedures p ON c.id = p.object_id
+			-- Edit here if search criteria differs
 			WHERE c.text LIKE ''%xp_cmdshell%''
 			
 			INSERT INTO ##JobReport
 			SELECT j.name
 			FROM msdb.dbo.sysjobsteps s
 				INNER JOIN msdb.dbo.sysjobs j ON s.job_id = j.job_id
+			-- Edit here if search criteria differs
 			WHERE s.command LIKE ''%xp_cmdshell%''
 				AND j.name NOT IN (SELECT name FROM ##JobReport)
 			'
