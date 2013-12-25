@@ -4,8 +4,6 @@ Data cleaning for genetic, disease and nutrition data.
 
 */
 
-
-
 --  Automatically cleans tables (we can add to this update)
 DECLARE @table VARCHAR(250)
 -- Change value to what table you want cleaned
@@ -46,8 +44,9 @@ BEGIN
 
 END
 
+/*
 
-
+Gov data note: the cities aren't even the most populous cities; see http://en.wikipedia.org/wiki/List_of_United_States_cities_by_population.
 
 -- Culprits
 ('Middle Atlantic'
@@ -70,11 +69,5 @@ END
 , 'West'
 , 'Detroit' -- #18
 , 'Pacific')
-
-/*
-
-Gov data note: the cities aren't even the most populous cities; see http://en.wikipedia.org/wiki/List_of_United_States_cities_by_population.
-
-
 
 */
