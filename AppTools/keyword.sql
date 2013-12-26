@@ -20,21 +20,21 @@ INSERT INTO @keyword (Keyword,Link)
 VALUES ('idiom','<a href="http://www.idiom.com/">idiom</a>')
 	, ('dogs','<a href="http://lmgtfy.com/?q=dogs">dogs</a>')
 
-DECLARE @begin SMALLINT = 1
-DECLARE @max SMALLINT
+DECLARE @begin SMALLINT = 1, @max SMALLINT, @key VARCHAR(250), @link VARCHAR(250), @limit INT, @limitextra INT
 SELECT @max = MAX(ID) FROM @keyword
-DECLARE @key VARCHAR(250)
-DECLARE @link VARCHAR(250)
+-- FOr linmit, set it
+SET @limit = 150
 
 WHILE @begin <= @max
 BEGIN
 
 	SELECT @key = Keyword FROM @keyword WHERE ID = @begin
 	SELECT @link = Link FROM @keyword WHERE ID = @begin
+	SET @limitextra = @limit + 1
 
 	-- Limited string update
 	UPDATE @string
-	SET String = REPLACE(SUBSTRING(String,1,150),@key,@link) + SUBSTRING(String,151,8000)
+	SET String = REPLACE(SUBSTRING(String,1,@limit),@key,@link) + SUBSTRING(String,@limitextra,8000)
 	FROM @string
 
 	-- Unlimited string update
