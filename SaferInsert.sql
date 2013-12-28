@@ -1,6 +1,6 @@
 /* 
 
-This is a safer insert: a variable automates the checking to ensure the correct number of rows are inserted
+Production Receipt
 
 */
 
