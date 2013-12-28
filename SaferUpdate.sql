@@ -1,6 +1,6 @@
 /* 
 
-This is a safer update: a variable automates the checking to ensure the correct number of rows are updated
+UPDATE Production Receipt
 
 */
 
