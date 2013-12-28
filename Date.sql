@@ -1,10 +1,11 @@
 /*
 
-Document helps us select the different VARCHAR date formats
+VARCHAR Types For Date
 
 */
 
 DECLARE @today DATE
+-- DECLARE @today DATETIME
 SET @today = getdate()
 
 SELECT CONVERT(VARCHAR, @today) AS "@today"
