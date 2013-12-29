@@ -1,25 +1,25 @@
+--  Replace
+
 CREATE TABLE DatabaseGrowthMonitoring(
-  DatabaseID INT,
-	[Database] VARCHAR(100),
+	DatabaseID SMALLINT,
 	FileType TINYINT,
 	SizeInMB DECIMAL(18,2),
 	[Date] DATE DEFAULT GETDATE()
 )
 
 CREATE TABLE DatabaseGrowthPercent(
-	DatabaseID INT,
+	DatabaseID SMALLINT,
 	[Date] DATE,
 	PercentGrowth DECIMAL(18,2)
 )
 
-CREATE PROCEDURE usp_DailyDatabaseSize
+CREATE PROCEDURE stp_DailyDatabaseSize
 AS
 BEGIN
 
 
-INSERT INTO DatabaseGrowthMonitoring (DatabaseID,[Database],FileType,SizeInMB)
+INSERT INTO DatabaseGrowthMonitoring (DatabaseID,FileType,SizeInMB)
 SELECT database_id
-	, DB_NAME(database_id) AS [Database]
 	, type
 	, (Size*8)/1024 SizeInMB
 FROM sys.master_files
@@ -29,7 +29,7 @@ WHERE DB_NAME(database_id) NOT IN ('master','tempdb','model','msdb')
 
 END
 
-CREATE PROCEDURE usp_MonitorGrowth
+CREATE PROCEDURE stp_MonitorGrowth
 AS
 BEGIN
 
