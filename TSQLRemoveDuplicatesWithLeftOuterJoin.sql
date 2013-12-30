@@ -1,4 +1,8 @@
-/* LEFT OUTER JOIN to remove duplicates*/
+/* 
+
+	LEFT OUTER JOIN to remove duplicates 
+	
+*/
 
 -- Build experiment table
 DECLARE @dup TABLE(
@@ -17,20 +21,10 @@ INSERT INTO @dup VALUES('E',7)
 INSERT INTO @dup VALUES('E',8)
 INSERT INTO @dup VALUES('E',9)
 
--- See the duplicates
+
 SELECT *
 FROM @dup
 
--- What should exist in the table
-SELECT ColumnOne, ColumnTwo = MIN(ColumnTwo) 
-FROM @dup 
-GROUP BY ColumnOne
-
--- What should be removed	
-SELECT *
-FROM @dup A
-	LEFT OUTER JOIN (SELECT ColumnOne, ColumnTwo = MIN(ColumnTwo) FROM @dup GROUP BY ColumnOne) B ON A.ColumnTwo = B.ColumnTwo
-WHERE B.ColumnTwo IS NULL
 
 -- Remove the duplicates
 DELETE @dup
@@ -41,9 +35,3 @@ WHERE B.ColumnTwo IS NULL
 -- See the results
 SELECT *
 FROM @dup
-
-/*
-
-Note: numerous ways to remove duplicates exist (such as the CTE), but these methods, including the CTE, show fast and effective methods.
-
-*/
