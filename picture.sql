@@ -1,0 +1,7 @@
+CREATE TABLE Pictures(
+  Picture VARBINARY(MAX)
+)
+
+INSERT INTO Pictures (Picture)
+SELECT * FROM 
+OPENROWSET(BULK N'C:\Pictures\20140101.jpg', SINGLE_BLOB) 
