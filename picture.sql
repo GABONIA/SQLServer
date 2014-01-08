@@ -6,7 +6,7 @@ CREATE TABLE Pictures(
 
 INSERT INTO Pictures (Picture)
 SELECT * 
-FROM OPENROWSET(BULK N'C:\Pictures\20140101.jpg', SINGLE_BLOB) 
+FROM OPENROWSET(BULK N'C:\Pictures\20140101.jpg', SINGLE_BLOB) ps
 
 /*
 -- Non-Proc
