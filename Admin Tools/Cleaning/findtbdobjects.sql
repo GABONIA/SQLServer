@@ -62,3 +62,45 @@ BEGIN
 	DROP TABLE ##DelObjects
 
 END
+
+
+
+/* 
+
+Loop to remove tables with certain names by their creation date
+
+*/
+
+SET NOCOUNT ON
+
+DECLARE @loop TABLE(
+	TableID SMALLINT IDENTITY(1,1),
+	TableName VARCHAR(100)
+)
+
+INSERT INTO @loop (TableName)
+SELECT name
+FROM sys.tables
+-- Edit the below two lines:
+WHERE name LIKE '%TERM%'
+	AND create_date < 'DATE'
+
+
+DECLARE @begin SMALLINT = 1, @max SMALLINT, @t VARCHAR(100), @s NVARCHAR(MAX)
+SELECT @max = MAX(TableID) FROM @loop
+
+WHILE @begin <= @max
+BEGIN
+
+	SELECT @t = TableName FROM @loop WHERE TableID = @begin
+	SET @s = 'DROP TABLE ' + @t
+	
+	EXEC sp_executesql @s
+
+	SET @begin = @begin + 1
+	SET @s = ''
+END
+
+PRINT 'Old tables removed.'
+
+SET NOCOUNT OFF
