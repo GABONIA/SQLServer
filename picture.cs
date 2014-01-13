@@ -55,6 +55,7 @@ namespace PictureInsert
                 }
 
             }
+            Console.WriteLine("All images imported.");
             Console.ReadLine();
         }
     }
