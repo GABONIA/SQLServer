@@ -1,0 +1,11 @@
+;WITH CTE AS(
+	SELECT ROW_NUMBER() OVER (ORDER BY ValueDate ASC) AS ID,
+		ValueDate
+	FROM Table
+)
+SELECT c.ValueDate
+	, DATEADD(MINUTE,+1,c.ValueDate)
+	, c2.ValueDate
+FROM CTE c
+	INNER JOIN CTE c2 ON c.ID = (c2.ID - 1)
+WHERE c2.ValueDate BETWEEN DATEADD(SECOND,+30,c.ValueDate) AND DATEADD(SECOND,+90,c.ValueDate)
