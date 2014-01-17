@@ -1,3 +1,9 @@
+/*
+
+Random String
+
+*/
+
 CREATE PROCEDURE stp_GenPw
 	@e VARCHAR(500), @u VARCHAR(500)
 AS
@@ -25,7 +31,7 @@ BEGIN
 	SELECT @r = CAST((RAND()*13) AS INT)
 	IF @r < 8
 	BEGIN
-		SET @r = 9
+		SET @r = 13
 	END
 
 	DECLARE @a VARCHAR(26) = 'abcdefghijklmnopqrstuvwxyzj'
