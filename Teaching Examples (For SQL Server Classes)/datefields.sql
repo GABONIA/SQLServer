@@ -1,6 +1,6 @@
 /*
 
-Date fields only
+Trim date fields (DEV & QA)
 
 */
 
@@ -16,8 +16,7 @@ INSERT INTO @DateTable (Tab,Col)
 SELECT TABLE_NAME
 	, COLUMN_NAME
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE COLUMN_NAME LIKE '%Date%'
-	AND DATA_TYPE LIKE '%date%'
+WHERE DATA_TYPE LIKE '%date%'
 
 
 DECLARE @b INT = 1, @m INT, @t VARCHAR(100), @c VARCHAR(100), @s NVARCHAR(MAX)
@@ -29,8 +28,7 @@ BEGIN
 	SELECT @t = Tab FROM @DateTable WHERE ID = @b
 	SELECT @c = Col FROM @DateTable WHERE ID = @b
 
-	SET @s = 'SELECT *
-		FROM ' + @t + '
+	SET @s = 'DELETE FROM ' + @t + '
 		WHERE ' + @c + ' > ''2012-01-01''
 		'
 
