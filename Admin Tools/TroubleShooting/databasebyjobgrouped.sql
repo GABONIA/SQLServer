@@ -1,9 +1,11 @@
 ;WITH ihaztehcodez AS(
 	SELECT j.name JobName
-		, s.database_name DatabaseName
+		, CASE 
+			WHEN s.database_name IS NULL THEN 'Package'
+			ELSE s.database_name 
+		END AS DatabaseName
 	FROM msdb.dbo.sysjobs j
 		INNER JOIN msdb.dbo.sysjobsteps s ON j.job_id = s.job_id
-	WHERE s.database_name NOT IN ('master','msdb','tempdb','model')
 )
 SELECT i.JobName
 	, STUFF((SELECT ', ' + i2.DatabaseName AS [text()]
