@@ -30,7 +30,8 @@ BEGIN
 
 	SET @s = 'DELETE FROM ' + @t + '
 		WHERE ' + @c + ' > ''2012-01-01''
-		'
+		
+		PRINT ''Cleaned table ''' + @t + ''
 
 	EXEC sp_executesql @s
 
