@@ -13,5 +13,6 @@ SELECT i.JobName
 	WHERE i.JobName = i2.JobName
 	ORDER BY i2.DatabaseName
 	FOR XML PATH('')),1,1,'') AS "Databases"
+--INTO ##Compare (if needing to compare)
 FROM ihaztehcodez i
 GROUP BY i.JobName
