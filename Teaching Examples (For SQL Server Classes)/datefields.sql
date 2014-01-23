@@ -18,6 +18,8 @@ SELECT TABLE_NAME
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE DATA_TYPE LIKE '%date%'
 
+DECLARE @d DATE
+SET @d = '2012-01-01'
 
 DECLARE @b INT = 1, @m INT, @t VARCHAR(100), @c VARCHAR(100), @s NVARCHAR(MAX)
 SELECT @m = MAX(ID) FROM @DateTable
@@ -29,7 +31,7 @@ BEGIN
 	SELECT @c = Col FROM @DateTable WHERE ID = @b
 
 	SET @s = 'DELETE FROM ' + @t + '
-		WHERE ' + @c + ' > ''2012-01-01''
+		WHERE ' + @c + ' > ''' + @d + '''
 		
 		PRINT ''Cleaned table ''' + @t + ''
 
