@@ -31,11 +31,10 @@ BEGIN
 	SELECT @c = Col FROM @DateTable WHERE ID = @b
 
 	SET @s = 'DELETE FROM ' + @t + '
-		WHERE ' + @c + ' > ''' + @d + '''
+		WHERE ' + @c + ' > @d'
 		
-		PRINT ''Cleaned table ''' + @t + ''
 
-	EXEC sp_executesql @s
+	EXEC sp_executesql @s, N'@d DATE',@d
 
 	SET @b = @b + 1
 
