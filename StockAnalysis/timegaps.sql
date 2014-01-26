@@ -1,3 +1,4 @@
+-- Time
 ;WITH CTE AS(
 	SELECT ROW_NUMBER() OVER (ORDER BY ValueDate ASC) AS ID,
 		ValueDate
@@ -12,7 +13,7 @@ WHERE c2.ValueDate BETWEEN DATEADD(SECOND,+30,c.ValueDate) AND DATEADD(SECOND,+9
 
 
 
-
+-- Count
 ;WITH CTE AS(
 	SELECT ROW_NUMBER() OVER (ORDER BY ValueDate ASC) AS ID,
 		ValueDate
