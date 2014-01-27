@@ -36,9 +36,7 @@ WITH FOLDERS AS
     ,   PF.foldername
     FROM
         msdb.dbo.sysssispackagefolders PF
-        INNER JOIN
-            FOLDERS F
-            ON F.folderid = PF.parentfolderid
+        INNER JOIN FOLDERS F ON F.folderid = PF.parentfolderid
 )
 ,   PACKAGES AS
 (
@@ -64,9 +62,7 @@ SELECT
     'dtutil /sourceserver localhost /SQL "'+ F.FolderPath + '\' + P.PackageName + '" /copy file;C:\DTSPackages\' + P.PackageName +'.dtsx' AS cmd
 FROM 
     FOLDERS F
-    INNER JOIN
-        PACKAGES P
-        ON P.folderid = F.folderid
+    INNER JOIN PACKAGES P ON P.folderid = F.folderid
 -- uncomment this if you want to filter out the 
 -- native Data Collector packages
 -- WHERE
