@@ -1,6 +1,8 @@
 /*
 
-  Streak Example
+Streak Example
+
+1.  If another column exists for things to be broken down (like Options, Stocks, Futures), add to the PARTITION BY
 
 */
 
