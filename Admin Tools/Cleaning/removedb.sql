@@ -30,6 +30,8 @@ BEGIN
 	SELECT @d = Name FROM @loop WHERE ID = @b
 
 	SET @s = N'
+	  --CHANGE: only if the database is the Primary Database in an availability group (change availablity group name)
+	  ALTER AVAILABILITY GROUP GroupName REMOVE DATABASE ' + @d + '
 	  -- CHANGE: only if the database is part of an availability group as a Secondary Database
 	  ALTER DATABASE ' + @d + ' SET HADR OFF;
 	
