@@ -79,6 +79,10 @@ BEGIN
 
 			try
 			{
+				$trun = New-Object Data.SqlClient.SqlCommand
+            			$trun.CommandText = "TRUNCATE TABLE " + $bothTable
+            			$trun.Connection = $dest
+            			$trun.ExecuteNonQuery()
 				$copy = New-Object Data.SqlClient.SqlBulkCopy($dest)
 				$copy.DestinationTableName = $bothTable
 				$copy.WriteToServer($reading)
