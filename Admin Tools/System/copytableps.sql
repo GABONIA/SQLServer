@@ -24,7 +24,8 @@ CREATE PROCEDURE stp_CopyTableInPowerShell
 AS
 BEGIN
 
-	DECLARE @sql NVARCHAR(MAX), @a INT = 0
+	DECLARE @sql NVARCHAR(MAX), @a INT = 0, @j NVARCHAR(110)
+	SET @j = N'temp_' + @jobname + '_RemoveBy' + CONVERT(NVARCHAR,GETDATE()+1,112)
 	SET @sql = 'USE [msdb]
 
 	BEGIN TRANSACTION
@@ -39,7 +40,7 @@ BEGIN
 	END
 
 	DECLARE @jobId BINARY(16)
-	EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N''' + @jobname + ''', 
+	EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N''' + @j + ''', 
 			@enabled=1, 
 			@notify_level_eventlog=0, 
 			@notify_level_email=0, 
@@ -80,9 +81,9 @@ BEGIN
 			try
 			{
 				$trun = New-Object Data.SqlClient.SqlCommand
-            			$trun.CommandText = "TRUNCATE TABLE " + $bothTable
-            			$trun.Connection = $dest
-            			$trun.ExecuteNonQuery()
+            	$trun.CommandText = "TRUNCATE TABLE " + $bothTable
+            	$trun.Connection = $dest
+            	$trun.ExecuteNonQuery()
 				$copy = New-Object Data.SqlClient.SqlBulkCopy($dest)
 				$copy.DestinationTableName = $bothTable
 				$copy.WriteToServer($reading)
@@ -119,7 +120,7 @@ BEGIN
 	QuitWithRollback:
 		IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
 	EndSave:'
-	
+
 	EXEC sp_executesql @sql
 
 	WAITFOR DELAY '00:00:02'
@@ -132,17 +133,17 @@ BEGIN
 		DECLARE @s NVARCHAR(MAX)
 		SET @s = N'USE [msdb]
 
-		EXEC sp_start_job N''' + @jobname + ''''
+		EXEC sp_start_job N''' + @j + ''''
 
 		EXEC sp_executesql @s
-		
+
 	END
-	
+
 	DECLARE @i TINYINT = 0, @c TINYINT
 
 	WHILE @i = 0
 	BEGIN
-		SELECT @c = COUNT(*) FROM msdb.dbo.sysjobs j INNER JOIN msdb.dbo.sysjobhistory h ON j.job_id = h.job_id WHERE j.name = @jobname AND h.message LIKE 'The job succeeded%'
+		SELECT @c = COUNT(*) FROM msdb.dbo.sysjobs j INNER JOIN msdb.dbo.sysjobhistory h ON j.job_id = h.job_id WHERE j.name = @j AND h.message LIKE 'The job succeeded%'
 		IF @c > 0
 		BEGIN
 			SET @i = 1
@@ -160,7 +161,7 @@ BEGIN
 		DECLARE @d NVARCHAR(MAX)
 		SET @d = N'USE [msdb]
 
-		EXEC sp_delete_job @job_name = N''' + @jobname + ''''
+		EXEC sp_delete_job @job_name = N''' + @j + ''''
 
 		EXEC sp_executesql @d
 
