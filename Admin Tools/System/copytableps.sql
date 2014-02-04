@@ -18,7 +18,6 @@ EXECUTE stp_CopyTableInPowerShell 'SRVONE\INS'  -- Source server
 
 */
 
-
 CREATE PROCEDURE stp_CopyTableInPowerShell
 @srcSRV NVARCHAR(250), @srcDB NVARCHAR(100), @destSRV NVARCHAR(250), @destDB NVARCHAR(100), @tb NVARCHAR(100), @jobname NVARCHAR(100)
 AS
@@ -40,7 +39,7 @@ BEGIN
 	END
 
 	DECLARE @jobId BINARY(16)
-	EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N''' + @j + ''', 
+	EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=@j, 
 			@enabled=1, 
 			@notify_level_eventlog=0, 
 			@notify_level_email=0, 
@@ -81,9 +80,9 @@ BEGIN
 			try
 			{
 				$trun = New-Object Data.SqlClient.SqlCommand
-            	$trun.CommandText = "TRUNCATE TABLE " + $bothTable
-            	$trun.Connection = $dest
-            	$trun.ExecuteNonQuery()
+            			$trun.CommandText = "TRUNCATE TABLE " + $bothTable
+            			$trun.Connection = $dest
+            			$trun.ExecuteNonQuery()
 				$copy = New-Object Data.SqlClient.SqlBulkCopy($dest)
 				$copy.DestinationTableName = $bothTable
 				$copy.WriteToServer($reading)
@@ -121,50 +120,56 @@ BEGIN
 		IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
 	EndSave:'
 
-	EXEC sp_executesql @sql
+	-- Create the job
+	EXEC sp_executesql @sql,N'@j NVARCHAR(110)',@j
 
 	WAITFOR DELAY '00:00:02'
 
-	SET @a = 1
+	SELECT @a = COUNT(*) FROM msdb.dbo.sysjobs WHERE name = @j
 
+	-- If job exists ...
 	IF @a = 1
 	BEGIN
 
 		DECLARE @s NVARCHAR(MAX)
 		SET @s = N'USE [msdb]
 
-		EXEC sp_start_job N''' + @j + ''''
+		EXEC sp_start_job @j'
 
-		EXEC sp_executesql @s
+		-- Run the job
+		EXEC sp_executesql @s,N'@j NVARCHAR(110)',@j
 
-	END
 
-	DECLARE @i TINYINT = 0, @c TINYINT
+		-- Keep checking the job to see if it's finished
+		DECLARE @i TINYINT = 0, @c TINYINT
 
-	WHILE @i = 0
-	BEGIN
-		SELECT @c = COUNT(*) FROM msdb.dbo.sysjobs j INNER JOIN msdb.dbo.sysjobhistory h ON j.job_id = h.job_id WHERE j.name = @j AND h.message LIKE 'The job succeeded%'
-		IF @c > 0
+		WHILE @i = 0
 		BEGIN
-			SET @i = 1
+			SELECT @c = COUNT(*) FROM msdb.dbo.sysjobs j INNER JOIN msdb.dbo.sysjobhistory h ON j.job_id = h.job_id WHERE j.name = @j AND h.message LIKE 'The job succeeded%'
+			IF @c > 0
+			BEGIN
+				SET @i = 1
+			END
+			ELSE
+			BEGIN
+				WAITFOR DELAY '00:00:01'
+				SET @i = 0
+			END
 		END
-		ELSE
+	
+		
+		IF @i = 1
 		BEGIN
-			WAITFOR DELAY '00:00:01'
-			SET @i = 0
+
+			DECLARE @d NVARCHAR(MAX)
+			SET @d = N'USE [msdb]
+
+			EXEC sp_delete_job @job_name = @j'
+
+			-- Remove the job
+			EXEC sp_executesql @d,N'@j NVARCHAR(110)',@j
+
 		END
 	END
-
-	IF @i = 1
-	BEGIN
-
-		DECLARE @d NVARCHAR(MAX)
-		SET @d = N'USE [msdb]
-
-		EXEC sp_delete_job @job_name = N''' + @j + ''''
-
-		EXEC sp_executesql @d
-
-	END
-
 END
+
