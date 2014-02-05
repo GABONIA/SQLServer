@@ -124,6 +124,7 @@ BEGIN
 	EXEC sp_executesql @sql,N'@j NVARCHAR(110)',@j
 
 	WAITFOR DELAY '00:00:02'
+	RAISERROR('Job created.',0,1) WITH NOWAIT
 
 	SELECT @a = COUNT(*) FROM msdb.dbo.sysjobs WHERE name = @j
 
@@ -138,6 +139,8 @@ BEGIN
 
 		-- Run the job
 		EXEC sp_executesql @s,N'@j NVARCHAR(110)',@j
+		
+		RAISERROR('Job started.',0,1) WITH NOWAIT
 
 
 		-- Keep checking the job to see if it's finished
@@ -168,6 +171,7 @@ BEGIN
 
 			-- Remove the job
 			EXEC sp_executesql @d,N'@j NVARCHAR(110)',@j
+			RAISERROR('Job removed.',0,1) WITH NOWAIT
 
 		END
 	END
