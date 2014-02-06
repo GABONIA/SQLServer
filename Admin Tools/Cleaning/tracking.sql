@@ -2,7 +2,7 @@
 
 DECLARE @find VARCHAR(100)
 -- Keyword
-SET @find = 'PRAIT7'
+SET @find = 'DEV001'
 
 CREATE TABLE ##zzLinked(
 	SRV_NAME VARCHAR(1000),
