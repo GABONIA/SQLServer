@@ -1,3 +1,4 @@
+-- GH test
 --  Replace
 
 CREATE TABLE DatabaseGrowthMonitoring(
