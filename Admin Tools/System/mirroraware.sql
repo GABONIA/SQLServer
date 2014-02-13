@@ -2,6 +2,7 @@
 
 SELECT Replace(ConfiguredValue,';Initial Catalog=',';Failover Partner=[SERVER];Initial Catalog=')
 FROM dbo.SSISConfig
+WHERE ConfiguredValue LIKE 'Data%'
 
 
 /*
