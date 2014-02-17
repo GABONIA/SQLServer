@@ -1,7 +1,6 @@
 Function FindUnusedJobs ($server)
 {
     $s = New-Object "Microsoft.SqlServer.Management.Smo.Server" $server
-    $d = Get-Date -uFormat '%Y%m%d'
 
     foreach ($j in $s.JobServer.Jobs)
     {
