@@ -4,6 +4,7 @@ Function FindUnusedJobs ($server)
 
     foreach ($j in $s.JobServer.Jobs)
     {
+        $y = $j.LastRunDate.Year.ToString()
         if ($y.Length -lt 4)
         {
             Write-Host $j.Name
