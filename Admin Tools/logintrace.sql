@@ -46,18 +46,11 @@ IF (@rc != 0) GOTO error
 
 DECLARE @on BIT
 SET @on = 1
-EXEC sp_trace_setevent @TraceID, 14, 6, @on
-EXEC sp_trace_setevent @TraceID, 14, 11, @on
-EXEC sp_trace_setevent @TraceID, 14, 10, @on
-EXEC sp_trace_setevent @TraceID, 14, 12, @on
-EXEC sp_trace_setevent @TraceID, 15, 6, @on
-EXEC sp_trace_setevent @TraceID, 15, 11, @on
-EXEC sp_trace_setevent @TraceID, 15, 10, @on
-EXEC sp_trace_setevent @TraceID, 15, 12, @on
-EXEC sp_trace_setevent @TraceID, 17, 6, @on
-EXEC sp_trace_setevent @TraceID, 17, 11, @on
-EXEC sp_trace_setevent @TraceID, 17, 10, @on
-EXEC sp_trace_setevent @TraceID, 17, 12, @on
+EXEC sp_trace_setevent @TraceID, @eventid = 14, @on
+EXEC sp_trace_setevent @TraceID, @eventid = 15, @on
+EXEC sp_trace_setevent @TraceID, @eventid = 17, @on
+EXEC sp_trace_setevent @TraceID, @eventid = 6, @on
+EXEC sp_trace_setevent @TraceID, @eventid = 11, @on
 
 
 -- Filter
