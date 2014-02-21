@@ -41,8 +41,7 @@ EXEC @rc = sp_trace_create
 IF (@rc != 0) GOTO error
 
 /* Events */
--- Auditing Logins (14), Logouts (15), Existing Connections (17)
--- NTUserName (6), LoginName (11), ApplicationName (10), SPID (12)
+-- EDIT
 
 DECLARE @on BIT
 SET @on = 1
