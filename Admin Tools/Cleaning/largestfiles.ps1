@@ -1,2 +1,2 @@
 ## Returns 25 largest files
-Get-ChildItem . -r | sort Length -desc | Select FullName -f 25
+Get-ChildItem . -Recurse | sort Length -desc | Select FullName -First 25
