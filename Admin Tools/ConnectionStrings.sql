@@ -46,7 +46,7 @@ BEGIN
 	SELECT @@SERVERNAME, @DB, SCHEMA_NAME(t.schema_id), t.name
 	FROM ' + @conn + '.sys.tables t'
 
-	EXECUTE(@sqlone)
+	EXEC sp_executesql @sqlone
 
 	SET @start = @start + 1
 
