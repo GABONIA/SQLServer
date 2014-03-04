@@ -4,6 +4,7 @@ BULK INSERT Examples
 	-  Works with other file formats than .CSV and .TXT (files can have created formats like .cre and BULK INSERT will function).
 	-  Can complete skip the FIELDTERMINATOR if needed.
 	-  The ERRORFile will produce a log showing where the BULK INSERT is breaking (excellent for fixes),
+	-  A NVARCHAR(MAX) table can store up to 2 GIG; one column
 
 */
 
