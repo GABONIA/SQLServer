@@ -5,7 +5,6 @@ BULK INSERT Examples
 	-  Can complete skip the FIELDTERMINATOR if needed.
 	-  The ERRORFile will produce a log showing where the BULK INSERT is breaking (excellent for fixes),
 	-  A NVARCHAR(MAX) table can store up to 2 GIG; one column
-	-  This line was added for a video tutorial.
 
 */
 
