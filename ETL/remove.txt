@@ -1,1 +1,0 @@
-This file is being used for a GitHub for Windows tutorial.
