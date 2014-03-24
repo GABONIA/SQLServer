@@ -6,8 +6,10 @@ Saves all DTS packages to a folder on the C drive called DTSPackages
 2.  Save text file as dtssaved.bat.
 3.  From the command line (cmd) run the bat file by typing dtssaved.bat (from its location).
 4.  All DTS Packages will be saved on C Drive in a folder called DTSPackages.
+5.  Check edition of SQL Server
 
-Credit: some of the code was created by Bill Fellows
+Credit: most of the code was created by Bill Fellows
+
 
 */
 

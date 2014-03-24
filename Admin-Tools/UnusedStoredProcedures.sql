@@ -7,6 +7,8 @@ DROP TABLE #New
 DROP TABLE #Final
 DROP TABLE #UnusedProcedures
 
+Another approach (more comprehensive): https://github.com/tmmtsmith/SQLServer/blob/master/Admin%20Tools/Cleaning/procmaintenance.sql
+
 */
 
 -- This assumes a trace file's data are stored on the database
