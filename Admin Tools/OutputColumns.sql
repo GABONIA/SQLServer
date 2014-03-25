@@ -1,5 +1,5 @@
-CREATE PROCEDURE stp_OutputColumns
-@columns NVARCHAR(250),
+ALTER PROCEDURE stp_OutputColumns
+@column NVARCHAR(250),
 @table NVARCHAR(250)
 AS
 BEGIN
@@ -15,7 +15,7 @@ BEGIN
 
 	SET @s = 'DECLARE @c NVARCHAR(4000)
 
-	SELECT @c = STUFF((SELECT DISTINCT TOP 100 PERCENT ''],['' + t.' + @columns + '
+	SELECT @c = STUFF((SELECT DISTINCT TOP 100 PERCENT ''],['' + t.' + @column + '
 				FROM ' + @table + ' t
 				FOR XML PATH('''')),1,2,'''') + '']''
 				
