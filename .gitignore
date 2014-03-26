@@ -1,4 +1,5 @@
 # Powershell files
 AutoImport.ps1
+AddGitIgnore.ps1
 
 # TSQL files
