@@ -25,3 +25,11 @@ BEGIN
 END
 
 EXECUTE stp_TwoColumnPivot 'Request','RequestCount','Request','SUM'
+
+/*
+
+-- Alternate function method:
+SET @sql = N'SELECT ' + @c + ' FROM (SELECT t.' + @PivotColumn + ', t.' + @CalcColumn + ' FROM ' + @SourceTable + ' t) p
+			PIVOT (' + @Function + ' FOR ' + @PivotColumn + ' IN (' + @c + ')) AS pv;'
+
+*/
