@@ -39,17 +39,22 @@ FROM Outlier
 WHERE Price BETWEEN ThreeBelow AND ThreeAbove
 
 
-CREATE PROCEDURE stp_OutOutliers
-@t NVARCHAR(500), @id NVARCHAR(250), @v NVARCHAR(250), @avg NVARCHAR(250), @stdev NVARCHAR(250)
+ALTER PROCEDURE stp_OutOutliers
+@t NVARCHAR(500), @v NVARCHAR(250), @dev DECIMAL(3,1)
 AS
 BEGIN
+
+	DECLARE @avg NVARCHAR(250), @stdev NVARCHAR(250), @id NVARCHAR(250)
+	SELECT @id = COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @t AND COLUMN_NAME LIKE 'ID%'
+	SELECT @avg = COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @t AND COLUMN_NAME LIKE '%Avg%'
+	SELECT @stdev = COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = @t AND COLUMN_NAME LIKE '%StDev%'
 
 	DECLARE @s NVARCHAR(MAX)
 	SET @s = ';WITH OutOutlier AS(
 		SELECT ' + @id + '
 			, ' + @v + ' OutValue
-			, (' + @avg + ' + (' + @stdev + ' *3)) ThreeAbove
-			, (' + @avg + ' + (' + @stdev + ' *-3)) ThreeBelow
+			, (' + @avg + ' + (' + @stdev + ' *' + CAST(@dev AS NVARCHAR(3)) + ')) ThreeAbove
+			, (' + @avg + ' + (' + @stdev + ' *-' + CAST(@dev AS NVARCHAR(3)) + ')) ThreeBelow
 		FROM ' + @t + '
 	)
 	SELECT t2.*
@@ -61,4 +66,4 @@ BEGIN
 	
 END
 
-EXECUTE stp_OutOutliers 'BitPriceData','ID','Price','PriceAvg','PriceStDev'
+EXECUTE stp_OutOutliers 'BitPriceData','Price',3
