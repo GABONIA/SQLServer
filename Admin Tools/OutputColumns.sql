@@ -1,4 +1,4 @@
-ALTER PROCEDURE stp_OutputColumns
+CREATE PROCEDURE stp_OutputColumns
 @column NVARCHAR(250),
 @table NVARCHAR(250)
 AS
@@ -25,6 +25,7 @@ BEGIN
 
 END
 
+/*
 -- For an automatic two-to-many column output pivot table
 CREATE PROCEDURE stp_TwoColumnPivot
 @PivotColumn VARCHAR(250),
@@ -79,3 +80,4 @@ BEGIN
 	EXEC sp_executesql @sql
 	
 END
+*/
