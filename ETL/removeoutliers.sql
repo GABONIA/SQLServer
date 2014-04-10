@@ -16,6 +16,8 @@ BEGIN
 	
 		;WITH OutOutlier AS(
 			SELECT ' + @id + ' NewestID
+				--TEST:
+				--, ' + QUOTENAME(@v) + ' OutValue
 				, ' + @v + ' OutValue
 				, (' + @avg + ' + (' + @stdev + ' *' + CAST(@dev AS NVARCHAR(3)) + ')) OAbove
 				, (' + @avg + ' + (' + @stdev + ' *-' + CAST(@dev AS NVARCHAR(3)) + ')) OBelow
