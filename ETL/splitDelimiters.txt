@@ -1,0 +1,19 @@
+CREATE PROCEDURE stp_CleanDelimiters
+@column NVARCHAR(100)
+, @table NVARCHAR(250)
+, @char NVARCHAR(1)
+AS
+BEGIN
+
+	DECLARE @s NVARCHAR(MAX)
+	SET @s = N'SELECT LEFT(' + QUOTENAME(@column) + ',CHARINDEX(@char,' + QUOTENAME(@column) + ')-1)
+			, REPLACE(SUBSTRING(' + QUOTENAME(@column) + ',LEN(LEFT(' + QUOTENAME(@column) + ',CHARINDEX(@char,' + QUOTENAME(@column) + '))),(LEN(' + QUOTENAME(@column) + ') - LEN(REVERSE(SUBSTRING(REVERSE(' + QUOTENAME(@column) + '),0,CHARINDEX(@char,REVERSE(' + QUOTENAME(@column) + ')))))) - LEN(LEFT(' + QUOTENAME(@column) + ',CHARINDEX(@char,' + QUOTENAME(@column) + ')))),@char,'''')
+			, REVERSE(SUBSTRING(REVERSE(' + QUOTENAME(@column) + '),0,CHARINDEX(@char,REVERSE(' + QUOTENAME(@column) + '))))
+		FROM ' + QUOTENAME(@table)
+
+	--PRINT @s
+	EXEC sp_executesql @s,N'@char NVARCHAR(1)',@char
+
+END
+
+EXEC stp_CleanDelimiters 'ColumnName','TableName','|'
