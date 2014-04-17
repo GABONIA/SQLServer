@@ -24,3 +24,28 @@ WITH (
 	-- Specifies how many errors in rows can occur before it will break (almost always set this to 0)
 	,MAXERRORS = 0)
 GO
+
+
+-- Dynamic procedure approach:
+
+CREATE PROCEDURE stp_BulkInsert
+@filepath NVARCHAR(500)
+,@table NVARCHAR(250)
+,@del NVARCHAR(5)
+AS
+BEGIN
+
+	DECLARE @s NVARCHAR(MAX)
+	SET @s = N'BULK INSERT ' + QUOTENAME(@table) + '
+		FROM ''' + @filepath + '''
+		WITH (
+			FIELDTERMINATOR=''' + @del + '''
+			,ROWTERMINATOR=''0x0a''
+			,FIRSTROW=2
+		)'
+
+	EXEC sp_executesql @s
+
+END
+
+EXECUTE stp_BulkInsert 'C:\files\testfile.txt','OurTable',','
