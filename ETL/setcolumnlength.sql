@@ -1,4 +1,4 @@
-DECLARE @t NVARCHAR(100) = 'stage_MLS_CoreLogic'
+DECLARE @t NVARCHAR(100) = 'OurStagingTable'
 
 DECLARE @loop TABLE (LoopID INT IDENTITY(1,1), ColumnName NVARCHAR(250))
 
