@@ -22,12 +22,45 @@ VALUES ('B',DATEADD(DD,-1,GETDATE()))
 
 
 
+
+
+
+
+
+
+
+
 	
 SELECT *
 FROM OldTable
 
 SELECT *
 FROM NewerTable
+
+
+INSERT INTO OldTable (Value,ValueDate)
+SELECT Value
+	,ValueDate
+FROM NewerTable
+WHERE ID NOT IN (SELECT ID FROM OldTable)
+
+
+UPDATE OldTable
+SET OldTable.Value = NewerTable.Value
+FROM OldTable
+	INNER JOIN NewerTable ON NewerTable.ID = OldTable.ID AND NewerTable.Value <> OldTable.Value
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
