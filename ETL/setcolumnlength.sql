@@ -15,7 +15,7 @@ BEGIN
 
 	SELECT @c = ColumnName FROM @loop WHERE LoopID = @b
 	
-	SET @s1 = 'SELECT LEN(' + QUOTENAME(@c) + ') FROM ' + QUOTENAME(@t)
+	SET @s1 = 'SELECT MAX(LEN(ISNULL(' + QUOTENAME(@c) + ',0))) FROM ' + QUOTENAME(@t)
 
 	DECLARE @lentab TABLE (LenVal INT)
 	INSERT INTO @lentab EXECUTE(@s1)
@@ -53,7 +53,7 @@ BEGIN
 
 		SELECT @c = ColumnName FROM @loop WHERE LoopID = @b
 
-		SET @s1 = 'SELECT LEN(' + QUOTENAME(@c) + ') FROM ' + QUOTENAME(@t)
+		SET @s1 = 'SELECT MAX(LEN(ISNULL(' + QUOTENAME(@c) + ',0))) FROM ' + QUOTENAME(@t)
 
 		DECLARE @lentab TABLE (LenVal INT)
 		INSERT INTO @lentab EXECUTE(@s1)
