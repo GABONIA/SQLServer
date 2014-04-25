@@ -1,7 +1,7 @@
 /*
   // The below will check if each line has 3 commas in it, if not it will log the exception lines to
   // test_invalid.txt and the good lines to test_valid.txt
-  ReadFiles.SaveGoodBadLines(@"C:\files\test.txt", 3, ',');
+  ReadFiles.OutputInvalidandValidData(@"C:\files\test.txt", 3, ',');
 
 */
 
@@ -18,7 +18,6 @@ public static class ReadFiles
         return line;
     }
 
-
     public static string GetLineByNumber(string file, int lineNo)
     {
         System.IO.StreamReader readfile = new System.IO.StreamReader(file);
@@ -30,14 +29,12 @@ public static class ReadFiles
         return line;
     }
 
-
     public static string GetFileName(string file)
     {
         string f = file.Substring(file.LastIndexOf("\\") + 1);
         f = f.Substring(0, f.IndexOf("."));
         return f;
     }
-
 
     public static string GetFileNameWithExtension(string file)
     {
@@ -89,7 +86,7 @@ public static class ReadFiles
         return x;
     }
 
-    public static int SaveGoodBadLines(string file, int validcount, char ch)
+    public static int OutputInvalidandValidData(string file, int validcount, char ch)
     {
         string loc = file.Substring(0, file.LastIndexOf("\\") + 1);
         string f = file.Substring(file.LastIndexOf("\\") + 1);
@@ -110,7 +107,6 @@ public static class ReadFiles
             System.IO.File.Create(invalidfile);
         }
 
-
         System.IO.StreamReader readfile = new System.IO.StreamReader(file);
         System.IO.StreamWriter writevalid = new System.IO.StreamWriter(validfile);
         System.IO.StreamWriter writeinvalid = new System.IO.StreamWriter(invalidfile);
@@ -123,6 +119,7 @@ public static class ReadFiles
             if (total == validcount)
             {
                 writevalid.WriteLine(line);
+                cnt++;
             }
             else
             {
