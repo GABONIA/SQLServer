@@ -21,12 +21,14 @@ BEGIN
 		FROM ' + QUOTENAME(@t) + '
 	)
 	SELECT @cnt = COUNT(CountValue) FROM CTE
-	IF @cnt < 1000
+	IF @cnt <= 3
 	BEGIN
-
+		PRINT ''' + QUOTENAME(@c) + ' is a possible Y/N/Unknown column.''
+	END
+	ELSE IF @cnt BETWEEN 4 AND 1000
+	BEGIN
 		PRINT ''' + QUOTENAME(@c) + ':''
 		PRINT @cnt
-			
 	END'
 	--PRINT @s
 	EXECUTE sp_executesql @s
