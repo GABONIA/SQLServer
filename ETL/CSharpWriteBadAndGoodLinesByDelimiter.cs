@@ -120,12 +120,12 @@ public static class ReadFiles
             {
                 writevalid.WriteLine(line);
                 // writevalid.Flush(); //test
-                cnt++;
             }
             else
             {
                 writeinvalid.WriteLine(line);
                 //writeinvalid.Flush(); //test
+                cnt++;
             }
         }
         readfile.Close();
