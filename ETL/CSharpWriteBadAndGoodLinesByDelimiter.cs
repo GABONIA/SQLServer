@@ -119,11 +119,13 @@ public static class ReadFiles
             if (total == validcount)
             {
                 writevalid.WriteLine(line);
+                // writevalid.Flush(); //test
                 cnt++;
             }
             else
             {
                 writeinvalid.WriteLine(line);
+                //writeinvalid.Flush(); //test
             }
         }
         readfile.Close();
