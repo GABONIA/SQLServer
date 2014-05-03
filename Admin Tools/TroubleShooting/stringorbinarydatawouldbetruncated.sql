@@ -10,3 +10,6 @@ FROM CTE
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'TempTable'
+  AND DATA_TYPE = 'varchar'
+  
+-- Loop through varchar columns obtain max length
