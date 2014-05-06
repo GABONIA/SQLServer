@@ -46,3 +46,14 @@ DBCC SQLPERF('LogSpace');
   6.  If other errors, then refer to the top article.
 
 */
+
+
+/*
+-- Checks:
+
+DBCC LOGINFO(1) -- number should be database_id
+DBCC SQLPERF('LogSpace')
+DBCC LOG('DatabaseName')
+DBCC CHECKDB
+
+*/
