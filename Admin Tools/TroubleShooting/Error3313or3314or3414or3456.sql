@@ -4,7 +4,7 @@ Debugging either error 3313, 3314, 3414 or 3456, see the below errors (ordered b
 
 "The transaction log for database 'DatabaseName' is full due to 'ACTIVE_TRANSACTION'
 "Error: 3314 Severity: 21 State: 3."
-"Database MLS was shutdown due to error 3314 in routine 'XdesRMReadWrite::RollbackToLsn'. Restart for non-snapshot databases will be attempted after all connections to the database are aborted."
+"Database 'DatabaseName' was shutdown due to error 3314 in routine 'XdesRMReadWrite::RollbackToLsn'. Restart for non-snapshot databases will be attempted after all connections to the database are aborted."
 "Error during rollback. shutting down database (location: 1)."
 "Error: 9001 Severity: 21 State: 5."
 "The log for database 'DatabaseName' is not available. Check the event log for related error messages. Resolve any errors and restart the database."
