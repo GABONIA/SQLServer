@@ -35,11 +35,15 @@ WHERE name = 'DatabaseName'
 /*
 
   4.  Run DBCC CHECKDB on database.
-  5.  If no errors, run the below query:
+  5.  If no errors, run the below queries:
   
 */
 
 DBCC SQLPERF('LogSpace');
+
+DBCC LOG('DatabaseName')
+
+-- CHECKPOINT;
 
 /*
 
