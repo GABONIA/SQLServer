@@ -15,6 +15,8 @@ public static class ReadFiles
         {
             line = readfile.ReadLine();
         }
+        readfile.Close();
+        readfile.Dipose();
         return line;
     }
 
@@ -26,6 +28,8 @@ public static class ReadFiles
         {
             line = readfile.ReadLine();
         }
+        readfile.Close();
+        readfile.Dipose();
         return line;
     }
 
