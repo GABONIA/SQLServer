@@ -35,7 +35,6 @@ public static class ReadFiles
     
     public static int GetLastLineNumber(string file)
     {
-        // Test
         System.IO.StreamReader readfile = new System.IO.StreamReader(file);
         string line;
         int cnt;
@@ -138,12 +137,12 @@ public static class ReadFiles
             if (total == validcount)
             {
                 writevalid.WriteLine(line);
-                writevalid.Flush(); //test
+                writevalid.Flush();
             }
             else
             {
                 writeinvalid.WriteLine(line);
-                writeinvalid.Flush(); //test
+                writeinvalid.Flush();
                 cnt++;
             }
         }
