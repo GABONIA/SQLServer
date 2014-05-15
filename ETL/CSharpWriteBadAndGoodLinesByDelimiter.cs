@@ -36,7 +36,7 @@ public static class ReadFiles
     {
         System.IO.StreamReader readfile = new System.IO.StreamReader(file);
         string line;
-        int cnt;
+        int cnt = 0;
         while ((line = readfile.ReadLine()) != null)
         {
             cnt++;
@@ -100,6 +100,12 @@ public static class ReadFiles
     public static double InvalidToValid(string file, int validcount, char ch)
     {
         double x = Convert.ToDouble((CountInvalidLines(file, validcount, ch))) / Convert.ToDouble((CountValidLines(file, validcount, ch)));
+        return x;
+    }
+    
+    public static double InvalidCost(double cost, string file, int validcount, char ch)
+    {
+        double x = (InvalidToValid(file, validcount, ch)) * cost);
         return x;
     }
 
