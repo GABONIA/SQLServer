@@ -32,6 +32,21 @@ public static class ReadFiles
         readfile.Dipose();
         return line;
     }
+    
+    public static int GetLastLineNumber(string file)
+    {
+        // Test
+        System.IO.StreamReader readfile = new System.IO.StreamReader(file);
+        string line;
+        int cnt;
+        while ((line = readfile.ReadLine()) != null)
+        {
+            cnt++;
+        }
+        readfile.Close();
+        readfile.Dipose();
+        return cnt++;
+    }
 
     public static string GetFileName(string file)
     {
