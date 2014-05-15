@@ -45,7 +45,7 @@ public static class ReadFiles
         }
         readfile.Close();
         readfile.Dipose();
-        return cnt++;
+        return cnt;
     }
 
     public static string GetFileName(string file)
