@@ -28,7 +28,7 @@ public static class ReadFiles
             line = readfile.ReadLine();
         }
         readfile.Close();
-        readfile.Dipose();
+        readfile.Dispose();
         return line;
     }
     
