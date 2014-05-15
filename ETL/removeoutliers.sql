@@ -1,4 +1,10 @@
--- Table based approach
+/*
+
+	--For internal analysis only.  Do not use on any kind of customer facing application.
+
+*/
+
+-- Table based data mining approach
 CREATE PROCEDURE stp_RemoveOutliers
 @t NVARCHAR(100), @v NVARCHAR(100), @dev DECIMAL(3,1), @sh NVARCHAR(15)
 AS
@@ -39,7 +45,7 @@ BEGIN
 END
 
 
--- Relational approach
+-- Relational approach: keep only outliers for an exclusion (or vice versa) query.
 CREATE PROCEDURE stp_RemoveOutliers
 @t NVARCHAR(100), @v NVARCHAR(100), @dev DECIMAL(3,1), @sh NVARCHAR(15)
 AS
@@ -66,7 +72,9 @@ BEGIN
 		INTO ' + QUOTENAME(@sh) + '.' + QUOTENAME(@t + '_NoOutliers') + '
 		FROM OutOutlier t
 			INNER JOIN ' + QUOTENAME(@sh) + '.' + QUOTENAME(@t) + ' t2 ON t.NewestID = t2.' + @id + '
-		WHERE t.OutValue BETWEEN OBelow AND OAbove
+		WHERE t.OutValue < OBelow 
+			OR t.OutValue > OAbove
+		-- WHERE t.OutValue BETWEEN OBelow AND OAbove
 		
 	END
 	ELSE
