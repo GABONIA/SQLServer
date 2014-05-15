@@ -1,7 +1,6 @@
 /*
-  // The below will check if each line has 3 commas in it, if not it will log the exception lines to
-  // test_invalid.txt and the good lines to test_valid.txt
-  ReadFiles.OutputInvalidandValidData(@"C:\files\test.txt", 3, ',');
+
+  Comprehensive C# class for messing with files - fit for ETL development.
 
 */
 
