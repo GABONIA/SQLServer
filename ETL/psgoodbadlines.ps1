@@ -14,3 +14,10 @@ Function GetLastLineNumber ($file)
 }
 
 GetLastLineNumber -file "C:\files\OurBigFile.txt"
+
+<#
+
+$x = Get-Content "C:\files\OurBigFile.txt" | Measure-Object -Line | Select-Object -Property Lines
+$x.Lines
+
+#>
