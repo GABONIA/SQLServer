@@ -1,3 +1,9 @@
+/*
+
+	--Udemy students: refer to Google Drive for other algorithms
+
+*/
+
 CREATE PROCEDURE stp_TwoHundredSMA
 @t NVARCHAR(250)
 ,@v NVARCHAR(250)
