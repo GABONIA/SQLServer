@@ -7,6 +7,7 @@ Get set.
 
 GO!'
 
+-- Note AColumn holds NO NULLS
 SELECT COUNT_BIG(AColumn)
 FROM VeryBigTable
 
