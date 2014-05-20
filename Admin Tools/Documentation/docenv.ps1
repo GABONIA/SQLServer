@@ -15,7 +15,7 @@ Function DocumentEnvironmentVp1 ($title, $htmlfile, $server)
   .tab tr:nth-child(odd) {background:lightskyblue}
   </style>"
   
-  $write.WriteLine("<html><head><title>" + $title + "</title>" + $css + "</head><body")
+  $write.WriteLine("<html><head><title>" + $title + "</title>" + $css + "</head><body>")
   
   foreach ($db in $serv.Databases | Where-Object {$_.IsSystemObject -eq $false})
   {
