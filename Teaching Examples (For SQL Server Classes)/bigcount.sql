@@ -7,7 +7,7 @@ Get set.
 
 GO!'
 
--- Note AColumn holds NO NULLS
+-- Note AColumn holds NO NULLS /*   SELECT COUNT_BIG(AColumn) FROM VeryBigTable WHERE AColumn IS NULL   */
 SELECT COUNT_BIG(AColumn)
 FROM VeryBigTable
 
