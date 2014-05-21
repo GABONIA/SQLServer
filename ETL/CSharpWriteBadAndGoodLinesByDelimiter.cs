@@ -121,13 +121,11 @@ public static class ReadFiles
         if (System.IO.File.Exists(validfile) == true)
         {
             System.IO.File.Delete(validfile);
-            System.IO.File.Create(validfile);
         }
 
         if (System.IO.File.Exists(invalidfile) == true)
         {
             System.IO.File.Delete(invalidfile);
-            System.IO.File.Create(invalidfile);
         }
 
         System.IO.StreamReader readfile = new System.IO.StreamReader(file);
@@ -158,5 +156,49 @@ public static class ReadFiles
         writeinvalid.Close();
         writeinvalid.Dispose();
         return cnt;
+    }
+    
+    public static int EveryNLine(string file, int n, string outputfile)
+    {
+        string loc = file.Substring(0, file.LastIndexOf("\\") + 1);
+        string f = file.Substring(file.LastIndexOf("\\") + 1);
+        f = f.Substring(0, f.IndexOf("."));
+
+        string nfile = loc + f + outputfile + ".txt";
+
+        if (System.IO.File.Exists(nfile) == true)
+        {
+            System.IO.File.Delete(nfile);
+        }
+
+        System.IO.StreamReader readfile = new System.IO.StreamReader(file);
+        System.IO.StreamWriter writenfile = new System.IO.StreamWriter(nfile);
+
+        int cnt = 1, no = 0;
+        string line;
+
+        while ((line = readfile.ReadLine()) != null)
+        {
+            if (cnt == 1)
+            {
+                writenfile.WriteLine(line);
+                writenfile.Flush();
+                no++;
+            }
+            else if ((cnt % n == 0) == true)
+            {
+                writenfile.WriteLine(line);
+                writenfile.Flush();
+                no++;
+            }
+            cnt++;
+        }
+
+        readfile.Close();
+        readfile.Dispose();
+        writenfile.Close();
+        writenfile.Dispose();
+
+        return no;
     }
 }
