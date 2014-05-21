@@ -1,6 +1,6 @@
 /*
 
-  Comprehensive C# class for messing with files - fit for ETL development.
+  Comprehensive C# class for messing with files - fit for ETL development; most can be used independently - note depedent methods.
 
 */
 
@@ -99,12 +99,14 @@ public static class ReadFiles
 
     public static double InvalidToValid(string file, int validcount, char ch)
     {
+        // Dependent: requires methods CountInvalidLines and CountValidLines
         double x = Convert.ToDouble((CountInvalidLines(file, validcount, ch))) / Convert.ToDouble((CountValidLines(file, validcount, ch)));
         return x;
     }
     
     public static double InvalidCost(double cost, string file, int validcount, char ch)
     {
+        // Dependent: requires methods InvalidToValid, CountInvalidLines and CountValidLines
         double x = (InvalidToValid(file, validcount, ch)) * cost);
         return x;
     }
