@@ -58,6 +58,8 @@ public static class ReadFiles
         string f = file.Substring(file.LastIndexOf("\\") + 1);
         return f;
     }
+    
+    // Two of the below four depend on the top two - CountInvalidLines and CountValidLines
 
     public static int CountInvalidLines(string file, int validcount, char ch)
     {
@@ -203,4 +205,7 @@ public static class ReadFiles
 
         return no;
     }
+    
+    // Line(s) by key
+    // Tagged lines
 }
