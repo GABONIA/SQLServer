@@ -15,6 +15,22 @@ Function GetLastLineNumber ($file)
 
 GetLastLineNumber -file "C:\files\OurBigFile.txt"
 
+
+Function GetLineByNumber ($file, $lineno)
+{
+    $readfile = New-Object System.IO.StreamReader($file)
+    $line = ""
+    for ($i = 1; $i -lt ($lineno + 1); $i++)
+    {
+        $line = $readfile.ReadLine()
+    }
+    $readfile.Close()
+    $readfile.Dispose()
+    return $line
+}
+
+GetLineByNumber -file "C:\files\new.txt" -lineno 2
+
 <#
 
 $x = Get-Content "C:\files\OurBigFile.txt" | Measure-Object -Line | Select-Object -Property Lines
