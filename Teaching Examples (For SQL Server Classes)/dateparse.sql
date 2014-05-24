@@ -21,8 +21,7 @@ SET @s2 = ';WITH Cnt AS(
 	FROM ' + QUOTENAME(@t) + '
 )
 SELECT COUNT(*)
-FROM Cnt
-WHERE DateValue IS NULL'
+FROM Cnt'
 
 EXEC sp_executesql @s2
 
