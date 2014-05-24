@@ -206,6 +206,12 @@ public static class ReadFiles
         return no;
     }
     
+    public static double PercentCleared(int[] y, int[] n)
+    {
+        double per = ((Convert.ToDouble(y.Count()) / Convert.ToDouble(n.Count() + y.Count())) * 100);
+        return per;
+    }
+    
     // Line(s) by key
     // Tagged lines
 }
