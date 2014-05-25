@@ -206,10 +206,18 @@ public static class ReadFiles
         return no;
     }
     
-    public static double PercentCleared(int[] y, int[] n)
+    public static double PercentCleared(List<int> yes, List<int> no)
     {
         double per = ((Convert.ToDouble(y.Count()) / Convert.ToDouble(n.Count() + y.Count())) * 100);
         return per;
+    }
+    
+    public static void RemoveInvalid(DataTable dt, List<int> no)
+    {
+        foreach (int i in no)
+        {
+            dt.Rows[i].Delete();
+        }
     }
     
     // Line(s) by key
