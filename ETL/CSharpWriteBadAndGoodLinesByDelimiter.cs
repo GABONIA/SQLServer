@@ -1,7 +1,8 @@
 /*
 
   Comprehensive C# class for messing with files - fit for ETL development; most can be used independently - note depedent methods.
-
+  See https://github.com/tmmtsmith/SQLServer/blob/master/ETL/CSharpWriteBadAndGoodLinesByDelimiter.cs
+  
 */
 
 public static class ReadFiles
