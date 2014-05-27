@@ -7,8 +7,8 @@
 DECLARE @s1 NVARCHAR(MAX)
   , @s2 NVARCHAR(MAX)
   , @s3 NVARCHAR(MAX)
-	, @d VARCHAR(100) = ''
-	, @t NVARCHAR(250) = ''
+  , @d VARCHAR(100) = ''
+  , @t NVARCHAR(250) = ''
 
 SET @s1 = 'SELECT COUNT(' + QUOTENAME(@d) + ')
   FROM ' + QUOTENAME(@t) + '
@@ -36,3 +36,4 @@ SELECT COUNT(*)
 FROM OtherCnt'
 
 EXEC sp_executesql @s3
+
