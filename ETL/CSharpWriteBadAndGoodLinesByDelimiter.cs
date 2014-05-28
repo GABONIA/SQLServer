@@ -221,6 +221,21 @@ public static class ReadFiles
         }
     }
     
+    public static void BulkCopyTable (DataTable datatable, string table)
+    {
+        using (var scon = Connections.Connect())
+        {
+            scon.Open();
+            using (SqlBulkCopy copydtab = new SqlBulkCopy(scon))
+            {
+                copydtab.DestinationTableName = table;
+                copydtab.WriteToServer(datatable);
+            }
+            scon.Close();
+            scon.Dispose();
+        }
+    }
+    
     // Line(s) by key
     // Tagged lines
     // Auto and DT - drive only
