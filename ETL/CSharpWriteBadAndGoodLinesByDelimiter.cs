@@ -5,6 +5,15 @@
   
 */
 
+public static class Connections
+{
+    public static SqlConnection Connect()
+    {
+        SqlConnection scon = new SqlConnection("");
+        return scon;
+    }
+}
+
 public static class ReadFiles
 {
     public static string SelectFirstLine(string file)
@@ -223,6 +232,7 @@ public static class ReadFiles
     
     public static void BulkCopyTable (DataTable datatable, string table)
     {
+        // Dependent: requires outside class Connections
         using (var scon = Connections.Connect())
         {
             scon.Open();
