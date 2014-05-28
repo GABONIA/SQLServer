@@ -6,6 +6,7 @@
 */
 
 // SQL Related to files
+// using System.Data.SqlClient;
 public static class Connections
 {
     public static SqlConnection Connect()
