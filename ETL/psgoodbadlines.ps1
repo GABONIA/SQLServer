@@ -36,4 +36,7 @@ GetLineByNumber -file "C:\files\new.txt" -lineno 2
 $x = Get-Content "C:\files\OurBigFile.txt" | Measure-Object -Line | Select-Object -Property Lines
 $x.Lines
 
+$file = "C:\files\files\files\file.txt"
+$buildofffile = $file.Substring(0, $file.LastIndexOf(".")) + "middle" + $file.Substring($file.LastIndexOf("."),($file.Length - $file.LastIndexOf(".")))
+
 #>
