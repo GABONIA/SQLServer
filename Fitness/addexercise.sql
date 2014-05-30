@@ -1,7 +1,5 @@
 /*
 
-Simple procedure that allows a user to record their exercise.
-
 If the exercise exists as a table in the database, it inserts the weight, repetitions and notes.  If the exercise doesn't exist as a table, it creates the table, then inserts the data into the newly created table.
 
 */
@@ -21,20 +19,20 @@ BEGIN
 	IF @count = 0
 	BEGIN
 		DECLARE @sql NVARCHAR(MAX)
-		SET @sql = 'CREATE TABLE ' + @movement + '(
+		SET @sql = 'CREATE TABLE ' + QUOTENAME(@movement) + '(
 			[Date] DATE DEFAULT GETDATE(),
 			[Weight] DECIMAL(9,2),
 			[Repetitions] SMALLINT,
 			[Notes] VARCHAR(500)
 			)'
 
-		EXECUTE(@sql)
+		EXEC sp_executesql @sql
 	END
 
 	DECLARE @s NVARCHAR(MAX)
-	SET @s = 'INSERT INTO ' + @movement + '([Weight],[Repetitions])
+	SET @s = 'INSERT INTO ' + QUOTENAME(@movement) + '([Weight],[Repetitions])
 		SELECT ' + CAST(@weight AS VARCHAR(11)) + ', ' + CAST(@reps AS VARCHAR(3)) + ', ' + @notes
 
-	EXECUTE(@s)
+	EXEC sp_executesql @s
 
 END
