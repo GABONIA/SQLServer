@@ -38,6 +38,8 @@ $x.Lines
 
 $file = "C:\files\files\files\file.txt"
 $buildofffile = $file.Substring(0, $file.LastIndexOf(".")) + "middle" + $file.Substring($file.LastIndexOf("."),($file.Length - $file.LastIndexOf(".")))
-$other = Get-ChildItem $file | Select-Object -Property Name
-
+# Other:
+$name = Get-ChildItem $file | Select-Object -Property Name
+$basename = Get-ChildItem $file | Select-Object -Property BaseName
+$fullname = Get-ChildItem $file | Select-Object -Property FullName # redundant
 #>
