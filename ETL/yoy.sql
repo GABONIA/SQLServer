@@ -5,7 +5,7 @@
        FROM Table
        GROUP BY YEAR(Date)
 )
-SELECT t2.MFYear
+SELECT t2.Year
        , t1.Value StartClose
        , t3.Value EndClose
 FROM Table t1
