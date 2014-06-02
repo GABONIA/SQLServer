@@ -1,4 +1,4 @@
-## Simple example of Excel cell loo
+## Simple example of Excel cell loop
 
 $maxrow = $first.UsedRange.Cells | Select-Object -Last 1 | Select-Object -Property Row
 $maxrow = $maxrow.Row
