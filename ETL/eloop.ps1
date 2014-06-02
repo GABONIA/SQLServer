@@ -1,4 +1,4 @@
-## Simple example of Excel cell loop
+## Simple example of Excel cell loop with 5 rows and columns of data (expand if larger)
 
 for ($c = 1; $c -lt 5; $c++)
 {
