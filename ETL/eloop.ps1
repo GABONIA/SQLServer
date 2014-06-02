@@ -10,3 +10,10 @@ for ($c = 1; $c -lt 5; $c++)
         }
     }
 }
+
+## Windows 8 note/ending:
+
+if (Get-Process -ProcessName EXCEL)
+{
+    Stop-Process -ProcessName EXCEL
+}
