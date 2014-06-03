@@ -1,4 +1,4 @@
-## Simple example of Excel cell loop
+## Simple example of Excel cell loop over each cell auto determined by max row and column
 
 $maxrow = $first.UsedRange.Cells | Select-Object -Last 1 | Select-Object -Property Row
 $maxrow = $maxrow.Row
