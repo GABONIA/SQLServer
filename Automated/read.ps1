@@ -10,6 +10,7 @@ $sqlread = $cmd.ExecuteReader()
 
 while ($sqlread.Read())
 {
+    ## One
     $value = $sqlread.GetValue(0)
 }
 
