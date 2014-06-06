@@ -1,0 +1,61 @@
+IF OBJECT_ID('anlys') IS NULL
+BEGIN
+	CREATE TABLE anlys(
+		cl_ln VARCHAR(5),
+		cl_pmt DECIMAL(13,4),
+		cl_bal DECIMAL(13,4),
+		fl_dt DATE
+	)
+END
+
+
+INSERT INTO anlys (cl_ln,cl_pmt,cl_bal,fl_dt)
+VALUES ('AAZ1Z',725.22,809236.21,'2014-01-01')
+	, ('ABZ1Y',881.25,709416.21,'2014-01-01')
+	, ('ACZ1X',982.14,205874.21,'2014-01-01')
+	, ('AAZ1Z',725.22,809136.21,'2014-02-01')
+	, ('ABZ1Y',881.25,709116.21,'2014-02-01')
+	, ('ACZ1X',982.14,205574.21,'2014-02-01')
+	, ('AAZ1Z',725.22,808005.21,'2014-03-01')
+	, ('ABZ1Y',881.25,708500.21,'2014-03-01')
+	, ('ACZ1X',982.14,205007.21,'2014-03-01')
+	, ('AAZ1Z',725.22,807505.21,'2014-04-01')
+	, ('ABZ1Y',881.25,708112.21,'2014-04-01')
+	, ('ACZ1X',982.14,204187.21,'2014-04-01')
+	, ('AAZ1Z',725.22,807505.21,'2014-05-01')
+	, ('ABZ1Y',881.25,708112.21,'2014-05-01')
+	, ('ACZ1X',982.14,204187.21,'2014-05-01')
+	, ('AAZ1Z',725.22,807105.21,'2014-06-01')
+	, ('ABZ1Y',881.25,707982.21,'2014-06-01')
+	, ('ACZ1X',982.14,203823.21,'2014-06-01')
+
+
+SELECT DISTINCT cl_ln 
+	, SUM(cl_pmt)/NULLIF(SUM(cl_bal),0)
+	, MONTH(fl_dt)
+FROM anlys
+GROUP BY cl_ln, MONTH(fl_dt)
+
+
+SELECT DISTINCT cl_ln 
+	, SUM(cl_pmt)/NULLIF(SUM(cl_bal),0)
+	, DATEDIFF(QUARTER,0,fl_dt)
+FROM anlys
+GROUP BY cl_ln, DATEDIFF(QUARTER,0,fl_dt)
+
+
+SELECT DISTINCT cl_ln 
+	, SUM(cl_pmt)/NULLIF(SUM(cl_bal),0)
+FROM anlys
+GROUP BY cl_ln
+
+
+SELECT cl_ln 
+	, cl_pmt
+	, cl_bal
+	, fl_dt
+FROM anlys
+ORDER BY cl_ln DESC
+
+
+DROP TABLE anlys
