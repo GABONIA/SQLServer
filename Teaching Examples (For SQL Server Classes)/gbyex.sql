@@ -1,12 +1,15 @@
-IF OBJECT_ID('anlys') IS NULL
+IF OBJECT_ID('anlys') IS NOT NULL
 BEGIN
-	CREATE TABLE anlys(
-		cl_ln VARCHAR(5),
-		cl_pmt DECIMAL(13,4),
-		cl_bal DECIMAL(13,4),
-		fl_dt DATE
-	)
+	DROP TABLE anlys
 END
+
+
+CREATE TABLE anlys(
+	cl_ln VARCHAR(5),
+	cl_pmt DECIMAL(13,4),
+	cl_bal DECIMAL(13,4),
+	fl_dt DATE
+)
 
 
 INSERT INTO anlys (cl_ln,cl_pmt,cl_bal,fl_dt)
@@ -42,6 +45,13 @@ SELECT DISTINCT cl_ln
 	, DATEDIFF(QUARTER,0,fl_dt)
 FROM anlys
 GROUP BY cl_ln, DATEDIFF(QUARTER,0,fl_dt)
+
+
+SELECT DISTINCT cl_ln 
+	, SUM(cl_pmt)/NULLIF(SUM(cl_bal),0)
+	, MONTH(DATEDIFF(MONTH,6,fl_dt))
+FROM anlys
+GROUP BY cl_ln, MONTH(DATEDIFF(MONTH,6,fl_dt))
 
 
 SELECT DISTINCT cl_ln 
