@@ -6,6 +6,7 @@ DECLARE @loop TABLE(
 INSERT INTO @loop (TableName)
 SELECT name
 FROM sys.views
+-- sys.tables
 
 DECLARE @b INT = 1, @m INT, @t VARCHAR(250)
 SELECT @m = MAX(LoopID) FROM @loop
