@@ -248,6 +248,23 @@ public static class ReadFiles
         }
     }
     
+    public static void CountData (string file, char ch)
+    {
+        string f = file.Substring(file.LastIndexOf("\\") + 1);
+        f = f.Substring(0, f.IndexOf("."));
+        
+        System.IO.StreamReader readfile = new System.IO.StreamReader(file);
+        int lineno = 0;
+        
+        while ((line = readfile.ReadLine()) != null)
+        {
+            lineno++;
+            total = line.Split(ch).Length - 1;
+            // con
+            
+        }
+    }
+    
     // Line(s) by key
     // Tagged lines
     // Auto, DT, Wrap - drive only
