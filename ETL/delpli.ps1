@@ -1,5 +1,3 @@
-## Other del, add
-
 Function CountData ($file, $ch, $server, $db, $och = $null)
 {
     $ext = $file.Substring($file.LastIndexOf("."))
