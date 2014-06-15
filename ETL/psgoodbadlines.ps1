@@ -1,4 +1,5 @@
 ## See: https://github.com/tmmtsmith/SQLServer/blob/master/ETL/CSharpWriteBadAndGoodLinesByDelimiter.cs
+## [System.Diagnostics.Process]::Start("https://www.google.com/")
 
 Function GetLastLineNumber ($file)
 {
