@@ -54,6 +54,7 @@ Function SeparateGoodBadLines ($file, $ch, $validCount)
         $total = $line.Split($ch).Length - 1;
         if ($total -eq $validCount)
         {
+            #$line = $line.Replace("","")
             $wValid.WriteLine($line)
             $wValid.Flush()
         }
