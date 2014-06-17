@@ -33,11 +33,14 @@ Function GetLineByNumber ($file, $lineno)
 
 GetLineByNumber -file "C:\files\new.txt" -lineno 2
 
-Function SeparateGoodBadLines ($file, $ch, $validCount)
+Function SeparateGoodBadLines ($file, $ch)
 {
     $ext = $file.Substring($file.LastIndexOf("."))
     $loc = $file.Substring(0,($file.LastIndexOf("\")+1))
     $name = $file.Substring($file.LastIndexOf("\")+1).Replace($ext,"")
+
+    $valid = Get-Content $file | Select -First 1
+    $validCount = $valid.Split($ch).Length - 1
 
     $valid = $loc + $name + "_valid" + $ext
     $invalid = $loc + $name + "_invalid" + $ext
