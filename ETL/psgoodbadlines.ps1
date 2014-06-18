@@ -1,6 +1,7 @@
 ## See: https://github.com/tmmtsmith/SQLServer/blob/master/ETL/CSharpWriteBadAndGoodLinesByDelimiter.cs
 ## [System.Diagnostics.Process]::Start("https://www.google.com/")
 ## $s = New-Object System.Diagnostics.Process
+## Escape right left cic position
 
 Function GetLastLineNumber ($file)
 {
