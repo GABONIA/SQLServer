@@ -4,6 +4,11 @@ Streak Example
 
 1.  If another column exists for things to be broken down (like Options, Stocks, Futures), add to the PARTITION BY
 
+Add
+
+1.  Percent
+2.  Done vs. Not Done count
+
 */
 
 CREATE TABLE Trading (
