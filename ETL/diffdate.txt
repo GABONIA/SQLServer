@@ -1,3 +1,10 @@
+Progress
+-  Fin. int
+-  Bd. int
+-  Conf. tab 129
+-  D.W.
+
+
 -- Compare-Object
 -- DATEADD/DATEDIFF
 -- DATESBETWEEN
