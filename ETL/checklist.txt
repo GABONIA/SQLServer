@@ -2,3 +2,4 @@
 [x] Email
 [x] Replace
 [x] E-Bug: [Threading.Thread]::CurrentThread.CurrentCulture
+[x] System.Text.StringBuilder
