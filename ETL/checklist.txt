@@ -1,5 +1,5 @@
 [ ] %2 or Odd Exceptions
-[x] Email
+[ ] Email API
 [x] Replace
 [x] E-Bug: [Threading.Thread]::CurrentThread.CurrentCulture
-[x] System.Text.StringBuilder
+[x] System.Text.StringBuilder (2 - P and T)
