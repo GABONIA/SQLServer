@@ -2,4 +2,5 @@
 [ ] Email API
 [x] Replace
 [x] E-Bug: [Threading.Thread]::CurrentThread.CurrentCulture
+[x] E-Bug 2: Cells.Item(row,column).HasFormula
 [x] System.Text.StringBuilder (2 - P and T)
