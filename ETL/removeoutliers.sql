@@ -1,7 +1,7 @@
 /*
 
 	--For internal analysis only.  Do not use on any kind of customer facing application.
-
+		-- Article has wrong code - refer to this.
 */
 
 -- Table based data mining approach
