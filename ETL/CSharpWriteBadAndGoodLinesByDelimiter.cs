@@ -265,8 +265,8 @@ public static class ReadFiles
         }
     }
     
-    // Line(s) by key
-    // Tagged lines
+    // Line(s) by key - drive only
+    // Tagged lines - drive only
     // Auto, DT, Wrap - drive only
-    // Testing exceptions
+    // Testing exceptions (placement where?)
 }
