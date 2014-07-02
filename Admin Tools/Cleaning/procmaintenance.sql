@@ -207,3 +207,92 @@ EXECUTE stp_BuildProcedureMaintenanceObjects
 EXECUTE stp_RemoveProcMaintenance
 
 */
+
+/*
+
+	--Other approach (TSQL and PowerShell)
+	--See: http://www.mssqltips.com/sqlservertip/3243/finding-unused-sql-server-stored-procedures-with-powershell/
+
+*/
+
+CREATE PROCEDURE stp_LogProcedures
+@db NVARCHAR(100), @tb NVARCHAR(250)
+AS
+BEGIN
+ 
+       DECLARE @s NVARCHAR(MAX)
+       SET @s = N'-- The procedure has been called again; we will re-insert it later with new date.
+       ;WITH RemoveExisting AS(
+              SELECT @db DatabaseName
+              , o.name ProcedureName
+              , e.last_execution_time LastExecutionTime
+              , o.modify_date LastModifiedDate
+       FROM [sys].[dm_exec_procedure_stats] e
+              INNER JOIN ' + QUOTENAME(@db) + '.[sys].[procedures] o ON e.object_id = o.object_id
+              INNER JOIN [master].[sys].[databases] d on d.database_id = e.database_id
+       WHERE d.name = @db
+       )
+       DELETE FROM ' + QUOTENAME(@tb) + '
+       WHERE ProcedureName IN (SELECT ProcedureName FROM RemoveExisting)
+              AND DatabaseName = @db
+      
+ 
+       -- The procedure has been deleted, so we will not log it anymore.
+       DELETE FROM ' + QUOTENAME(@tb) + '
+       WHERE ProcedureName NOT IN (SELECT name FROM ' + QUOTENAME(@db) + '.[sys].[procedures])
+              AND DatabaseName = @db
+ 
+ 
+       -- Insert the procedures who either have (1) new dates or (2) are new procedures and have been used.
+       ;WITH AddNewExisting AS(
+     SELECT DISTINCT o.name ProcedureName
+      , MAX(e.last_execution_time) LastExecutionTime
+      , MAX(o.modify_date) ModifiedDate
+     FROM [sys].[dm_exec_procedure_stats] e
+      INNER JOIN ' + QUOTENAME(@db) + '.[sys].[procedures] o ON e.object_id = o.object_id
+      INNER JOIN [master].[sys].[databases] d on d.database_id = e.database_id
+     WHERE d.name = @db
+     GROUP BY o.name
+       )
+       INSERT INTO ' + QUOTENAME(@tb) + '
+       SELECT @db
+   , ProcedureName
+   , LastExecutionTime
+   , ModifiedDate
+  FROM AddNewExisting'
+ 
+       EXEC sp_executesql @s,N'@db NVARCHAR(100)',@db
+ 
+END
+
+
+
+Function FindReferencedStoredProcedures ($server, $githubfolder, $smolibrary)
+{
+    Add-Type -Path $smolibrary
+    $serv = New-Object Microsoft.SqlServer.Management.Smo.Server($server)
+
+    foreach ($d in $serv.Databases | Where-Object {$_.IsSystemObject -eq $false})
+    {
+        foreach ($proc in $d.StoredProcedures | Where-Object {$_.IsSystemObject -eq $false})
+        {
+            $p = $proc.Name
+            $cnt = Get-ChildItem $githubfolder -Include @("*.sql", "*.cs", "*.xml", "*.ps1") -Recurse | Select-String -pattern $p
+            if ($cnt.Count -gt 0)
+            {
+                $scon = New-Object System.Data.SqlClient.SqlConnection
+                $scon.ConnectionString = "SERVER=$server;DATABASE=Logging;Integrated Security=true"
+                $record = New-Object System.Data.SqlClient.SqlCommand
+                $record.Connection = $scon
+                $record.CommandText = "INSERT INTO ReferencedStoredProcedures (DatabaseName,ProcedureName,FileNameAndInfo) SELECT '$d', '$p', '$cnt'"
+
+                $scon.Open()
+                $record.ExecuteNonQuery()
+                $scon.Close()
+                $scon.Dispose()
+            }
+        }
+    }
+}
+
+FindReferencedStoredProcedures -server "" -githubfolder "" -smolibrary ""
