@@ -1,4 +1,4 @@
-Function ParseBadJSON_Small ($file)
+Function ParseSubDocJSONToDocJSON ($file)
 {
     $f = Get-Content $file
     $new_content = "}" + [Environment]::NewLine + "{"
@@ -6,4 +6,4 @@ Function ParseBadJSON_Small ($file)
     $f | Out-File -FilePath $file -Encoding UTF8 -Force
 }
 
-ParseBadJSON_Small -file "C:\files\JSON\file.json"
+ParseSubDocJSONToDocJSON -file "C:\files\JSON\file.json"
