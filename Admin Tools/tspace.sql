@@ -1,3 +1,4 @@
+-- Total and used space, as well as how many columns
 WITH OrderTheData AS(
 	SELECT t.NAME AS TableName,
 		p.rows AS TotalRows,
@@ -10,10 +11,18 @@ WITH OrderTheData AS(
 		INNER JOIN sys.allocation_units a ON p.partition_id = a.container_id
 	WHERE t.is_ms_shipped = 0
 	GROUP BY t.Name, s.Name, p.Rows
+), ColumnCount AS(
+	SELECT DISTINCT TABLE_NAME TableName
+		, COUNT(COLUMN_NAME) ColumnCounts
+	FROM INFORMATION_SCHEMA.COLUMNS
+	GROUP BY TABLE_NAME
 )
-SELECT *
-FROM OrderTheData
+SELECT o.*
+	, c.ColumnCounts
+FROM OrderTheData o
+	INNER JOIN ColumnCount c ON o.TableName = c.TableName
 ORDER BY TotalSpaceGIG DESC, UsedSpaceGIG DESC
+
 
 
 
