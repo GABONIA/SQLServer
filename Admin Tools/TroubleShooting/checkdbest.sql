@@ -1,0 +1,5 @@
+-- tempdb Impact
+DBCC CHECKDB WITH ESTIMATEONLY
+
+-- Actual
+-- DBCC CHECKDB
