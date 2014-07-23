@@ -1,5 +1,5 @@
-[ ] %2 or Odd Exceptions
-[ ] Email API
+[x] %2 or Odd Exceptions
+[x] Email API
 [x] Replace
 [x] E-Bug: [Threading.Thread]::CurrentThread.CurrentCulture
 [x] E-Bug 2: Cells.Item(row,column).HasFormula
