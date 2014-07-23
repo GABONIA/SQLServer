@@ -13,7 +13,6 @@ Function AnalysisServer_Heartbeat ($server, $database, $filepath, $emailto, $smt
 
         if ((!$heartbeat) -or ($heartbeat -like "*not been processed*"))
         {
-            $error
             Send-MailMessage -To $emailto -From "Cube Alerts <cubealerts@ssas.com>" -Subject "Cube Heartbeat Failure" -Body $msg -SmtpServer $smtpserver    
         }
         else
