@@ -19,7 +19,9 @@ namespace DBA_ETL_Logger
     {
         static void Main(string[] args)
         {
-            // Tested: 2
+            // Tested: 9
+            // UPST
+            // BK
             Console.ReadLine();
         }
     }
