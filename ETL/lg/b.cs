@@ -24,6 +24,7 @@ namespace DBA_ETL_Logger
             // [] BK
             // [x] Em
             // [x] Txt
+            // [] Mult sv
             Console.ReadLine();
         }
     }
