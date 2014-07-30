@@ -20,11 +20,12 @@ namespace DBA_ETL_Logger
         static void Main(string[] args)
         {
             // Tested: 9
-            // [] UPST
+            // [x] UPST
             // [] BK
             // [x] Em
             // [x] Txt
             // [] Mult sv
+            // [x] CDB
             Console.ReadLine();
         }
     }
