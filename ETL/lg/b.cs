@@ -24,7 +24,6 @@ namespace DBA_ETL_Logger
         static void Main(string[] args)
         {
             Console.ReadLine();
-            //[ ] tsp
         }
     }
 
@@ -550,6 +549,28 @@ namespace DBA_ETL_Logger
             }
             string uncompressedtbsindxs = "\t" + "Uncompressed tables: " + tb_cnt.ToString() + "; uncompressed indexes: " + idx_cnt.ToString() + ".";
             return uncompressedtbsindxs;
+        }
+        public static decimal DirSize (string dir, string measurement)
+        {
+            decimal size = 0;
+            decimal b = 1024;
+            string[] all = Directory.GetFiles(dir, "*df");
+            foreach (string d in all)
+            {
+                FileInfo fsize = new FileInfo(d);
+                size += Convert.ToDecimal(fsize.Length);
+            }
+
+            if (measurement == "GIG")
+            {
+                size = size / (b * b * b);
+            }
+            else if (measurement == "MB")
+            {
+                size = size / (b * b);
+            }
+
+            return size;
         }
         public static string ReturnConfirmation(string stringsrv, string db = null)
         {
