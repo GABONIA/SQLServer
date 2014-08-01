@@ -44,7 +44,7 @@ namespace DBA_ETL_Logger
 
     public static class Alerts
     {
-        public static bool TextAlert(string body, string textAlert = null)
+        public static bool TextAlert(string body, string smtp_sender, string textAlert = null)
         {
             // If established:
             if (textAlert == null)
@@ -53,9 +53,14 @@ namespace DBA_ETL_Logger
                 textAlert = "";
             }
 
+            if (smtp_sender == null)
+            {
+            	// default
+            	smtp_sender = "";
+            }
+            
             bool check = false;
-            // edit:
-            string smtp_sender = "";
+           
             // edit:
             string from = "";
             SmtpClient smtpcl = new SmtpClient(smtp_sender);
