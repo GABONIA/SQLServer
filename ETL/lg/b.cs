@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 // Microsoft.SqlServer.Smo.dll
 using System.Net.Mail;
 using Microsoft.SqlServer.Management.Smo;
+// Quartz
+using Quartz;
 
 
 namespace DBA_ETL_Logger
