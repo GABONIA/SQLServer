@@ -1,2 +1,197 @@
-Sensitive Data Code Walkthrough
+Sensitive Data Code Walkthrough - Keep Private Data Private!
+  The following provides examples of identifying possible private data.
+
+
+
+
+TSQL
+
+-- Find columns specifying SSN, TIN, etc
+SELECT TABLE_NAME
+	, COLUMN_NAME
+	, *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE COLUMN_NAME LIKE '%SSN%'
+	OR COLUMN_NAME LIKE '%Social%'
+	OR COLUMN_NAME LIKE '%TIN%'
+	OR COLUMN_NAME LIKE '%Tax%'
+	OR COLUMN_NAME LIKE '%Identification%'
+	
+
+-- Searching through objects
+SELECT OBJECT_NAME(id)
+	, [text]
+FROM sys.syscomments
+WHERE [text] LIKE '%SSN%'
+	OR [text] LIKE '%Social%'
+	OR [text] LIKE '%TIN%'
+	OR [text] LIKE '%Tax%'
+	OR [text] LIKE '%Identification%' 
+	
+	
+-- Simple RegEx examples
+CREATE TABLE InitialExamples(
+	ColumnOne VARCHAR(25),
+	ColumnTwo VARCHAR(100)
+)
+
+DROP TABLE InitialExamples
+
+
+INSERT INTO InitialExamples
+VALUES ('0','The quick brown fox 0 jumped over the lazy dogs.')
+	, ('00','The quick brown fox jumped over the lazy dogs.')
+	, ('000','The quick brown fox 00 jumped over the lazy dogs.')
+	, ('00.00','The quick brown fox 00.00 jumped over the lazy dogs.')
+	, ('00.0','Th00.0 quick brown fox jumped over the lazy dogs.')
+	, ('0','0The quick brown fox jumped over the lazy dogs.')
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnOne LIKE '[0-9]'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnOne LIKE '[0-9][0-9]'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnOne LIKE '%[0-9]%'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnOne LIKE '[0-9]%'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnOne LIKE '[0-9][0-9].%'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnTwo LIKE '%[0-9][0-9].%'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnTwo LIKE '[^a-z]%'
+
+
+SELECT *
+FROM InitialExamples
+WHERE ColumnTwo LIKE '[a-z][a-z][0-9][0-9]%'
+
+/* 
+	
+	The Following Code Is For Example Purposes ONLY
+	See: http://www.socialsecurity.gov/employer/stateweb.htm and http://www.ssa.gov/history/ssn/geocard.html
+	
+*/
+
+
+CREATE TABLE SSNTable(
+	SSN VARCHAR(11),
+	TextField VARCHAR(500)
+)
+
+
+INSERT INTO SSNTable
+VALUES ('000-00-0000','The quick brown fox 000-00-0000 jumped over the lazy dogs.')
+	, ('000-00-0001','000-00-0001 The quick brown fox jumped over the lazy dogs.')
+	, ('000-00-0002',' The quick brown fox jumped over the lazy dogs. 000-00-0002')
+	, ('000000003',' The quick brown fox jumped over the 000.00.0002 lazy dogs.')
+
+
+SELECT *
+FROM SSNTable WITH(NOLOCK)
+WHERE SSN LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+
+
+SELECT *
+FROM SSNTable WITH(NOLOCK)
+WHERE SSN LIKE '[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]'
+
+
+SELECT *
+FROM SSNTable WITH(NOLOCK)
+WHERE TextField LIKE '[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]'
+
+
+SELECT *
+FROM SSNTable WITH(NOLOCK)
+WHERE TextField LIKE '%[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]%'
+
+
+SELECT  *
+FROM SSNTable WITH(NOLOCK)
+WHERE TextField LIKE '%[0-9][0-9][0-9][^0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9]%'
+
+
+SELECT *
+FROM SSNTable
+
+
+-- Masking example:
+SELECT SSN
+	, 'XXX-XX-' + RIGHT(SSN,4) AS SSN
+FROM SSNTable
+
+
+DROP TABLE SSNTable
+
+/*  Loop approach to finding columns storing SSNs  */
+-- Loop table
+CREATE TABLE PrivacySecurityCheck(
+	TableName VARCHAR(250),
+	ColumnName VARCHAR(250)
+)
+
+SELECT ROW_NUMBER() OVER (ORDER BY TABLE_NAME) ID
+	, TABLE_NAME TableName
+	, COLUMN_NAME ColumnName
+INTO ##Loop
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE DATA_TYPE IN ('varchar','nvarchar','char')
+	AND CHARACTER_MAXIMUM_LENGTH >= 11
+
+
+DECLARE @b INT = 1, @m INT, @t NVARCHAR(250), @c NVARCHAR(250), @sql NVARCHAR(MAX)
+SELECT @m = MAX(ID) FROM ##Loop
+
+WHILE @b <= @m
+BEGIN
+	SELECT @t = TableName FROM ##Loop WHERE ID = @b
+	SELECT @c = ColumnName FROM ##Loop WHERE ID = @b 
+
+	SET @sql = 'IF EXISTS(
+		SELECT 1
+		FROM ' + QUOTENAME(@t) + ' WITH(NOLOCK)
+		WHERE ' + QUOTENAME(@c) + ' LIKE ''%[0-9][0-9][0-9][^0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9]%''
+	)
+	INSERT INTO PrivacySecurityCheck
+	VALUES (''' + QUOTENAME(@t) + ''',''' + QUOTENAME(@c) + ''')'
+	
+	--PRINT @t, @c
+	--PRINT @sql
+	EXEC sp_executesql @sql
+	
+	SET @b = @b + 1
+END
+
+
+SELECT *
+FROM PrivacySecurityCheck
+
+
+DROP TABLE PrivacySecurityCheck
+DROP TABLE ##Loop
+
+PowerShell
+
+
 
