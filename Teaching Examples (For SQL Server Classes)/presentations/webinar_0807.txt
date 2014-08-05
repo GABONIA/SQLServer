@@ -191,7 +191,23 @@ FROM PrivacySecurityCheck
 DROP TABLE PrivacySecurityCheck
 DROP TABLE ##Loop
 
+
+
+
 PowerShell
 
+"Let's see if we find the number 000-00-0000 in this string." -Match "\d{3}-\d{2}-\d{4}"
+"Do we find the number 00-0000000 in this sentence?" -Match "\d{2}-\d{7}"
+"Another example 12.12 offers some insight." -Match "\d.\d"
+"Okay, now we're entering into Saxon Math territory with 1-1-1 as a possible match." -Match "\d-\d-\d"
 
 
+"ValueOne,ValueTwo,ThreeIsALongerColumn,23.65,8065551212,000-00-0000" -Match "\d{3}-\d{2}-\d{4}"
+"ValueOne,ValueTwo,ThreeIsALongerColumn,23.65,8065551212,000-00-0000" -Replace "\d{3}-\d{2}-(\d{4})","XXX-XX-`${1}"
+"ValueOne,ValueTwo,ThreeIsALongerColumn,23.65,8065551212,000-00-0000" -Replace "(\d{3})-\d{2}-(\d{4})","`${1}-XX-`${2}"
+"ValueOne,ValueTwo,ThreeIsALongerColumn,23.65,8065551212,00-0000000" -Replace "\d{2}-\d{3}(\d{4})","XX-XXX`${1}"
+
+
+$string = "ValueOne,ValueTwo,ThreeIsALongerColumn,23.65,8065551212,000-00-0000" 
+$string = $string -Replace "\d{3}-\d{2}-(\d{4})","XXX-XX-`${1}"
+$string
