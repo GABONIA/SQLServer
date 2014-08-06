@@ -77,10 +77,48 @@ public static class Alerts
         smtpcl.Dispose();
         return check;
     }
-    public static bool EmailAlert(string emailAlert)
+    public static bool asgSendEmailMessage (string to_add, string from_add, string em_sub, string em_bd, string smtp_server, string sAttachment = null)
     {
-        bool check = false;
+        int i = 0;
+        string[] sTempA = null;
+        SmtpClient SmtpMail = new SmtpClient();
+        MailMessage MailMsg = new MailMessage();
 
-        return check;
+        sTempA = to_add.Split(',');
+
+        try
+        {
+            for (i = 0; i < (sTempA.Length -1); i++)
+            {
+                MailMsg.To.Add(new MailAddress(sTempA[i]));
+            }
+
+            MailMsg.From = new MailAddress(from_add);
+            MailMsg.Subject = em_sub.Trim();
+            MailMsg.Body = em_bd.Trim() + Environment.NewLine;
+
+            if (sAttachment != null)
+            {
+                Attachment MsgAttach = new Attachment(sAttachment);
+                MailMsg.Attachments.Add(MsgAttach);
+                SmtpMail.Host = smtp_sender;
+                SmtpMail.Send(MailMsg);
+                MsgAttach.Dispose();
+            }
+            else
+            {
+                SmtpMail.Host = smtp_sender;
+                SmtpMail.Send(MailMsg);
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            sTempA = null;
+            SmtpMail.Dispose();
+            MailMsg.Dispose();
+            //Console.WriteLine(ex);
+            return false;
+        }
     }
 }
