@@ -77,7 +77,7 @@ public static class Alerts
         smtpcl.Dispose();
         return check;
     }
-    public static bool asgSendEmailMessage (string to_add, string from_add, string em_sub, string em_bd, string smtp_server, string sAttachment = null)
+    public static bool EmailAlert (string to_add, string from_add, string em_sub, string em_bd, string smtp_server, string sAttachment = null)
     {
         int i = 0;
         string[] sTempA = null;
