@@ -1,5 +1,6 @@
 Sensitive Data Code Walkthrough - Keep Private Data Private!
   The following provides examples of identifying possible private data.
+  The perminant location for all webinars code is https://github.com/tmmtsmith/SQLServer/tree/master/Teaching%20Examples%20(For%20SQL%20Server%20Classes)/presentations
 
 
 
