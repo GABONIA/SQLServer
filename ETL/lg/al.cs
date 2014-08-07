@@ -77,7 +77,7 @@ public static class Alerts
         smtpcl.Dispose();
         return check;
     }
-    public static bool EmailAlert (string to_add, string from_add, string em_sub, string em_bd, string smtp_server, string sAttachment = null)
+    public static bool EmailAlert (string to_add, string from_add, string em_sub, string em_bd, string smtp_server = null, string sAttachment = null)
     {
         int i = 0;
         string[] sTempA = null;
@@ -101,7 +101,16 @@ public static class Alerts
             {
                 Attachment MsgAttach = new Attachment(sAttachment);
                 MailMsg.Attachments.Add(MsgAttach);
-                SmtpMail.Host = smtp_sender;
+                
+                if (smtp_sender == null)
+                {
+                    // default
+                    SmtpMail.Host = "";
+                }
+                else
+                {
+                    SmtpMail.Host = smtp_sender;
+                }
                 SmtpMail.Send(MailMsg);
                 MsgAttach.Dispose();
             }
