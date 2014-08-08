@@ -235,3 +235,16 @@ $read.Close()
 $read.Dispose()
 $cleaned.Close()
 $cleaned.Dispose()
+
+
+Function FindWord ($githubfolder, $pattern)
+{
+    $cnt = Get-ChildItem $githubfolder -Include @("*.sql", "*.cs", "*.xml", "*.ps1") -Recurse | Select-String -pattern $pattern
+    if ($cnt.Count -gt 0)
+    {
+        $cnt
+    }
+
+}
+
+FindWord -githubfolder "C:\Path\" -pattern "Social"
