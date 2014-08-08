@@ -1,0 +1,14 @@
+# CS files
+admin.cs
+automated_qa.cs
+automated_checkalgorithms.cs
+enum.cs
+program.cs
+
+
+# TSQL files
+admin.sql
+perm.sql
+
+# XML files
+config.xml
