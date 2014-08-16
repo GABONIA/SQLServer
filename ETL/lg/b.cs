@@ -347,6 +347,19 @@ namespace DBA_ETL_Logger
             Server srv = Connections.ServerConnect(stringsrv);
             return srv.NumberOfLogFiles.ToString();
         }
+        public static string ReadEventLog_Recent(string stringsrv, string logtype, int hrs)
+        {
+            EventLog evlog = new EventLog(logtype, stringsrv);
+            DateTime now = DateTime.Now;
+            foreach (EventLogEntry ele in evlog.Entries)
+            {
+                if ((ele.TimeGenerated > now.AddHours(-hrs) ) && ( ele.Source.ToLower().Contains("sql")))
+                {
+                    Console.WriteLine(ele.Message + " (" + ele.TimeGenerated + ")");
+                }
+            }
+            return "\n" + "Complete";
+        }
         public static string ReadSQLLog_Recent(string stringsrv)
         {
             Server srv = Connections.ServerConnect(stringsrv);
