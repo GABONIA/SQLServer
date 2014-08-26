@@ -41,6 +41,16 @@ namespace DBA_ETL_Logger
             }
             return filetxt;
         }
+        
+        public string getContent(string file)
+        {
+            string data = "";
+            using (System.IO.StreamReader readfile = new System.IO.StreamReader(file, Encoding.UTF8))
+            {
+                data = readfile.ReadToEnd();
+            }
+            return data;
+        }
     }
 
 
