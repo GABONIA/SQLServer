@@ -32,17 +32,24 @@ namespace DBA_ETL_Logger
 
     public static class Files
     {
-        public static string FileAsString(string file)
+        public static string getContent_Except(string file, string exc)
         {
-            string filetxt = "";
-            using (StreamReader read = new StreamReader(file, Encoding.UTF8))
+            System.Text.StringBuilder data = new System.Text.StringBuilder();
+            using (System.IO.StreamReader readfile = new System.IO.StreamReader(file, Encoding.UTF8))
             {
-                filetxt = read.ReadToEnd();
+                string ln;
+                while ((ln = readfile.ReadLine()) != null)
+                {
+                    if ((ln.TrimStart().Substring(0, 1)) != exc)
+                    {
+                        data.AppendLine(ln);
+                    }
+                }
+                return data.ToString();
             }
-            return filetxt;
         }
         
-        public string getContent(string file)
+        public static string getContent(string file)
         {
             string data = "";
             using (System.IO.StreamReader readfile = new System.IO.StreamReader(file, Encoding.UTF8))
