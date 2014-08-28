@@ -65,6 +65,7 @@ namespace DBA_ETL_Logger
     {
         public static bool TextAlert(string body, string smtp_sender, string textAlert = null)
         {
+            DateTime now = DateTime.Now;
             // If established:
             if (textAlert == null)
             {
