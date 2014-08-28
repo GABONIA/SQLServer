@@ -63,6 +63,7 @@ namespace DBA_ETL_Logger
 
     public static class Alerts
     {
+        // wr_ue_nal
         public static bool TextAlert(string body, string smtp_sender, string textAlert = null)
         {
             DateTime now = DateTime.Now;
