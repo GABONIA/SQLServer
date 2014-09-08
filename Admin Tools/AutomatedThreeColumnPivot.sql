@@ -24,3 +24,28 @@ BEGIN
 	EXEC sp_executesql @sql
 
 END
+
+/*
+-- Dependency:
+
+CREATE PROCEDURE stp_OutputColumns
+@c_s NVARCHAR(250),
+@t NVARCHAR(250)
+AS
+BEGIN
+
+	DECLARE @s NVARCHAR(MAX) 
+
+	SET @s = 'DECLARE @c NVARCHAR(4000)
+
+	SELECT @c = STUFF((SELECT DISTINCT TOP 100 PERCENT ''],['' + t.' + @c_s + '
+				FROM ' + @t + ' t
+				FOR XML PATH('''')),1,2,'''') + '']''
+				
+	SELECT @c'
+
+	EXECUTE sp_executesql @s
+
+END
+
+*/
