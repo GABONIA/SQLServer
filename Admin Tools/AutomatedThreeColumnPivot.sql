@@ -14,6 +14,7 @@ BEGIN
 	)
 
 	INSERT INTO @s
+	--  See dependency in notes below this procedure:
 	EXECUTE stp_OutputColumns @PivotColumn, @SourceTable
 
 	SELECT @c = S FROM @s
