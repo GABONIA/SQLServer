@@ -5,6 +5,10 @@ Function CheckObjectValidity ($server, $smolibrary)
     foreach ($db in $serv.Databases | Where-Object {$_.IsSystemObject -eq $false})
     {
         $d = $db.Name
+        ## We can test other objects as well, see Microsoft's documentation on sys.sp_refreshsqlmodule
+        ## ie:
+        ##foreach ($view in $db.Views) | Where-Object {$_.IsSystemObject -eq $false})
+        ##foreach ($udf in $db.UserDefinedFunction) | Where-Object {$_.IsSystemObject -eq $false})
         foreach ($proc in $db.StoredProcedures | Where-Object {$_.IsSystemObject -eq $false})
         {
             $o = $proc.Name
@@ -39,4 +43,5 @@ Function CheckObjectValidity ($server, $smolibrary)
     }
 }
 
+## Only enter the server and file locatin of the SMO library
 CheckObjectValidity -server "" -smolibrary ""
