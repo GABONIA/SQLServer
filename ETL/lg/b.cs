@@ -611,6 +611,30 @@ namespace DBA_ETL_Logger
 
             return size;
         }
+        public static List<string> ReadTableLog(string stringsrv, string db, string query)
+	{
+		List<string> result = new List<string>();
+		using (var scon = Connections.Connect(srv, db))
+		{
+		    SqlCommand cmdlog = new SqlCommand(query, scon);
+		
+		    using (SqlDataReader readlog = cmdlog.ExecuteReader())
+		    {
+		        while (readlog.Read())
+		        {
+		            result.Add(readlog.GetString(0));
+		        }
+		    }
+		
+		    scon.Close();
+		    scon.Dispose();
+		    return result;
+		}
+	}
+	public static List<string> readQuery(string stringsrv, string db, string query)
+	{
+		return SqlOperations.ReadTableLog(srv,db,query);
+	}
         public static string ReturnConfirmation(string stringsrv, string db = null)
         {
             if (db == null)
