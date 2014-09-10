@@ -20,8 +20,8 @@ public class APIs
                 ftpfile = ftpsite + ln;
                 using (WebClient wbc = new WebClient())
                 {
-                    downloadpath = downloadpath + ln;
-                    wbc.DownloadFile(ftpfile, downloadpath);
+                    string newdo = downloadpath + ln;
+                    wbc.DownloadFile(ftpfile, newdo);
                 }
             }
             ln = read.ReadLine();
