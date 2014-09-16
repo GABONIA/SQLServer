@@ -27,8 +27,8 @@ BEGIN
 END
 
 /*
--- Dependency:
--- Changed to use INF_SCH
+-- Dependency (don't use @c):
+-- Old version: https://github.com/tmmtsmith/SQLServer/blob/master/Admin%20Tools/OutputColumns.sql
 
 CREATE PROCEDURE stp_OutputColumns
 @c_s NVARCHAR(100),
