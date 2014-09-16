@@ -28,24 +28,22 @@ END
 
 /*
 -- Dependency:
+-- Changed to use INF_SCH
 
 CREATE PROCEDURE stp_OutputColumns
-@c_s NVARCHAR(250),
-@t NVARCHAR(250)
+@c_s NVARCHAR(100),
+@t NVARCHAR(200)
 AS
 BEGIN
 
-	DECLARE @s NVARCHAR(MAX) 
+	DECLARE @oltpps VARCHAR(400)
 
-	SET @s = 'DECLARE @c NVARCHAR(4000)
-
-	SELECT @c = STUFF((SELECT DISTINCT TOP 100 PERCENT ''],['' + t.' + @c_s + '
-				FROM ' + @t + ' t
-				FOR XML PATH('''')),1,2,'''') + '']''
-				
-	SELECT @c'
-
-	EXECUTE sp_executesql @s
+	SELECT @oltpps = 'SELECT STUFF((SELECT DISTINCT ''],['' + t.' + COLUMN_NAME + ' FROM ' + TABLE_NAME + ' t FOR XML PATH('''')),1,2,'''') + '']'''
+	FROM INFORMATION_SCHEMA.COLUMNS
+	WHERE TABLE_NAME = @t
+		AND COLUMN_NAME = @c_s
+		
+	EXEC(@oltpps)
 
 END
 
