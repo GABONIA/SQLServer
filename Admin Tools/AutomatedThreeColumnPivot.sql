@@ -1,3 +1,4 @@
+--  Standard de-normalized data set output
 CREATE PROCEDURE stp_ThreeColumnPivot
 @PivotColumn VARCHAR(250),
 @CalcColumn VARCHAR(250),
@@ -27,8 +28,9 @@ BEGIN
 END
 
 /*
--- Dependency (don't use @c):
--- Old version: https://github.com/tmmtsmith/SQLServer/blob/master/Admin%20Tools/OutputColumns.sql
+--  Dependency: procedure referred to by many other processes - keep separate.
+--  Notes: don't use @c
+--  Old version: https://github.com/tmmtsmith/SQLServer/blob/master/Admin%20Tools/OutputColumns.sql
 
 CREATE PROCEDURE stp_OutputColumns
 @c_s NVARCHAR(100),
