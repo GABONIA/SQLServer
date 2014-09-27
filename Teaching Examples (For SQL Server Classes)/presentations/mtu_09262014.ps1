@@ -51,8 +51,26 @@ Function Get-DBModel ($server)
     foreach ($d in $srv.Databases | Where-Object {$_.IsSystemObject -eq $false})
     {
         $d.RecoveryModel
+        #$name = $d.Name
+        #$rm = $d.RecoveryModel
+        #Write-Host $name " - " $rm
     }
 }
 
 Get-DBModel -server "SERVER\INSTANCE"
 
+
+
+## Window 6
+Function Get-DBStuff ($server)
+{
+    Add-Type -Path "C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Smo.dll"
+    $srv = New-Object Microsoft.SqlServer.Management.SMO.Server($server)
+
+    foreach ($d in $srv.Databases | Where-Object {$_.Name -eq "DatabaseName"})
+    {
+        $d
+    }
+}
+
+Get-DBStuff -server "SERVER\INSTANCE"
