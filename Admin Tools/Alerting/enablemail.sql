@@ -15,3 +15,8 @@ GO
 
 ALTER DATABASE [DatabaseName] SET ENABLE_BROKER
 GO
+
+/*
+SELECT *
+FROM sysmail_allitems 
+*/
