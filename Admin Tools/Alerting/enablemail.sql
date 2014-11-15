@@ -18,5 +18,6 @@ GO
 
 /*
 SELECT *
-FROM sysmail_allitems 
+FROM sysmail_allitems
+--vm-ps
 */
