@@ -88,3 +88,5 @@ BEGIN
 	SELECT @f
 
 END
+
+-- Stomach flu
