@@ -45,3 +45,63 @@ ORDER BY TradingDate
 
 
 DROP TABLE Trading
+
+/*
+	Updated 3-12-2015
+*/
+
+DECLARE @Trading TABLE (
+	TradingDate DATE,
+	TradingAction VARCHAR(10)
+)
+
+
+INSERT INTO @Trading
+VALUES ('2014-01-01','Trade')
+	, ('2014-01-02','Trade')
+	, ('2014-01-03','Trade')
+	, ('2014-01-04','No')
+	, ('2014-01-05','No')
+	, ('2014-01-06','Trade')
+	, ('2014-01-07','No')
+	, ('2014-01-08','No')
+	, ('2014-01-09','No')
+	, ('2014-01-10','Trade')
+	, ('2014-01-11','No')
+	, ('2014-01-12','No')
+	, ('2014-01-13','No')
+	, ('2014-01-14','No')
+	, ('2014-01-15','Trade')
+	, ('2014-01-16','No')
+	, ('2014-01-17','Trade')
+	, ('2014-01-18','Trade')
+	, ('2014-01-19','Trade')
+	, ('2014-01-20','No')
+	, ('2014-01-21','Trade')
+	, ('2014-01-22','Trade')
+
+
+
+;WITH Streak AS(
+	SELECT ROW_NUMBER() OVER (ORDER BY TradingDate) OverallID
+		, CASE 
+			WHEN TradingAction = 'Trade' THEN ROW_NUMBER() OVER (PARTITION BY TradingAction ORDER BY TradingDate) 
+			ELSE NULL END AS TradeID
+		, *
+	FROM @Trading
+), Final AS(
+	SELECT *
+		, (ROW_NUMBER() OVER (ORDER BY TradingDate) - TradeID) IDDifference
+	FROM Streak
+)
+SELECT CASE
+		WHEN IDDifference IS NOT NULL THEN ROW_NUMBER() OVER (PARTITION BY IDDifference ORDER BY TradingDate) 
+		ELSE NULL
+	END AS Streak
+	, TradingDate
+	, TradingAction
+	, OverallID
+	, TradeID
+	, IDDifference
+FROM Final
+ORDER BY TradingDate
