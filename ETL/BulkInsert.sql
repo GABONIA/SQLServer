@@ -49,3 +49,25 @@ BEGIN
 END
 
 EXECUTE stp_BulkInsert 'C:\files\testfile.txt','OurTable',','
+
+
+
+---- stp_BulkInsert_Comma
+CREATE PROCEDURE stp_BulkInsert_Comma
+@filepath NVARCHAR(500)
+,@table NVARCHAR(250)
+AS
+BEGIN
+
+	DECLARE @s NVARCHAR(MAX)
+	SET @s = N'BULK INSERT ' + @table + '
+		FROM ''' + @filepath + '''
+		WITH (
+			FIELDTERMINATOR='',''
+			,ROWTERMINATOR=''0x0a''
+			,FIRSTROW=2
+		)'
+
+	EXEC sp_executesql @s
+
+END
