@@ -10,7 +10,7 @@ BEGIN
 	---- Use full database and table path
 	TRUNCATE TABLE Database.Schema.Table
 
-	PRINT @s
+	PRINT @srv
 	---- Eh, what?  NOOoooooo
 END
 
