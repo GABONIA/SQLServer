@@ -1,10 +1,6 @@
 <#
 
-Script originally written by C.Perry
-
-### Clear this script up - this is a good script, but very unclean
-
-#>
+Original script written by C.Perry in this comment block:
 
 param
 (
@@ -176,3 +172,154 @@ foreach ($objResult in $colResults)
 }#end ForEach servers in domain
 #number of servers
 $colResults.count
+
+#>
+
+clear
+
+### Original script written by C.Perry and is awesome, but I heavily cleared it up to make it more easy to read (and tweak).
+
+
+Function Get-SQLServersOnAD {
+    Param(
+        [ValidateLength(2,30)][string]$domain
+        , [ValidateLength(2,30)][string]$startlocation
+    )
+    Process
+    {
+        $dom = $null
+        $ErrorActionPreference = “Continue”
+        $found = $null
+        $InstNameskey = “SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names”
+        $RegInstNameKey = $null
+        $MSSQLkey = “SOFTWARE\Microsoft\Microsoft SQL Server”
+        $notfound = $null
+
+        ### File:
+        $date = Get-Date -UFormat "%Y%m%d"
+        $outfile = $startlocation + “ADSQLServers_$date.csv” 
+
+        $reg = $null
+        $regInstance = $null
+        $regInstanceData = $null
+        $regKey = $null
+        $root = $null
+        $SetupVersionKey = $null
+        $SQLServerkey = $null
+        $sbky = $null
+        $sub = $null
+        $type = [Microsoft.Win32.RegistryHive]::LocalMachine
+        “SqlServerName,SqlServerInstance,SqlServerVersion,SqlServerEdition” | Out-File $outfile
+        $context = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext(“domain”,$domain)
+        $dom = [system.directoryservices.activedirectory.domain]::GetDomain($context)
+        $root = $dom.GetDirectoryEntry()
+        $searcher = New-Object System.DirectoryServices.DirectorySearcher($root)
+        $filter=”(&(objectClass=Computer)(operatingSystem=Windows Server*) (!cn=wde*))”
+        $searcher.filter = $filter
+        $searcher.pageSize=1000
+        $colProplist = “name”
+
+        foreach ($j in $colPropList)
+        {
+            $searcher.PropertiesToLoad.Add($j)
+        }
+
+        $colResults = $searcher.FindAll()
+
+        foreach ($objResult in $colResults)
+        {
+            $objItem = $objResult.Properties
+            [string]$Server=$objItem.name
+            try
+            {
+                if (Test-Connection -computername $Server  -count 1 -TimeToLive 4 -erroraction continue -quiet)
+                {    
+                    $found = $Server + ” is pingable”
+            
+                    $InstanceNameskey = “SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names”
+                    $MSSQLkey = “SOFTWARE\Microsoft\Microsoft SQL Server”
+                    $type = [Microsoft.Win32.RegistryHive]::LocalMachine
+                    $regKey = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey($type, $Server)
+                    $SQLServerkey = $null
+                    $SQLServerkey = $regKey.OpenSubKey($MSSQLkey)
+            
+                    if ($SQLServerkey)
+                    {
+                        $Instkey = $null
+                        $Instkey = $regKey.OpenSubKey($InstanceNameskey)
+                
+                        if ($Instkey)
+                        { 
+                    
+                            foreach ($regInstance in $Instkey.GetSubKeyNames())  
+                            {  
+                                $RegInstNameKey = $null
+                                $SetupKey = $null
+                                $SetupKey = “$InstanceNameskey\$regInstance”
+                                $RegInstNameKey = $regKey.OpenSubKey($SetupKey)
+                        
+                                foreach ($SetupInstance in $RegInstNameKey.GetValueNames())  
+                                {  
+                                    $version = $null  
+                                    $edition = $null
+                                    $regInstanceData = $null
+                                    $SetupVersionKey = $null
+                                    $VersionInfo = $null
+                                    $versionKey = $null
+                                    $regInstanceData = $RegInstNameKey.GetValue($SetupInstance) 
+                                    $SetupVersionKey = “$MSSQLkey\$regInstanceData\Setup”
+                            
+                                    $versionKey = $regKey.OpenSubKey($SetupVersionKey)
+                                    $version = $versionKey.GetValue(‘PatchLevel’) 
+                                    $edition = $versionKey.GetValue(‘Edition’)   
+                            
+                                    $VersionInfo = $Server + ‘,’ + $regInstanceData + ‘,’ + $version + ‘,’ + $edition  
+                                    $versionInfo | Out-File $outfile -Append 
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $found = $found + ” but no chargable instance found.”
+                            echo $found
+                        }
+                    }
+                }
+                else
+                {
+                    $notfound = $Server + ” not pingable”
+                    echo $notfound
+                }
+            }
+            catch
+            {
+                $exceptionType = $_.Exception.GetType()
+                if ($exceptionType -match ‘System.Management.Automation.MethodInvocation’)
+                {
+                     ###Attempt to access an non existant computer
+                     $Wha=$Server + ” – ” +$_.Exception.Message
+                     #Write-Host  -backgroundcolor red  -foregroundcolor Black $Wha   
+                }
+                if ($exceptionType -match ‘System.UnauthorizedAccessException’)
+                {
+                    $UnauthorizedExceptionType = $Server + ” Access denied – insufficent privileges”
+                    #Write-Host “Exception: $exceptionType”
+                    #Write-Host -backgroundcolor red “UnauthorizedException: $UnauthorizedExceptionType”
+                }
+                if ($exceptionType -match ‘System.Management.Automation.RuntimeException’)
+                {
+                    ###Attempt to access an non existant array, output is suppressed
+                    #Write-Host  -backgroundcolor cyan  -foregroundcolor black “$Server – A runtime exception occured: ”   $_.Exception.Message; 
+                }
+            }
+        }
+
+        $finalstatement = "Servers found: " + $colResults.count
+
+        Write-Host $finalstatement
+    }
+}
+
+
+Get-SQLServersOnAD -domain "swbc.local" -startlocation "C:\ts\lists\"
+
