@@ -1,6 +1,25 @@
 USE [DBA]
 GO
 
+/*
+
+CREATE TABLE [dbo].[tb_List_Staging](
+	[SqlServerName] [varchar](500) NULL,
+	[SqlServerInstance] [varchar](500) NULL,
+	[SqlServerVersion] [varchar](500) NULL,
+	[SqlServerEdition] [varchar](500) NULL
+) ON [PRIMARY]
+
+CREATE TABLE [dbo].[tb_ServerList](
+	[ServerName] [varchar](50) NOT NULL,
+	[InstanceName] [varchar](100) NOT NULL,
+	[ServerType] [varchar](1) NULL,
+	[SQLVersion] [varchar](25) NULL,
+	[VersionDetailed] [varchar](2500) NULL,
+	[Active] [bit] NULL
+) ON [PRIMARY]
+
+*/
 
 CREATE PROCEDURE [dbo].[stp_AddToServerList]
 AS
