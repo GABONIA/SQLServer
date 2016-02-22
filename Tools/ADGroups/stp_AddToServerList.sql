@@ -62,6 +62,14 @@ BEGIN
 
 	TRUNCATE TABLE DBA.dbo.tb_List_Staging
 
+	
+	INSERT INTO DBA.dbo.tb_ServerListExceptions (InstanceName)
+	SELECT InstanceName
+	FROM DBA.dbo.tb_ServerList
+	WHERE ServerType = 'P'
+		AND Active = 1
+		AND InstanceName NOT IN (SELECT InstanceName FROM DBA.dbo.tb_ServerListExceptions)
+
 
 END
 
