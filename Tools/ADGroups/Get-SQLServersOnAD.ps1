@@ -183,7 +183,7 @@ clear
 Function Get-SQLServersOnAD {
     Param(
         [ValidateLength(2,30)][string]$domain
-        , [ValidateLength(2,30)][string]$startlocation
+        , [ValidateLength(4,50)][string]saveserver
     )
     Process
     {
@@ -275,7 +275,7 @@ Function Get-SQLServersOnAD {
                                     
                                     ### Table:
                                     $VersionInfo = "INSERT INTO DBA.dbo.tb_List_Staging VALUES ('$Server','$regInstanceData','$version','$edition')"
-									                  Execute-Sql -server "P-DBAU1-V" -command $VersionInfo
+				    Execute-Sql -server "P-DBAU1-V" -command $VersionInfo
                                 }
                             }
                         }
@@ -318,9 +318,10 @@ Function Get-SQLServersOnAD {
         $finalstatement = "Servers found: " + $colResults.count
 
         Write-Host $finalstatement
+        Execute-Sql -server $saveserver -command "EXECUTE DBA.dbo.stp_AddToServerList"
     }
 }
 
 
-Get-SQLServersOnAD -domain "" -startlocation ""
+Get-SQLServersOnAD -domain "" -saveserver ""
 
