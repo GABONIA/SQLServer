@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[tb_ServerList](
 	[ServerName] [varchar](50) NOT NULL,
 	[InstanceName] [varchar](100) NOT NULL,
 	[ServerType] [varchar](1) NULL,
-	[SQLVersion] [varchar](25) NULL,
+	[SQLVersion] [varchar](8) NULL,
 	[VersionDetailed] [varchar](2500) NULL,
 	[Active] [bit] NULL
 ) ON [PRIMARY]
