@@ -183,7 +183,7 @@ clear
 Function Get-SQLServersOnAD {
     Param(
         [ValidateLength(2,30)][string]$domain
-        , [ValidateLength(4,50)][string]saveserver
+        , [ValidateLength(4,50)][string]$saveserver
     )
     Process
     {
