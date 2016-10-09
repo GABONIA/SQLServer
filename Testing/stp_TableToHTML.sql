@@ -37,7 +37,7 @@ BEGIN
 		SET @html = ''<table border="1">'' + @headerRow + @html + ''</table>'';    
 	';
 
-	EXEC sp_executesql @passquery, N'@html nvarchar(MAX) OUTPUT', @html=@html OUTPUT
+	EXEC sp_executesql @passquery, N'@html nvarchar(MAX) OUTPUT', @html = @html OUTPUT
 
 
 END
