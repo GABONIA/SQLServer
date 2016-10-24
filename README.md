@@ -1,8 +1,6 @@
 SQL Server Tools
 =========
 
-:stuck_out_tongue_winking_eye: :relaxed: :cn:
-
 ```
 In front of my two eyes,
 The flash of clashing dice,
