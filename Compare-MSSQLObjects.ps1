@@ -5,6 +5,8 @@ Link: https://www.mssqltips.com/sqlservertip/4310/simple-tsql-code-comparison-wi
 
 Contributors: Tim, Mblixt
 
+See repo
+
 #>
 
 
